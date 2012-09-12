@@ -32,7 +32,8 @@
 
 ;; Make sure code is clean; no extra whitespace and no tab characters.
 (add-hook 'before-save-hook 'whitespace-cleanup)
-(setq indent-tabs-mode nil)
+(setq-default indent-tabs-mode nil)
+
 
 ;; Buffers are always kept in sync with the file system.
 (global-auto-revert-mode 1)
@@ -52,15 +53,23 @@
 ;;; Keyboard shortcuts: general
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(global-set-key (kbd "<backtab>") 'other-window)
+;; Movement.
+(global-set-key (kbd "ESC <up>") 'backward-paragraph)
+(global-set-key (kbd "ESC <down>") 'forward-paragraph)
 
+;; File handling.
 (global-set-key (kbd "<f2>") (lambda () (interactive) (save-some-buffers 1)))
 (global-set-key (kbd "<f3>") 'find-file)
 
+;; Windows.
+(global-set-key (kbd "<backtab>") 'other-window)
 (global-set-key (kbd "S-C-<left>") 'shrink-window-horizontally)
 (global-set-key (kbd "S-C-<right>") 'enlarge-window-horizontally)
 (global-set-key (kbd "S-C-<down>") 'shrink-window)
+(global-set-key (kbd "<f5>") 'shrink-window)
 (global-set-key (kbd "S-C-<up>") 'enlarge-window)
+(global-set-key (kbd "<f6>") 'enlarge-window)
+(global-set-key (kbd "<f12>") 'delete-window)
 
 
 
