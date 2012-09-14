@@ -1,0 +1,26 @@
+!!! nostdal.org: Modifications to (Norwegian) Dvorak layout
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+clear Lock
+
+! Shift + 8 and 9 give < and >.
+keycode 0x11 =	8 less bracketleft NoSymbol bracketleft
+keycode 0x12 =	9 greater bracketright NoSymbol bracketright
+
+! Caps-Lock and ' give ( and ).
+! Shift+Capslock and Shift+' give [ and ].
+keycode 0x42 =  parenleft bracketleft braceleft Greek_lambda braceleft braceleft braceleft
+keycode 0x33 =  parenright bracketright braceright NoSymbol braceright braceright braceright
+
+! Alt-GR+I og Alt-GR+O give { and }.
+keycode 0x1f = c C NoSymbol NoSymbol braceleft
+keycode 0x20 = r R NoSymbol NoSymbol braceright
+
+
+keycode 0x50 =  NoSymbol uparrow
+keycode 0x51 =  NoSymbol uprightcorner
+keycode 0x55 =  NoSymbol rightarrow
+keycode 0x53 =  NoSymbol leftarrow
+keycode 0x58 =  NoSymbol downarrow
+
+keycode 0x54 = NoSymbol U21BA
