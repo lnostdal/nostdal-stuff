@@ -17,6 +17,7 @@
 ;;; General settings
 ;;;;;;;;;;;;;;;;;;;;
 
+(set-variable 'vc-follow-symlinks t)
 (menu-bar-mode 0)
 (tool-bar-mode 0)
 
