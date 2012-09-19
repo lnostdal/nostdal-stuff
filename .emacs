@@ -14,22 +14,35 @@
 
 
 
-;;; General settings
-;;;;;;;;;;;;;;;;;;;;
+;;; General appearance
+;;;;;;;;;;;;;;;;;;;;;;
 
-(set-variable 'vc-follow-symlinks t)
 (menu-bar-mode 0)
 (tool-bar-mode 0)
+(scroll-bar-mode 0)
+(column-number-mode t)
+
 
 ;; This font gives enough room for a 2 column frame setup where each frame has room for 130 characters in GUI mode.
 ;; <----------------------------------------------------------------------------------------------------------------------------->
-(set-default-font "Inconsolata-9")
+(set-default-font "DejaVu Sans Mono-7.5")
 
-;; NOTE: In CLI mode, "DejaVu Sans Mono 8" has the same property with regards to width.
 
 ;; TODO: Not sure about the colors here, but ok.
 ;;(require 'color-theme)
 ;;(color-theme-robin-hood)
+
+
+;; Colorize parentheses, brackets etc..
+(highlight-parentheses-mode 1) ;; Colorize nested parens.
+(show-paren-mode 1) ;; Highlight matching parens.
+
+
+
+;;; General behavior
+;;;;;;;;;;;;;;;;;;;;
+
+(set-variable 'vc-follow-symlinks t)
 
 ;; Make sure code is clean; no extra whitespace and no tab characters.
 (add-hook 'before-save-hook 'whitespace-cleanup)
@@ -38,16 +51,6 @@
 
 ;; Buffers are always kept in sync with the file system.
 (global-auto-revert-mode 1)
-
-;; No one uses the scroll bar (i.e. the mouse) to scroll; it wastes screen space.
-(scroll-bar-mode 0)
-
-;; Colorize parentheses, brackets etc..
-(highlight-parentheses-mode 1) ;; Colorize nested parens.
-(show-paren-mode 1) ;; Highlight matching parens.
-
-;; Show column numbers.
-(column-number-mode t)
 
 
 
