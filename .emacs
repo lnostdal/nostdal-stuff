@@ -25,7 +25,6 @@
 ;; <----------------------------------------------------------------------------------------------------------------------------->
 (set-default-font "Inconsolata-9")
 
-;; NOTE: In CLI mode, "Bitstream Vera Sans Mono 8" has the same property with regards to width.
 
 ;; TODO: Not sure about the colors here, but ok.
 ;;(require 'color-theme)
