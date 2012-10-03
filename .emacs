@@ -23,8 +23,10 @@
 (column-number-mode t)
 
 
-;; This font gives enough room for a 2 column frame setup where each frame has room for 130 characters in GUI mode.
-;; <----------------------------------------------------------------------------------------------------------------------------->
+;; Make sure there is enough room for a 2 column frame setup where each frame is 130 characters wide:
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 (set-default-font "DejaVu Sans Mono-7.5")
 
 
@@ -93,3 +95,5 @@
 
 (put 'with 'clojure-indent-function 1)
 (put 'with1 'clojure-indent-function 1)
+(put 'do1 'clojure-indent-function 1)
+(put 'jqAppend 'clojure-indent-function 1)
