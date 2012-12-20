@@ -45,6 +45,7 @@
 ;;;;;;;;;;;;;;;;;;;;
 
 (set-variable 'vc-follow-symlinks t)
+(set-variable 'scroll-step 1)
 
 ;; Make sure code is clean; no extra whitespace and no tab characters.
 (add-hook 'before-save-hook 'whitespace-cleanup)
