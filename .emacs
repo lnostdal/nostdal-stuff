@@ -98,3 +98,10 @@
 (put 'with1 'clojure-indent-function 1)
 (put 'do1 'clojure-indent-function 1)
 (put 'jqAppend 'clojure-indent-function 1)
+
+
+
+;;; Indentation: JavaScript
+;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(set-variable 'js2-basic-offset 2)
