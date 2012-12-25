@@ -105,3 +105,10 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (set-variable 'js2-basic-offset 2)
+
+
+
+;;; Indentation: C
+;;;;;;;;;;;;;;;;;;
+
+(set-variable 'c-basic-offset 2)
