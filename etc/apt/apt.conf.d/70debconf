@@ -1,0 +1,10 @@
+// Pre-configure all packages with debconf before they are installed.
+// If you don't like it, comment it out.
+DPkg::Pre-Install-Pkgs {"/usr/sbin/dpkg-preconfigure --apt || true";};
+
+// LRN: Added to get rid of bloat -- and to keep it away.
+APT::Install-Recommends false;
+APT::Install-Suggests false;
+APT::AutoRemove::RecommendsImportant false;
+Aptitude::Keep-Recommends false;
+
