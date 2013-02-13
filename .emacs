@@ -18,8 +18,8 @@
 ;;;;;;;;;;;;;;;;;;;;;;
 
 (menu-bar-mode 0)
-(tool-bar-mode 0)
-(scroll-bar-mode 0)
+;;(tool-bar-mode 0) ;; Only available in "GUI version" of Emacs.
+;;(scroll-bar-mode 0) ;; Only avilable in "GUI version" of Emacs.
 (column-number-mode t)
 
 
@@ -54,6 +54,16 @@
 
 ;; Buffers are always kept in sync with the file system.
 (global-auto-revert-mode 1)
+
+
+;; Desktop mode stuff
+(desktop-save-mode 1)
+(desktop-load-default)
+;;(desktop-read)
+(add-hook 'after-save-hook
+          (lambda ()
+            (interactive)
+            (desktop-save-in-desktop-dir)))
 
 
 
