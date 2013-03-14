@@ -90,6 +90,14 @@
 
 
 
+;;; Clojure
+;;;;;;;;;;;
+
+
+(setq nrepl-popup-stacktraces-in-repl t)
+
+
+
 ;;; Keyboard shortcuts: Clojure
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -108,6 +116,7 @@
 (put 'with1 'clojure-indent-function 1)
 (put 'do1 'clojure-indent-function 1)
 (put 'jqAppend 'clojure-indent-function 1)
+(put 'whc 'clojure-indent-function 1)
 
 
 
@@ -122,3 +131,4 @@
 ;;;;;;;;;;;;;;;;;;
 
 (set-variable 'c-basic-offset 2)
+(put 'erase-buffer 'disabled nil)
