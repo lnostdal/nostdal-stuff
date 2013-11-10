@@ -38,6 +38,8 @@
 ;; Colorize parentheses, brackets etc..
 (highlight-parentheses-mode 1) ;; Colorize nested parens.
 (show-paren-mode 1) ;; Highlight matching parens.
+(add-hook 'nrepl-mode-hook 'rainbow-delimiters-mode)
+
 
 
 
@@ -59,7 +61,7 @@
 ;; Desktop mode stuff
 (desktop-save-mode 1)
 (desktop-load-default)
-;;(desktop-read)
+(desktop-read)
 (add-hook 'after-save-hook
           (lambda ()
             (interactive)
@@ -120,10 +122,13 @@
 
 
 
+
 ;;; Indentation: JavaScript
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (set-variable 'js2-basic-offset 2)
+(add-to-list 'auto-mode-alist (cons (rx ".js" eos) 'js2-mode))
+
 
 
 
