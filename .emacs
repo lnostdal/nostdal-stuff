@@ -38,7 +38,8 @@
 ;; Colorize parentheses, brackets etc..
 (highlight-parentheses-mode 1) ;; Colorize nested parens.
 (show-paren-mode 1) ;; Highlight matching parens.
-(add-hook 'nrepl-mode-hook 'rainbow-delimiters-mode)
+(add-hook 'cider-mode-hook 'rainbow-delimiters-mode)
+(add-hook 'cider-repl-mode-hook 'rainbow-delimiters-mode)
 
 
 
@@ -59,13 +60,14 @@
 
 
 ;; Desktop mode stuff
+(setq desktop-restore-frames nil) ;; http://stackoverflow.com/questions/18612742/emacs-desktop-save-mode-error#comment27403618_18612742
 (desktop-save-mode 1)
-(desktop-load-default)
-(desktop-read)
-(add-hook 'after-save-hook
-          (lambda ()
-            (interactive)
-            (desktop-save-in-desktop-dir)))
+;;(desktop-load-default)
+;;(desktop-read)
+;(add-hook 'after-save-hook
+;          (lambda ()
+;            (interactive)
+;            (desktop-save-in-desktop-dir)))
 
 
 
@@ -96,7 +98,8 @@
 ;;;;;;;;;;;
 
 
-(setq nrepl-popup-stacktraces-in-repl t)
+;;(setq nrepl-popup-stacktraces-in-repl t)
+(setq cider-auto-select-error-buffer t)
 
 
 
@@ -104,10 +107,9 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; TODO: Make these mode (nREPL / Clojure) specific instead of fully global.
-(global-set-key (kbd "C-c C-c") 'nrepl-eval-expression-at-point)
-(global-set-key (kbd "<f7>") (lambda () (interactive) (save-buffer 1) (nrepl-load-current-buffer)))
-(global-set-key (kbd "<f8>") 'nrepl-eval-buffer)
-(global-set-key (kbd "<f9>") 'nrepl-eval-last-expression)
+(global-set-key (kbd "C-c C-c") 'cider-eval-expression-at-point)
+(global-set-key (kbd "<f7>") (lambda () (interactive) (save-buffer 1) (cider-load-current-buffer)))
+(global-set-key (kbd "<f9>") 'cider-eval-last-expression)
 
 
 
