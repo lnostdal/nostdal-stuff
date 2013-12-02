@@ -30,17 +30,10 @@
 (set-default-font "DejaVu Sans Mono-7.5")
 
 
-;; TODO: Not sure about the colors here, but ok.
-;;(require 'color-theme)
-;;(color-theme-robin-hood)
-
 
 ;; Colorize parentheses, brackets etc..
 (highlight-parentheses-mode 1) ;; Colorize nested parens.
 (show-paren-mode 1) ;; Highlight matching parens.
-(add-hook 'cider-mode-hook 'rainbow-delimiters-mode)
-(add-hook 'cider-repl-mode-hook 'rainbow-delimiters-mode)
-
 
 
 
@@ -98,7 +91,7 @@
 ;;;;;;;;;;;
 
 
-;;(setq nrepl-popup-stacktraces-in-repl t)
+(setq cider-repl-popup-stacktraces t)
 (setq cider-auto-select-error-buffer t)
 
 
