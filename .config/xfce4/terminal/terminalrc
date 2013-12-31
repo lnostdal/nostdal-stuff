@@ -3,7 +3,7 @@ ColorForeground=#ffffffffffff
 ColorBackground=#000000000000
 ColorCursor=#ffffffffffff
 ColorSelection=#16163b3b5959
-FontName=Ubuntu Mono 8
+FontName=DejaVu Sans Mono 8
 MiscAlwaysShowTabs=FALSE
 MiscBell=FALSE
 MiscBordersDefault=FALSE
@@ -29,3 +29,5 @@ ColorBoldUseDefault=FALSE
 TabActivityTimeout=1
 TitleMode=TERMINAL_TITLE_REPLACE
 ScrollingLines=5000
+MiscDefaultGeometry=80x24
+
