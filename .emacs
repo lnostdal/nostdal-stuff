@@ -115,7 +115,7 @@
 (put 'do1 'clojure-indent-function 1)
 (put 'jqAppend 'clojure-indent-function 1)
 (put 'whc 'clojure-indent-function 1)
-
+(put 'mk-Link 'clojure-indent-function 1)
 
 
 
