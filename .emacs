@@ -18,9 +18,13 @@
 ;;;;;;;;;;;;;;;;;;;;;;
 
 (menu-bar-mode 0)
-;;(tool-bar-mode 0) ;; Only available in "GUI version" of Emacs.
-;;(scroll-bar-mode 0) ;; Only avilable in "GUI version" of Emacs.
 (column-number-mode t)
+(if window-system (tool-bar-mode 0))
+(if window-system (scroll-bar-mode 0))
+(if window-system (set-background-color "black"))
+(if window-system (set-foreground-color "white"))
+
+
 
 
 ;; Make sure there is enough room for a 2 column frame setup where each frame is 130 characters wide:
