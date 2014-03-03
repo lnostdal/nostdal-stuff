@@ -120,6 +120,7 @@
 (put 'jqAppend 'clojure-indent-function 1)
 (put 'whc 'clojure-indent-function 1)
 (put 'mk-Link 'clojure-indent-function 1)
+(put 'js-run 'clojure-indent-function 1)
 
 
 
