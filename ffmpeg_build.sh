@@ -56,9 +56,9 @@ make distclean
 ## libvorbis
 
 cd ~/ffmpeg_sources
-curl -O http://downloads.xiph.org/releases/vorbis/libvorbis-1.3.3.tar.gz
-tar xzvf libvorbis-1.3.3.tar.gz
-cd libvorbis-1.3.3
+curl -O http://downloads.xiph.org/releases/vorbis/libvorbis-1.3.4.tar.gz
+tar xzvf libvorbis-1.3.4.tar.gz
+cd libvorbis-1.3.4
 ./configure --prefix="$HOME/ffmpeg_build" --with-ogg="$HOME/ffmpeg_build" --disable-shared
 make -j `nproc`
 make install
