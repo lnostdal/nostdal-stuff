@@ -1,0 +1,16 @@
+#!/bin/sh
+
+## /etc/network/if-up.d/iwreg   <<-- placed here
+
+
+if [ "$IFACE" = "wlan0" ]; then
+    iw reg set BO
+fi
+
+
+if [ "$IFACE" = "wlan1" ]; then
+    iw reg set BO
+    iwconfig wlan1 power off
+    iwconfig wlan1 txpower fixed
+    iwconfig wlan1 txpower 2000mW
+fi
