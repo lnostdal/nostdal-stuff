@@ -1,4 +1,4 @@
 #!/bin/sh
 # Finds all Git clones in the given directories and
 # upgrades them to the latest origin/master branch.
-find -L "$@" -name '*.git' -exec sh -xc 'cd "${0%/*}" && git pull' '{}' ';'
+find "$@" -name '*.git' -exec sh -xc 'cd "${0%/*}" && git pull' '{}' ';'
