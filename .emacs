@@ -98,6 +98,7 @@
 
 (setq cider-repl-popup-stacktraces t)
 (setq cider-auto-select-error-buffer t)
+(setq cider-repl-history-file "~/.emacs.d/cider-repl-history.dat")
 
 
 
