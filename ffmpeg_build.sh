@@ -68,8 +68,9 @@ make distclean
 ## libvpx
 
 cd ~/ffmpeg_sources
-git clone --depth 1 http://git.chromium.org/webm/libvpx.git
-cd libvpx
+wget -c -t0 http://webm.googlecode.com/files/libvpx-v1.3.0.tar.bz2
+tar xjvf libvpx-v1.3.0.tar.bz2
+cd libvpx-v1.3.0
 ./configure --prefix="$HOME/ffmpeg_build" --disable-examples
 make -j `nproc`
 make install
