@@ -57,8 +57,10 @@
 
 
 ;; Desktop mode stuff
-(setq desktop-path '("." "~/.emacs.d/" "~"))
+(setq desktop-path '("."))
+(setq desktop-dirname ".")
 (setq desktop-restore-frames nil) ;; http://stackoverflow.com/questions/18612742/emacs-desktop-save-mode-error#comment27403618_18612742
+(setq desktop-save t)
 (desktop-save-mode 1)
 ;;(desktop-load-default)
 ;;(desktop-read)
