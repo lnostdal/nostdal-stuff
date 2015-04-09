@@ -109,7 +109,7 @@
 
 ;; TODO: Make these mode (nREPL / Clojure) specific instead of fully global.
 (global-set-key (kbd "C-c C-c") 'cider-eval-expression-at-point)
-(global-set-key (kbd "<f7>") (lambda () (interactive) (save-buffer 1) (cider-load-current-buffer)))
+(global-set-key (kbd "<f7>") (lambda () (interactive) (save-buffer 1) (cider-load-buffer)))
 (global-set-key (kbd "<f9>") 'cider-eval-last-expression)
 
 
@@ -124,6 +124,8 @@
 (put 'whc 'clojure-indent-function 1)
 (put 'mk-Link 'clojure-indent-function 1)
 (put 'js-run 'clojure-indent-function 1)
+(put 'add-rest-initial 'clojure-indent-function 1)
+(put 'add-rest-head 'clojure-indent-function 1)
 
 
 
@@ -153,3 +155,32 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+
+
+
+
+;;; Haskell
+;;;;;;;;;;;
+
+(require 'haskell-mode)
+(add-hook 'haskell-mode-hook 'interactive-haskell-mode)
+(add-hook 'haskell-mode-hook 'turn-on-haskell-indentation)
+
+(custom-set-variables
+  '(haskell-process-suggest-remove-import-lines t)
+  '(haskell-process-auto-import-loaded-modules t)
+  '(haskell-process-log t))
+
+(define-key haskell-mode-map (kbd "C-c C-l") 'haskell-process-load-or-reload)
+(define-key haskell-mode-map (kbd "C-`") 'haskell-interactive-bring)
+(define-key haskell-mode-map (kbd "C-c C-t") 'haskell-process-do-type)
+(define-key haskell-mode-map (kbd "C-c C-i") 'haskell-process-do-info)
+(define-key haskell-mode-map (kbd "C-c C-c") 'haskell-process-cabal-build)
+(define-key haskell-mode-map (kbd "C-c C-k") 'haskell-interactive-mode-clear)
+(define-key haskell-mode-map (kbd "C-c c") 'haskell-process-cabal)
+(define-key haskell-mode-map (kbd "SPC") 'haskell-mode-contextual-space)
+
+;(define-key haskell-cabal-mode-map (kbd "C-`") 'haskell-interactive-bring)
+;(define-key haskell-cabal-mode-map (kbd "C-c C-k") 'haskell-interactive-mode-clear)
+;(define-key haskell-cabal-mode-map (kbd "C-c C-c") 'haskell-process-cabal-build)
+;(define-key haskell-cabal-mode-map (kbd "C-c c") 'haskell-process-cabal)
