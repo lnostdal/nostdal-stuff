@@ -10,7 +10,11 @@
              '("marmalade" . "http://marmalade-repo.org/packages/"))
 (add-to-list 'package-archives
              '("melpa" . "http://melpa.milkbox.net/packages/") t)
+;;(add-to-list 'package-pinned-packages '(cider . "melpa-stable") t)
 (package-initialize)
+
+
+(global-company-mode)
 
 
 
@@ -31,7 +35,8 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(set-default-font "DejaVu Sans Mono-7.5")
+;;(set-default-font "DejaVu Sans Mono-7.5")
+(set-default-font "DejaVu Sans Mono-8")
 
 
 
@@ -97,25 +102,18 @@
 ;;; Clojure
 ;;;;;;;;;;;
 
-
+(require 'clojure-mode)
+(setq cider-pprint-fn 'fipp)
 (setq cider-repl-popup-stacktraces t)
 (setq cider-auto-select-error-buffer t)
 (setq cider-repl-history-file "~/.emacs.d/cider-repl-history.dat")
 
-
-
-;;; Keyboard shortcuts: Clojure
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;; TODO: Make these mode (nREPL / Clojure) specific instead of fully global.
-(global-set-key (kbd "C-c C-c") 'cider-eval-expression-at-point)
-(global-set-key (kbd "<f7>") (lambda () (interactive) (save-buffer 1) (cider-load-buffer)))
-(global-set-key (kbd "<f9>") 'cider-eval-last-expression)
-
-
-
-;;; Indentation: Clojure
-;;;;;;;;;;;;;;;;;;;;;;;;
+(define-key cider-repl-mode-map (kbd "C-c M-o") 'cider-repl-clear-buffer)
+(define-key clojure-mode-map (kbd "C-c C-c") 'cider-eval-expression-at-point)
+(define-key clojure-mode-map (kbd "<f7>") (lambda () (interactive) (save-buffer 1) (cider-load-buffer)))
+(define-key clojure-mode-map (kbd "<f9>") 'cider-eval-last-expression)
+(define-key clojure-mode-map (kbd "<tab>") 'company-complete)
+(define-key cider-repl-mode-map (kbd "<tab>") 'company-complete)
 
 (put 'with 'clojure-indent-function 1)
 (put 'with1 'clojure-indent-function 1)
@@ -148,7 +146,13 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(epg-gpg-program "/usr/bin/gpg2"))
+ '(epg-gpg-program "/usr/bin/gpg2")
+ '(haskell-process-auto-import-loaded-modules t)
+ '(haskell-process-log t)
+ '(haskell-process-suggest-remove-import-lines t)
+ '(package-selected-packages
+   (quote
+    (cider clojure-mode js2-mode highlight-parentheses haskell-mode company))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -165,11 +169,6 @@
 (require 'haskell-mode)
 (add-hook 'haskell-mode-hook 'interactive-haskell-mode)
 (add-hook 'haskell-mode-hook 'turn-on-haskell-indentation)
-
-(custom-set-variables
-  '(haskell-process-suggest-remove-import-lines t)
-  '(haskell-process-auto-import-loaded-modules t)
-  '(haskell-process-log t))
 
 (define-key haskell-mode-map (kbd "C-c C-l") 'haskell-process-load-or-reload)
 (define-key haskell-mode-map (kbd "C-`") 'haskell-interactive-bring)
