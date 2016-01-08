@@ -14,9 +14,6 @@
 (package-initialize)
 
 
-(global-company-mode)
-
-
 
 ;;; General appearance
 ;;;;;;;;;;;;;;;;;;;;;;
@@ -28,6 +25,10 @@
 (if window-system (set-background-color "black"))
 (if window-system (set-foreground-color "white"))
 
+
+
+;;(require 'company-mode)
+(global-company-mode)
 
 
 
@@ -67,12 +68,6 @@
 (setq desktop-restore-frames nil) ;; http://stackoverflow.com/questions/18612742/emacs-desktop-save-mode-error#comment27403618_18612742
 (setq desktop-save t)
 (desktop-save-mode 1)
-;;(desktop-load-default)
-;;(desktop-read)
-;(add-hook 'after-save-hook
-;          (lambda ()
-;            (interactive)
-;            (desktop-save-in-desktop-dir)))
 
 
 
@@ -103,6 +98,7 @@
 ;;;;;;;;;;;
 
 (require 'clojure-mode)
+(require 'cider-mode)
 (setq cider-pprint-fn 'fipp)
 (setq cider-repl-popup-stacktraces t)
 (setq cider-auto-select-error-buffer t)
@@ -112,8 +108,15 @@
 (define-key clojure-mode-map (kbd "C-c C-c") 'cider-eval-expression-at-point)
 (define-key clojure-mode-map (kbd "<f7>") (lambda () (interactive) (save-buffer 1) (cider-load-buffer)))
 (define-key clojure-mode-map (kbd "<f9>") 'cider-eval-last-expression)
-(define-key clojure-mode-map (kbd "<tab>") 'company-complete)
-(define-key cider-repl-mode-map (kbd "<tab>") 'company-complete)
+
+(define-key clojure-mode-map (kbd "M-<up>") 'backward-paragraph)
+(define-key clojure-mode-map (kbd "M-<down>") 'forward-paragraph)
+(define-key clojure-mode-map (kbd "C-<up>") 'clojure-backward-logical-sexp)
+(define-key clojure-mode-map (kbd "C-<left>") 'clojure-backward-logical-sexp)
+(define-key clojure-mode-map (kbd "C-<right>") 'clojure-forward-logical-sexp)
+(define-key clojure-mode-map (kbd "C-<down>") 'clojure-forward-logical-sexp)
+;;(define-key clojure-mode-map (kbd "<tab>") 'company-complete)
+;;(define-key cider-repl-mode-map (kbd "<tab>") 'company-complete)
 
 (put 'with 'clojure-indent-function 1)
 (put 'with1 'clojure-indent-function 1)
