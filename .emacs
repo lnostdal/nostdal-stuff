@@ -99,7 +99,8 @@
 
 (require 'clojure-mode)
 (require 'cider-mode)
-(setq cider-pprint-fn 'fipp)
+(setq cider-pprint-fn 'puget) ;; 'fipp, 'puget or 'pprint
+(setq cider-repl-use-pretty-printing t)
 (setq cider-repl-popup-stacktraces t)
 (setq cider-auto-select-error-buffer t)
 (setq cider-repl-history-file "~/.emacs.d/cider-repl-history.dat")
