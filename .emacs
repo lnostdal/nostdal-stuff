@@ -97,6 +97,7 @@
 ;;; Clojure
 ;;;;;;;;;;;
 
+(require 'cider)
 (require 'clojure-mode)
 (require 'cider-mode)
 (setq cider-pprint-fn 'puget) ;; 'fipp, 'puget or 'pprint
