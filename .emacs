@@ -119,6 +119,9 @@
 ;;(define-key clojure-mode-map (kbd "<tab>") 'company-complete)
 ;;(define-key cider-repl-mode-map (kbd "<tab>") 'company-complete)
 
+
+(put 'assoc 'clojure-indent-function 1)
+(put 'update 'clojure-indent-function 1)
 (put 'with 'clojure-indent-function 1)
 (put 'with1 'clojure-indent-function 1)
 (put 'do1 'clojure-indent-function 1)
