@@ -169,7 +169,7 @@
  '(haskell-process-suggest-remove-import-lines t)
  '(package-selected-packages
    (quote
-    (cider clojure-mode js2-mode highlight-parentheses haskell-mode company))))
+    (cider-decompile cider clojure-mode js2-mode highlight-parentheses haskell-mode company))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
