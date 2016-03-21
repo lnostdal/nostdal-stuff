@@ -108,6 +108,7 @@
 
 (define-key cider-repl-mode-map (kbd "C-c M-o") 'cider-repl-clear-buffer)
 
+(define-key clojure-mode-map (kbd "C-|") 'comment-or-uncomment-region)
 (define-key clojure-mode-map (kbd "C-c C-c") 'cider-eval-expression-at-point)
 (define-key clojure-mode-map (kbd "<f7>") (lambda () (interactive)
                                             (indent-region 0 9999999)
