@@ -1,5 +1,7 @@
 #!/bin/bash
 
-ffmpeg -i $1 -c:v libvpx-vp9 -pass 1 -crf 60 -b:v 0 -threads 8 -speed 4 -tile-columns 6 -frame-parallel 1 -an -f webm /dev/null
+## This will generate a very well compressed VP9 video with Opus mono audio suitable for speech.
 
-ffmpeg -i $1 -c:v libvpx-vp9 -pass 2 -crf 60 -b:v 0 -threads 8 -speed 1 -tile-columns 6 -frame-parallel 1 -auto-alt-ref 1 -lag-in-frames 25 -c:a libopus -b:a 64k -ac 1 output.webm
+ffmpeg -i $1 -c:v libvpx-vp9 -pass 1 -crf 50 -b:v 0 -threads 8 -speed 4 -tile-columns 6 -frame-parallel 1 -an -f webm /dev/null
+
+ffmpeg -i $1 -c:v libvpx-vp9 -pass 2 -crf 50 -b:v 0 -threads 8 -speed 1 -tile-columns 6 -frame-parallel 1 -auto-alt-ref 1 -lag-in-frames 25 -c:a libopus -b:a 64k -ac 1 $2
