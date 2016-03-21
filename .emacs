@@ -24,7 +24,7 @@
 (if window-system (scroll-bar-mode 0))
 (if window-system (set-background-color "black"))
 (if window-system (set-foreground-color "white"))
-
+(if window-system (toggle-frame-fullscreen))
 
 
 ;;(require 'company-mode)
