@@ -110,6 +110,9 @@
 
 (define-key clojure-mode-map (kbd "C-|") 'comment-or-uncomment-region)
 (define-key clojure-mode-map (kbd "C-c C-c") 'cider-eval-expression-at-point)
+(define-key clojure-mode-map (kbd "<f2>") (lambda () (interactive)
+                                            (indent-region 0 9999999)
+                                            (save-some-buffers 1)))
 (define-key clojure-mode-map (kbd "<f7>") (lambda () (interactive)
                                             (indent-region 0 9999999)
                                             (save-buffer 1)
@@ -197,7 +200,7 @@
 (define-key haskell-mode-map (kbd "C-c c") 'haskell-process-cabal)
 (define-key haskell-mode-map (kbd "SPC") 'haskell-mode-contextual-space)
 
-;(define-key haskell-cabal-mode-map (kbd "C-`") 'haskell-interactive-bring)
-;(define-key haskell-cabal-mode-map (kbd "C-c C-k") 'haskell-interactive-mode-clear)
-;(define-key haskell-cabal-mode-map (kbd "C-c C-c") 'haskell-process-cabal-build)
-;(define-key haskell-cabal-mode-map (kbd "C-c c") 'haskell-process-cabal)
+;;(define-key haskell-cabal-mode-map (kbd "C-`") 'haskell-interactive-bring)
+;;(define-key haskell-cabal-mode-map (kbd "C-c C-k") 'haskell-interactive-mode-clear)
+;;(define-key haskell-cabal-mode-map (kbd "C-c C-c") 'haskell-process-cabal-build)
+;;(define-key haskell-cabal-mode-map (kbd "C-c c") 'haskell-process-cabal)
