@@ -44,6 +44,7 @@
 ;; Colorize parentheses, brackets etc..
 (highlight-parentheses-mode 1) ;; Colorize nested parens.
 (show-paren-mode 1) ;; Highlight matching parens.
+(goto-address-mode 1)
 
 
 
@@ -173,8 +174,7 @@
  '(haskell-process-suggest-remove-import-lines t)
  '(package-selected-packages
    (quote
-    (nginx-mode cider-decompile cider clojure-mode js2-mode highlight-parentheses haskell-mode company))))
-    (nginx-mode cider clojure-mode js2-mode highlight-parentheses haskell-mode company))))
+    (nginx-mode cider cider-decompile  clojure-mode js2-mode highlight-parentheses haskell-mode company))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
