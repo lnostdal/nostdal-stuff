@@ -1,8 +1,12 @@
 #!/bin/bash
 
+## Regular ping doesn't work on all networks or some networks give fake responses.
+## A HTTPS (TLS) response is pretty fail-safe; no proxy, firewall or router can mess with this.
+
 for (( ; ; ))
 do
-    ping -w 5 -c 1 nostdal.duckdns.org &> /dev/null
+
+    wget -T 5 -O - https://nostdal.duckdns.org/tmp/ping.txt &> /dev/null
 
     if [ $? -ne 0 ]; then
         paplay /usr/share/sounds/freedesktop/stereo/bell.oga
