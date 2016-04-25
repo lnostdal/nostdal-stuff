@@ -6,7 +6,7 @@
 for (( ; ; ))
 do
 
-    wget -T 5 -O - https://nostdal.duckdns.org/tmp/ping.txt &> /dev/null
+    wget -T 10 -O - https://nostdal.duckdns.org/ping.html &> /dev/null
 
     if [ $? -ne 0 ]; then
         paplay /usr/share/sounds/freedesktop/stereo/bell.oga
