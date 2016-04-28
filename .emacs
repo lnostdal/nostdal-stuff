@@ -15,6 +15,27 @@
 
 
 
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(epg-gpg-program "/usr/bin/gpg2")
+ '(haskell-process-auto-import-loaded-modules t)
+ '(haskell-process-log t)
+ '(haskell-process-suggest-remove-import-lines t)
+ '(package-selected-packages
+   (quote
+    (nginx-mode cider cider-decompile  clojure-mode js2-mode highlight-parentheses haskell-mode company))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
+
+
+
 ;;; General appearance
 ;;;;;;;;;;;;;;;;;;;;;;
 
@@ -41,26 +62,20 @@
 
 
 
-;; Colorize parentheses, brackets etc..
-(highlight-parentheses-mode 1) ;; Colorize nested parens.
-(show-paren-mode 1) ;; Highlight matching parens.
-(goto-address-mode 1)
-
-
-
 ;;; General behavior
 ;;;;;;;;;;;;;;;;;;;;
+
+(global-highlight-parentheses-mode) ;; Colorize nested parens.
+(show-paren-mode 1) ;; Highlight matching parens.
+(goto-address-mode 1) ;; Make URLs clickable.
 
 (set-variable 'vc-follow-symlinks t)
 (set-variable 'scroll-step 1)
 
-;; Make sure code is clean; no extra whitespace and no tab characters.
-(add-hook 'before-save-hook 'whitespace-cleanup)
+(add-hook 'before-save-hook 'whitespace-cleanup) ;; No extra whitespace and no tab characters.
 (setq-default indent-tabs-mode nil)
 
-
-;; Buffers are always kept in sync with the file system.
-(global-auto-revert-mode 1)
+(global-auto-revert-mode 1) ;; Buffers are always kept in sync with the file system.
 
 
 ;; Desktop mode stuff
@@ -75,6 +90,9 @@
 ;;; Keyboard shortcuts: general
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(global-set-key (kbd "<XF86AudioNext>") 'next-buffer)
+(global-set-key (kbd "<XF86AudioPrev>") 'previous-buffer)
+
 ;; Movement.
 (global-set-key (kbd "ESC <up>") 'backward-paragraph)
 (global-set-key (kbd "ESC <down>") 'forward-paragraph)
@@ -83,15 +101,26 @@
 (global-set-key (kbd "<f2>") (lambda () (interactive) (save-some-buffers 1)))
 (global-set-key (kbd "<f3>") 'find-file)
 
-;; Windows.
 (global-set-key (kbd "<backtab>") 'other-window)
-(global-set-key (kbd "S-C-<left>") 'shrink-window-horizontally)
-(global-set-key (kbd "S-C-<right>") 'enlarge-window-horizontally)
-(global-set-key (kbd "S-C-<down>") 'shrink-window)
-(global-set-key (kbd "<f5>") 'shrink-window)
-(global-set-key (kbd "S-C-<up>") 'enlarge-window)
-(global-set-key (kbd "<f6>") 'enlarge-window)
+
+;; Split windows (s == Windows key)
+(global-set-key (kbd "s-<up>") 'split-window-vertically)
+(global-set-key (kbd "s-<right>") 'split-window-horizontally)
+(global-set-key (kbd "s-<down>") 'delete-window)
+(global-set-key (kbd "s-<left>") 'delete-window)
+
+;; Delete/merge windows (s == Windows key)
+(global-set-key (kbd "s-<down>") 'delete-window)
+(global-set-key (kbd "s-<left>") 'delete-window)
 (global-set-key (kbd "<f12>") 'delete-window)
+
+
+;; Resize windows (s == Windows key)
+(global-set-key (kbd "M-s-<right>") 'enlarge-window-horizontally)
+(global-set-key (kbd "M-s-<left>") 'shrink-window-horizontally)
+(global-set-key (kbd "M-s-<up>") 'shrink-window)
+(global-set-key (kbd "M-s-<down>") 'enlarge-window)
+
 
 
 
@@ -106,6 +135,7 @@
 (setq cider-repl-popup-stacktraces t)
 (setq cider-auto-select-error-buffer t)
 (setq cider-repl-history-file "~/.emacs.d/cider-repl-history.dat")
+(add-hook 'clojure-mode-hook 'turn-on-eldoc-mode)
 
 (define-key cider-repl-mode-map (kbd "C-c M-o") 'cider-repl-clear-buffer)
 
@@ -157,31 +187,11 @@
 
 
 
-
 ;;; Indentation: C
 ;;;;;;;;;;;;;;;;;;
 
 (set-variable 'c-basic-offset 2)
 (put 'erase-buffer 'disabled nil)
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(epg-gpg-program "/usr/bin/gpg2")
- '(haskell-process-auto-import-loaded-modules t)
- '(haskell-process-log t)
- '(haskell-process-suggest-remove-import-lines t)
- '(package-selected-packages
-   (quote
-    (nginx-mode cider cider-decompile  clojure-mode js2-mode highlight-parentheses haskell-mode company))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
-
 
 
 
