@@ -136,6 +136,7 @@
 (setq cider-auto-select-error-buffer t)
 (setq cider-repl-history-file "~/.emacs.d/cider-repl-history.dat")
 (add-hook 'clojure-mode-hook 'turn-on-eldoc-mode)
+(add-hook 'cider-repl-mode-hook 'turn-on-eldoc-mode)
 
 (define-key cider-repl-mode-map (kbd "C-c M-o") 'cider-repl-clear-buffer)
 
