@@ -118,8 +118,8 @@
 ;; Resize windows (s == Windows key)
 (global-set-key (kbd "M-s-<right>") 'enlarge-window-horizontally)
 (global-set-key (kbd "M-s-<left>") 'shrink-window-horizontally)
-(global-set-key (kbd "M-s-<up>") 'shrink-window)
-(global-set-key (kbd "M-s-<down>") 'enlarge-window)
+(global-set-key (kbd "M-s-<up>") 'shrink-window) (global-set-key (kbd "<f5>") 'shrink-window)
+(global-set-key (kbd "M-s-<down>") 'enlarge-window) (global-set-key (kbd "<f6>") 'enlarge-window)
 
 
 

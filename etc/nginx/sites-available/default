@@ -41,10 +41,7 @@ server {
     ## SymbolicWeb: https://github.com/lnostdal/SymbolicWeb/ (TODO: Make this an include snippet?)
     location /sw/ {
         proxy_pass http://127.0.0.1:8080;
-        proxy_set_header Host $http_host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header Host $http_host; # For I2P use $server_name here.
     }
     location /static/ {
         access_log off;
