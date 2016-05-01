@@ -149,7 +149,7 @@
                                             (indent-region 0 9999999)
                                             (save-buffer 1)
                                             (cider-load-buffer)))
-(define-key clojure-mode-map (kbd "<f9>") 'cider-eval-last-expression)
+(define-key clojure-mode-map (kbd "<f9>") 'cider-eval-last-sexp)
 
 (define-key clojure-mode-map (kbd "C-<tab>") (lambda () (interactive)
                                                (indent-region 0 9999999)))
