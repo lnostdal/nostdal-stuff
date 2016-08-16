@@ -3,3 +3,13 @@ pom.xml
 /lib/
 /classes/
 .lein-deps-sum
+
+
+*~
+\#*\#
+/.emacs.desktop
+/.emacs.desktop.lock
+*.elc
+auto-save-list
+tramp
+.\#*

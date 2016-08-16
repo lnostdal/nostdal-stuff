@@ -5,12 +5,10 @@
 ;;; Emacs package manager
 ;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(require 'package)
-(add-to-list 'package-archives
-             '("marmalade" . "https://marmalade-repo.org/packages/"))
-(add-to-list 'package-archives
-             '("melpa" . "https://melpa.org/packages/"))
-;;(add-to-list 'package-pinned-packages '(cider . "melpa-stable") t)
+;;(require 'package)
+(setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
+                         ("marmalade" . "https://marmalade-repo.org/packages/")
+                         ("melpa" . "https://melpa.org/packages/")))
 (package-initialize)
 
 
@@ -135,8 +133,9 @@
 (setq cider-repl-popup-stacktraces t)
 (setq cider-auto-select-error-buffer t)
 (setq cider-repl-history-file "~/.emacs.d/cider-repl-history.dat")
-(add-hook 'clojure-mode-hook 'turn-on-eldoc-mode)
-(add-hook 'cider-repl-mode-hook 'turn-on-eldoc-mode)
+(add-hook 'cider-mode-hook #'eldoc-mode)
+(add-hook 'cider-repl-mode-hook #'eldoc-mode)
+
 
 (define-key cider-repl-mode-map (kbd "C-c M-o") 'cider-repl-clear-buffer)
 
