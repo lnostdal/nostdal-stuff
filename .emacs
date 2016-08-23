@@ -18,13 +18,14 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(cider-lein-parameters "with-profiles production repl :headless")
  '(epg-gpg-program "/usr/bin/gpg2")
  '(haskell-process-auto-import-loaded-modules t)
  '(haskell-process-log t)
  '(haskell-process-suggest-remove-import-lines t)
  '(package-selected-packages
    (quote
-    (nginx-mode cider cider-decompile  clojure-mode js2-mode highlight-parentheses haskell-mode company))))
+    (nginx-mode cider cider-decompile clojure-mode js2-mode highlight-parentheses haskell-mode company))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
