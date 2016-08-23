@@ -18,7 +18,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(cider-lein-parameters "with-profiles production repl :headless")
+ '(cider-lein-parameters "with-profiles production trampoline repl :headless")
  '(epg-gpg-program "/usr/bin/gpg2")
  '(haskell-process-auto-import-loaded-modules t)
  '(haskell-process-log t)
