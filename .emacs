@@ -66,7 +66,7 @@
 
 (global-highlight-parentheses-mode) ;; Colorize nested parens.
 (show-paren-mode 1) ;; Highlight matching parens.
-(goto-address-mode 1) ;; Make URLs clickable.
+;; (goto-address-mode 1) ;; Make URLs clickable. TODO: This doesn't enable this mode globally? Using hooks instead..
 
 (set-variable 'vc-follow-symlinks t)
 (set-variable 'scroll-step 1)
@@ -136,6 +136,7 @@
 (setq cider-repl-history-file "~/.emacs.d/cider-repl-history.dat")
 (add-hook 'cider-mode-hook #'eldoc-mode)
 (add-hook 'cider-repl-mode-hook #'eldoc-mode)
+(add-hook 'clojure-mode-hook 'goto-address-mode)
 
 
 (define-key cider-repl-mode-map (kbd "C-c M-o") 'cider-repl-clear-buffer)
