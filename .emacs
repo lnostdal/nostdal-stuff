@@ -25,14 +25,13 @@
  '(haskell-process-suggest-remove-import-lines t)
  '(package-selected-packages
    (quote
-    (nginx-mode cider cider-decompile clojure-mode js2-mode highlight-parentheses haskell-mode company))))
+    (rainbow-delimiters nginx-mode cider cider-decompile clojure-mode js2-mode highlight-parentheses haskell-mode company))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
-
 
 
 ;;; General appearance
@@ -45,6 +44,8 @@
 (if window-system (set-background-color "black"))
 (if window-system (set-foreground-color "white"))
 (if window-system (toggle-frame-fullscreen))
+(add-to-list 'default-frame-alist '(foreground-color . "white"))
+(add-to-list 'default-frame-alist '(background-color . "black"))
 
 
 ;;(require 'company-mode)
@@ -64,9 +65,16 @@
 ;;; General behavior
 ;;;;;;;;;;;;;;;;;;;;
 
-(global-highlight-parentheses-mode) ;; Colorize nested parens.
+;;(global-highlight-parentheses-mode) ;; Colorize nested parens.
 (show-paren-mode 1) ;; Highlight matching parens.
 ;; (goto-address-mode 1) ;; Make URLs clickable. TODO: This doesn't enable this mode globally? Using hooks instead..
+(require 'rainbow-delimiters)
+(add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
+(set-face-attribute 'rainbow-delimiters-unmatched-face nil
+                    :foreground "white"
+                    :background "red"
+                    :inherit 'error
+                    :box t)
 
 (set-variable 'vc-follow-symlinks t)
 (set-variable 'scroll-step 1)
@@ -141,6 +149,8 @@
 
 (define-key cider-repl-mode-map (kbd "C-c M-o") 'cider-repl-clear-buffer)
 
+;;(define-key clojure-mode-map (kbd "C-.") 'cider-find-dwim)
+
 (define-key clojure-mode-map (kbd "C-|") 'comment-or-uncomment-region)
 (define-key clojure-mode-map (kbd "C-c C-c") 'cider-eval-last-sexp)
 (define-key clojure-mode-map (kbd "<f2>") (lambda () (interactive)
@@ -178,6 +188,7 @@
 (put 'js-run 'clojure-indent-function 1)
 (put 'add-rest-initial 'clojure-indent-function 1)
 (put 'add-rest-head 'clojure-indent-function 1)
+(put 'iter 'clojure-indent-function 1)
 
 
 
@@ -217,3 +228,4 @@
 ;;(define-key haskell-cabal-mode-map (kbd "C-c C-k") 'haskell-interactive-mode-clear)
 ;;(define-key haskell-cabal-mode-map (kbd "C-c C-c") 'haskell-process-cabal-build)
 ;;(define-key haskell-cabal-mode-map (kbd "C-c c") 'haskell-process-cabal)
+(put 'downcase-region 'disabled nil)
