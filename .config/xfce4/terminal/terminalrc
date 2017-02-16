@@ -1,8 +1,4 @@
 [Configuration]
-ColorForeground=#ffffffffffff
-ColorBackground=#000000000000
-ColorCursor=#ffffffffffff
-ColorSelection=#16163b3b5959
 FontName=DejaVu Sans Mono 7.5
 MiscAlwaysShowTabs=FALSE
 MiscBell=FALSE
@@ -20,12 +16,8 @@ MiscTabCloseMiddleClick=TRUE
 MiscTabPosition=GTK_POS_TOP
 MiscHighlightUrls=TRUE
 MiscScrollAlternateScreen=TRUE
-TabActivityColor=#262656568080
 ScrollingBar=TERMINAL_SCROLLBAR_NONE
-ColorPalette=#bf000e46204a;#ffff00000000;#ffffff210000;#ffffa14bf7b3;#00000000aaaa;#ffff0000ffff;#0000aaaaaaaa;#aaaaaaaaaaaa;#555555555555;#ffffbfff0000;#0000ffff0000;#ffffffff5555;#0000ffffe199;#ffff5555ffff;#5555ffffffff;#ffffffffffff
 ScrollingOnOutput=FALSE
-ColorSelectionUseDefault=FALSE
-ColorBoldUseDefault=FALSE
 TabActivityTimeout=1
 TitleMode=TERMINAL_TITLE_REPLACE
 ScrollingLines=5000
