@@ -122,7 +122,7 @@
 ;;(global-set-key (kbd "s-<left>") 'delete-window)
 (global-set-key (kbd "<f12>") 'delete-window)
 
-;; Resize windows (s == Windows key).
+;; Resize windows (M = Alt, s == Windows key).
 (global-set-key (kbd "M-s-<right>") 'enlarge-window-horizontally)
 (global-set-key (kbd "M-s-<left>") 'shrink-window-horizontally)
 (global-set-key (kbd "M-s-<up>") 'shrink-window) (global-set-key (kbd "<f5>") 'shrink-window)
@@ -195,6 +195,7 @@
 (put 'add-rest-initial 'clojure-indent-function 1)
 (put 'add-rest-head 'clojure-indent-function 1)
 (put 'iter 'clojure-indent-function 1)
+(put 'doiter 'clojure-indent-function 1)
 
 
 
