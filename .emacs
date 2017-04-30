@@ -178,8 +178,8 @@
 (define-key clojure-mode-map (kbd "C-<right>") 'clojure-forward-logical-sexp)
 (define-key clojure-mode-map (kbd "C-<down>") 'clojure-forward-logical-sexp)
 
-;;(define-key clojure-mode-map (kbd "<tab>") 'company-complete)
-;;(define-key cider-repl-mode-map (kbd "<tab>") 'company-complete)
+(define-key clojure-mode-map (kbd "<tab>") 'company-complete)
+(define-key cider-repl-mode-map (kbd "<tab>") 'company-complete)
 
 (put 'amap 'clojure-indent-function 1)
 (put 'areduce 'clojure-indent-function 1)
