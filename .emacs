@@ -189,6 +189,7 @@
 (put 'add-rest-initial 'clojure-indent-function 1)
 (put 'add-rest-head 'clojure-indent-function 1)
 (put 'iter 'clojure-indent-function 1)
+(put 'doiter 'clojure-indent-function 1)
 
 
 
