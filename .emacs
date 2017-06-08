@@ -25,7 +25,7 @@
  '(haskell-process-suggest-remove-import-lines t)
  '(package-selected-packages
    (quote
-    (rainbow-delimiters nginx-mode cider cider-decompile clojure-mode js2-mode highlight-parentheses haskell-mode company))))
+    (cargo rust-mode rainbow-delimiters nginx-mode cider cider-decompile clojure-mode js2-mode highlight-parentheses haskell-mode company))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -49,7 +49,7 @@
 
 
 ;;(require 'company-mode)
-(global-company-mode)
+;;(global-company-mode)
 
 
 
@@ -97,8 +97,11 @@
 ;;; Keyboard shortcuts: general
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(global-set-key (kbd "<XF86AudioNext>") 'next-buffer)
-(global-set-key (kbd "<XF86AudioPrev>") 'previous-buffer)
+;; Fast buffer switching (s == Windows key).
+(global-set-key (kbd "<s-right>") 'next-buffer)
+(global-set-key (kbd "<s-left>") 'previous-buffer)
+
+(global-set-key (kbd "<backtab>") 'other-window) ;; Shift-Tab
 
 ;; Movement.
 (global-set-key (kbd "ESC <up>") 'backward-paragraph)
@@ -108,26 +111,28 @@
 (global-set-key (kbd "<f2>") (lambda () (interactive) (save-some-buffers 1)))
 (global-set-key (kbd "<f3>") 'find-file)
 
-(global-set-key (kbd "<backtab>") 'other-window)
+;; Split windows (s == Windows key).
+;;(global-set-key (kbd "s-<up>") 'split-window-vertically)
+;;(global-set-key (kbd "s-<right>") 'split-window-horizontally)
+;;(global-set-key (kbd "s-<down>") 'delete-window)
+;;(global-set-key (kbd "s-<left>") 'delete-window)
 
-;; Split windows (s == Windows key)
-(global-set-key (kbd "s-<up>") 'split-window-vertically)
-(global-set-key (kbd "s-<right>") 'split-window-horizontally)
-(global-set-key (kbd "s-<down>") 'delete-window)
-(global-set-key (kbd "s-<left>") 'delete-window)
-
-;; Delete/merge windows (s == Windows key)
-(global-set-key (kbd "s-<down>") 'delete-window)
-(global-set-key (kbd "s-<left>") 'delete-window)
+;; Delete/merge windows (s == Windows key).
+;;(global-set-key (kbd "s-<down>") 'delete-window)
+;;(global-set-key (kbd "s-<left>") 'delete-window)
 (global-set-key (kbd "<f12>") 'delete-window)
 
-
-;; Resize windows (s == Windows key)
+;; Resize windows (M = Alt, s == Windows key).
 (global-set-key (kbd "M-s-<right>") 'enlarge-window-horizontally)
 (global-set-key (kbd "M-s-<left>") 'shrink-window-horizontally)
 (global-set-key (kbd "M-s-<up>") 'shrink-window) (global-set-key (kbd "<f5>") 'shrink-window)
 (global-set-key (kbd "M-s-<down>") 'enlarge-window) (global-set-key (kbd "<f6>") 'enlarge-window)
 
+;; Scroll buffer line by line without moving cursor (s == Windows key).
+(global-set-key (kbd "<s-up>") 'scroll-down-line)
+(global-set-key (kbd "<s-prior>") 'scroll-down-line)
+(global-set-key (kbd "<s-next>") 'scroll-up-line)
+(global-set-key (kbd "<s-down>") 'scroll-up-line)
 
 
 
@@ -141,6 +146,7 @@
 (setq cider-repl-use-pretty-printing t)
 (setq cider-repl-popup-stacktraces t)
 (setq cider-auto-select-error-buffer t)
+(setq cider-repl-wrap-history nil)
 (setq cider-repl-history-file "~/.emacs.d/cider-repl-history.dat")
 (add-hook 'cider-mode-hook #'eldoc-mode)
 (add-hook 'cider-repl-mode-hook #'eldoc-mode)
@@ -151,6 +157,7 @@
 
 ;;(define-key clojure-mode-map (kbd "C-.") 'cider-find-dwim)
 
+(define-key clojure-mode-map (kbd "<s-delete>") 'cider-clear-compilation-highlights)
 (define-key clojure-mode-map (kbd "C-|") 'comment-or-uncomment-region)
 (define-key clojure-mode-map (kbd "C-c C-c") 'cider-eval-last-sexp)
 (define-key clojure-mode-map (kbd "<f2>") (lambda () (interactive)
@@ -230,3 +237,4 @@
 ;;(define-key haskell-cabal-mode-map (kbd "C-c C-c") 'haskell-process-cabal-build)
 ;;(define-key haskell-cabal-mode-map (kbd "C-c c") 'haskell-process-cabal)
 (put 'downcase-region 'disabled nil)
+(put 'upcase-region 'disabled nil)
