@@ -49,7 +49,7 @@
 
 
 ;;(require 'company-mode)
-(global-company-mode)
+;;(global-company-mode)
 
 
 
@@ -146,6 +146,7 @@
 (setq cider-repl-use-pretty-printing t)
 (setq cider-repl-popup-stacktraces t)
 (setq cider-auto-select-error-buffer t)
+(setq cider-repl-wrap-history nil)
 (setq cider-repl-history-file "~/.emacs.d/cider-repl-history.dat")
 (add-hook 'cider-mode-hook #'eldoc-mode)
 (add-hook 'cider-repl-mode-hook #'eldoc-mode)
@@ -178,8 +179,8 @@
 (define-key clojure-mode-map (kbd "C-<right>") 'clojure-forward-logical-sexp)
 (define-key clojure-mode-map (kbd "C-<down>") 'clojure-forward-logical-sexp)
 
-(define-key clojure-mode-map (kbd "<tab>") 'company-complete)
-(define-key cider-repl-mode-map (kbd "<tab>") 'company-complete)
+;;(define-key clojure-mode-map (kbd "<tab>") 'company-complete)
+;;(define-key cider-repl-mode-map (kbd "<tab>") 'company-complete)
 
 (put 'amap 'clojure-indent-function 1)
 (put 'areduce 'clojure-indent-function 1)
