@@ -49,7 +49,7 @@
 
 
 ;;(require 'company-mode)
-;;(global-company-mode)
+(global-company-mode)
 
 
 
