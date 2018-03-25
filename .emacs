@@ -56,7 +56,9 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(set-default-font "DejaVu Sans Mono-9")
+(if (display-graphic-p)
+    (progn
+      (set-default-font "DejaVu Sans Mono-9")))
 
 
 
