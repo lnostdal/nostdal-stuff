@@ -48,7 +48,7 @@
 
 
 ;;(require 'company-mode)
-;;(global-company-mode)
+(global-company-mode)
 
 
 
@@ -56,8 +56,7 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;;(set-default-font "DejaVu Sans Mono-7.5")
-(set-default-font "DejaVu Sans Mono-8")
+(set-default-font "DejaVu Sans Mono-9")
 
 
 

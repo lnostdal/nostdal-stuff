@@ -6,9 +6,9 @@
 for (( ; ; ))
 do
     wget -T 10 -O - https://nostdal.duckdns.org/qa_app/ping &> /dev/null
-
+    #wget -T 10 -O - https://encrypted.google.com &> /dev/null
     if [ $? -ne 0 ]; then
         paplay /usr/share/sounds/freedesktop/stereo/bell.oga
     fi
-    sleep 5
+    sleep 5 # Because sometimes wget will return instantly i.e. when there are no active networks.
 done
