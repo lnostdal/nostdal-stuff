@@ -9,7 +9,7 @@
 (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
                          ("marmalade" . "https://marmalade-repo.org/packages/")
                          ("melpa" . "https://melpa.org/packages/")))
-;;(package-initialize)
+(package-initialize)
 
 
 
@@ -24,13 +24,15 @@
  '(haskell-process-log t)
  '(haskell-process-suggest-remove-import-lines t)
  '(package-selected-packages
-   '(magit python-mode php-mode web-mode cargo rust-mode rainbow-delimiters nginx-mode cider cider-decompile clojure-mode js2-mode highlight-parentheses haskell-mode company)))
+   (quote
+    (parinfer highlight-thing elgrep magit python-mode php-mode web-mode cargo rust-mode rainbow-delimiters nginx-mode cider cider-decompile clojure-mode js2-mode highlight-parentheses haskell-mode company)))
+ '(word-wrap t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(hi-yellow ((t (:background "SkyBlue4")))))
 
 
 ;;; General appearance
@@ -56,7 +58,7 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(if (display-graphic-p)
+(if (display-graphic-p) ;; TODO: Ho-hum, what's the difference between this and `window-system` above?
     (progn
       (set-default-font "DejaVu Sans Mono-9")))
 
@@ -67,7 +69,6 @@
 
 ;;(global-highlight-parentheses-mode) ;; Colorize nested parens.
 (show-paren-mode 1) ;; Highlight matching parens.
-;; (goto-address-mode 1) ;; Make URLs clickable. TODO: This doesn't enable this mode globally? Using hooks instead..
 (require 'rainbow-delimiters)
 (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
 (set-face-attribute 'rainbow-delimiters-unmatched-face nil
@@ -83,6 +84,7 @@
 (setq-default indent-tabs-mode nil)
 
 (global-auto-revert-mode 1) ;; Buffers are always kept in sync with the file system.
+
 
 
 ;; Desktop mode stuff
@@ -108,7 +110,9 @@
 (global-set-key (kbd "ESC <down>") 'forward-paragraph)
 
 ;; File handling.
-(global-set-key (kbd "<f2>") (lambda () (interactive) (save-some-buffers 1)))
+(global-set-key (kbd "<f2>") (lambda () (interactive)
+                               (indent-region 0 9999999)
+                               (save-some-buffers 1)))
 (global-set-key (kbd "<f3>") 'find-file)
 
 ;; Split windows (s == Windows key).
@@ -123,16 +127,16 @@
 (global-set-key (kbd "<f12>") 'delete-window)
 
 ;; Resize windows (M = Alt, s == Windows key).
-(global-set-key (kbd "M-s-<right>") 'enlarge-window-horizontally)
-(global-set-key (kbd "M-s-<left>") 'shrink-window-horizontally)
+;;(global-set-key (kbd "M-s-<right>") 'enlarge-window-horizontally)
+;;(global-set-key (kbd "M-s-<left>") 'shrink-window-horizontally)
 (global-set-key (kbd "M-s-<up>") 'shrink-window) (global-set-key (kbd "<f5>") 'shrink-window)
 (global-set-key (kbd "M-s-<down>") 'enlarge-window) (global-set-key (kbd "<f6>") 'enlarge-window)
 
 ;; Scroll buffer line by line without moving cursor (s == Windows key).
-(global-set-key (kbd "<s-up>") 'scroll-down-line)
+(global-set-key (kbd "<s-up>")    'scroll-down-line)
 (global-set-key (kbd "<s-prior>") 'scroll-down-line)
-(global-set-key (kbd "<s-next>") 'scroll-up-line)
-(global-set-key (kbd "<s-down>") 'scroll-up-line)
+(global-set-key (kbd "<s-next>")  'scroll-up-line)
+(global-set-key (kbd "<s-down>")  'scroll-up-line)
 
 
 
@@ -149,9 +153,11 @@
 (setq cider-repl-wrap-history nil)
 (setq cider-repl-history-file "~/.emacs.d/cider-repl-history.dat")
 (add-hook 'cider-mode-hook #'eldoc-mode)
+(add-hook 'cider-mode-hook 'highlight-thing-mode)
 (add-hook 'cider-repl-mode-hook #'eldoc-mode)
+(add-hook 'cider-repl-mode-hook 'highlight-thing-mode)
 (add-hook 'clojure-mode-hook 'goto-address-mode)
-
+(add-hook 'clojure-mode-hook 'highlight-thing-mode)
 
 (define-key cider-repl-mode-map (kbd "C-c M-o") 'cider-repl-clear-buffer)
 
@@ -172,6 +178,8 @@
 (define-key clojure-mode-map (kbd "C-<tab>") (lambda () (interactive)
                                                (indent-region 0 9999999)))
 
+(define-key clojure-mode-map (kbd "<up>") 'previous-logical-line)
+(define-key clojure-mode-map (kbd "<down>") 'next-logical-line)
 (define-key clojure-mode-map (kbd "M-<up>") 'backward-paragraph)
 (define-key clojure-mode-map (kbd "M-<down>") 'forward-paragraph)
 (define-key clojure-mode-map (kbd "C-<up>") 'clojure-backward-logical-sexp)
@@ -179,8 +187,8 @@
 (define-key clojure-mode-map (kbd "C-<right>") 'clojure-forward-logical-sexp)
 (define-key clojure-mode-map (kbd "C-<down>") 'clojure-forward-logical-sexp)
 
-;;(define-key clojure-mode-map (kbd "<tab>") 'company-complete)
-;;(define-key cider-repl-mode-map (kbd "<tab>") 'company-complete)
+(define-key clojure-mode-map (kbd "<tab>") 'company-indent-or-complete-common)
+(define-key cider-repl-mode-map (kbd "<tab>") 'company-indent-or-complete-common)
 
 (put 'amap 'clojure-indent-function 1)
 (put 'areduce 'clojure-indent-function 1)
