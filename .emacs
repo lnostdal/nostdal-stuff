@@ -25,7 +25,7 @@
  '(haskell-process-suggest-remove-import-lines t)
  '(package-selected-packages
    (quote
-    (parinfer highlight-thing elgrep magit python-mode php-mode web-mode cargo rust-mode rainbow-delimiters nginx-mode cider cider-decompile clojure-mode js2-mode highlight-parentheses haskell-mode company)))
+    (ivy parinfer highlight-thing elgrep magit python-mode php-mode web-mode cargo rust-mode rainbow-delimiters nginx-mode cider cider-decompile clojure-mode js2-mode highlight-parentheses haskell-mode company)))
  '(word-wrap t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -114,6 +114,7 @@
                                (indent-region 0 9999999)
                                (save-some-buffers 1)))
 (global-set-key (kbd "<f3>") 'find-file)
+(global-set-key (kbd "<f4>") 'switch-to-buffer)
 
 ;; Split windows (s == Windows key).
 ;;(global-set-key (kbd "s-<up>") 'split-window-vertically)
@@ -152,31 +153,51 @@
 (setq cider-auto-select-error-buffer t)
 (setq cider-repl-wrap-history nil)
 (setq cider-repl-history-file "~/.emacs.d/cider-repl-history.dat")
+(setq cider-prompt-for-symbol nil)
+(setq cider-overlays-use-font-lock t)
+
+
 (add-hook 'cider-mode-hook #'eldoc-mode)
 (add-hook 'cider-mode-hook 'highlight-thing-mode)
 (add-hook 'cider-repl-mode-hook #'eldoc-mode)
 (add-hook 'cider-repl-mode-hook 'highlight-thing-mode)
-(add-hook 'clojure-mode-hook 'goto-address-mode)
 (add-hook 'clojure-mode-hook 'highlight-thing-mode)
+(add-hook 'clojure-mode-hook 'goto-address-mode)
 
 (define-key cider-repl-mode-map (kbd "C-c M-o") 'cider-repl-clear-buffer)
 
-;;(define-key clojure-mode-map (kbd "C-.") 'cider-find-dwim)
+(define-key clojure-mode-map (kbd "M-.") 'cider-find-dwim)
 
 (define-key clojure-mode-map (kbd "<s-delete>") 'cider-clear-compilation-highlights)
 (define-key clojure-mode-map (kbd "C-|") 'comment-or-uncomment-region)
-(define-key clojure-mode-map (kbd "C-c C-c") 'cider-eval-last-sexp)
 (define-key clojure-mode-map (kbd "<f2>") (lambda () (interactive)
-                                            (indent-region 0 9999999)
+                                            (save-excursion
+                                              (mark-whole-buffer)
+                                              (indent-region (region-beginning) (region-end)))
                                             (save-some-buffers 1)))
+
 (define-key clojure-mode-map (kbd "<f7>") (lambda () (interactive)
-                                            (indent-region 0 9999999)
+                                            (save-excursion
+                                              (mark-whole-buffer)
+                                              (indent-region (region-beginning) (region-end)))
                                             (save-buffer 1)
                                             (cider-load-buffer)))
-(define-key clojure-mode-map (kbd "<f9>") 'cider-eval-last-sexp)
+(define-key clojure-mode-map (kbd "<f8>") 'cider-eval-last-sexp)
+(define-key clojure-mode-map (kbd "<f9>") (lambda () (interactive)
+                                            (save-excursion
+                                              (mark-defun)
+                                              (indent-region (region-beginning) (region-end))
+                                              (cider-eval-defun-at-point))))
+(define-key clojure-mode-map (kbd "C-c C-c") (lambda () (interactive)
+                                               (save-excursion
+                                                 (mark-defun)
+                                                 (indent-region (region-beginning) (region-end))
+                                                 (cider-eval-defun-at-point))))
 
 (define-key clojure-mode-map (kbd "C-<tab>") (lambda () (interactive)
-                                               (indent-region 0 9999999)))
+                                               (save-excursion
+                                                 (mark-whole-buffer)
+                                                 (indent-region (region-beginning) (region-end)))))
 
 (define-key clojure-mode-map (kbd "<up>") 'previous-logical-line)
 (define-key clojure-mode-map (kbd "<down>") 'next-logical-line)
@@ -190,10 +211,13 @@
 (define-key clojure-mode-map (kbd "<tab>") 'company-indent-or-complete-common)
 (define-key cider-repl-mode-map (kbd "<tab>") 'company-indent-or-complete-common)
 
+(define-key clojure-mode-map (kbd "<s-backspace") 'cider-undef) ;; This doesn't seem to work??
+
 (put 'amap 'clojure-indent-function 1)
 (put 'areduce 'clojure-indent-function 1)
 (put 'assoc 'clojure-indent-function 1)
 (put 'update 'clojure-indent-function 1)
+;;(put 'update-in 'clojure-indent-function 1)
 (put 'with 'clojure-indent-function 1)
 (put 'with1 'clojure-indent-function 1)
 (put 'do1 'clojure-indent-function 1)
