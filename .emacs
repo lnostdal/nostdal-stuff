@@ -7,8 +7,9 @@
 
 ;;(require 'package)
 (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
-                         ("marmalade" . "https://marmalade-repo.org/packages/")
-                         ("melpa" . "https://melpa.org/packages/")))
+                         ;;("marmalade" . "https://marmalade-repo.org/packages/")
+                         ("melpa" . "https://melpa.org/packages/")
+                         ("melpa-stable" . "https://stable.melpa.org/packages/")))
 (package-initialize)
 
 
@@ -25,7 +26,7 @@
  '(haskell-process-suggest-remove-import-lines t)
  '(package-selected-packages
    (quote
-    (ivy parinfer highlight-thing elgrep magit python-mode php-mode web-mode cargo rust-mode rainbow-delimiters nginx-mode cider cider-decompile clojure-mode js2-mode highlight-parentheses haskell-mode company)))
+    (cider smartparens ivy parinfer highlight-thing elgrep magit python-mode php-mode web-mode cargo rust-mode rainbow-delimiters nginx-mode cider-decompile clojure-mode js2-mode highlight-parentheses haskell-mode company)))
  '(word-wrap t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -108,6 +109,7 @@
 ;; Movement.
 (global-set-key (kbd "ESC <up>") 'backward-paragraph)
 (global-set-key (kbd "ESC <down>") 'forward-paragraph)
+(global-set-key (kbd "<s-return>") 'goto-line)
 
 ;; File handling.
 (global-set-key (kbd "<f2>") (lambda () (interactive)
@@ -155,13 +157,16 @@
 (setq cider-repl-history-file "~/.emacs.d/cider-repl-history.dat")
 (setq cider-prompt-for-symbol nil)
 (setq cider-overlays-use-font-lock t)
-
+;;(setq cider-repl-pop-to-buffer-on-connect t)
+(setq cider-repl-display-in-current-window t)
 
 (add-hook 'cider-mode-hook #'eldoc-mode)
-(add-hook 'cider-mode-hook 'highlight-thing-mode)
 (add-hook 'cider-repl-mode-hook #'eldoc-mode)
-(add-hook 'cider-repl-mode-hook 'highlight-thing-mode)
+
+(add-hook 'cider-mode-hook 'highlight-thing-mode)
 (add-hook 'clojure-mode-hook 'highlight-thing-mode)
+(add-hook 'cider-repl-mode-hook 'highlight-thing-mode)
+
 (add-hook 'clojure-mode-hook 'goto-address-mode)
 
 (define-key cider-repl-mode-map (kbd "C-c M-o") 'cider-repl-clear-buffer)
@@ -171,7 +176,7 @@
 (define-key clojure-mode-map (kbd "<s-delete>") 'cider-clear-compilation-highlights)
 (define-key clojure-mode-map (kbd "C-|") 'comment-or-uncomment-region)
 (define-key clojure-mode-map (kbd "<f2>") (lambda () (interactive)
-                                            (save-excursion
+                                            (save-excursion ;; TODO: Don't do this while in the REPL.
                                               (mark-whole-buffer)
                                               (indent-region (region-beginning) (region-end)))
                                             (save-some-buffers 1)))
@@ -191,6 +196,7 @@
 (define-key clojure-mode-map (kbd "C-c C-c") (lambda () (interactive)
                                                (save-excursion
                                                  (mark-defun)
+                                                 ;; TODO: Odd; doesn't seem to work? But F9 (above) does tho.
                                                  (indent-region (region-beginning) (region-end))
                                                  (cider-eval-defun-at-point))))
 
@@ -210,6 +216,9 @@
 
 (define-key clojure-mode-map (kbd "<tab>") 'company-indent-or-complete-common)
 (define-key cider-repl-mode-map (kbd "<tab>") 'company-indent-or-complete-common)
+
+(define-key clojure-mode-map (kbd "C-c RET") 'cider-macroexpand-1)
+(define-key cider-repl-mode-map (kbd "C-c RET") 'cider-macroexpand-1)
 
 (define-key clojure-mode-map (kbd "<s-backspace") 'cider-undef) ;; This doesn't seem to work??
 
