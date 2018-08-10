@@ -113,7 +113,9 @@
 
 ;; File handling.
 (global-set-key (kbd "<f2>") (lambda () (interactive)
-                               (indent-region 0 9999999)
+                               (save-excursion 
+                                 (mark-whole-buffer)
+                                 (indent-region (region-beginning) (region-end)))
                                (save-some-buffers 1)))
 (global-set-key (kbd "<f3>") 'find-file)
 (global-set-key (kbd "<f4>") 'switch-to-buffer)
@@ -176,11 +178,12 @@
 (define-key clojure-mode-map (kbd "<s-delete>") 'cider-clear-compilation-highlights)
 (define-key clojure-mode-map (kbd "C-|") 'comment-or-uncomment-region)
 (define-key clojure-mode-map (kbd "<f2>") (lambda () (interactive)
-                                            (save-excursion ;; TODO: Don't do this while in the REPL.
+                                            (save-excursion 
                                               (mark-whole-buffer)
                                               (indent-region (region-beginning) (region-end)))
                                             (save-some-buffers 1)))
-
+(define-key cider-repl-mode-map (kbd "<f2>") (lambda () (interactive) ;; NOTE: So we don't indent in the REPL.
+                                               (save-some-buffers 1)))
 (define-key clojure-mode-map (kbd "<f7>") (lambda () (interactive)
                                             (save-excursion
                                               (mark-whole-buffer)
