@@ -26,7 +26,7 @@
  '(haskell-process-suggest-remove-import-lines t)
  '(package-selected-packages
    (quote
-    (cider smartparens ivy parinfer highlight-thing elgrep magit python-mode php-mode web-mode cargo rust-mode rainbow-delimiters nginx-mode cider-decompile clojure-mode js2-mode highlight-parentheses haskell-mode company)))
+    (jdee cider smartparens ivy parinfer highlight-thing elgrep magit python-mode php-mode web-mode cargo rust-mode rainbow-delimiters nginx-mode cider-decompile clojure-mode js2-mode highlight-parentheses haskell-mode company)))
  '(word-wrap t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -162,12 +162,14 @@
 ;;(setq cider-repl-pop-to-buffer-on-connect t)
 (setq cider-repl-display-in-current-window t)
 
+(setq cider-auto-jump-to-error 'errors-only)
+
 (add-hook 'cider-mode-hook #'eldoc-mode)
 (add-hook 'cider-repl-mode-hook #'eldoc-mode)
 
 (add-hook 'cider-mode-hook 'highlight-thing-mode)
 (add-hook 'clojure-mode-hook 'highlight-thing-mode)
-(add-hook 'cider-repl-mode-hook 'highlight-thing-mode)
+;;(add-hook 'cider-repl-mode-hook 'highlight-thing-mode) ;; I often print a ton of output in the REPL...
 
 (add-hook 'clojure-mode-hook 'goto-address-mode)
 
