@@ -189,7 +189,8 @@
 (define-key clojure-mode-map (kbd "<f7>") (lambda () (interactive)
                                             (save-excursion
                                               (mark-whole-buffer)
-                                              (indent-region (region-beginning) (region-end)))
+                                              (indent-region (region-beginning) (region-end))
+                                              (whitespace-cleanup-region (region-beginning) (region-end)))
                                             (save-buffer 1)
                                             (cider-load-buffer)))
 (define-key clojure-mode-map (kbd "<f8>") 'cider-eval-last-sexp)
@@ -197,13 +198,15 @@
                                             (save-excursion
                                               (mark-defun)
                                               (indent-region (region-beginning) (region-end))
-                                              (cider-eval-defun-at-point))))
+                                              (whitespace-cleanup-region (region-beginning) (region-end)))
+                                            (cider-eval-defun-at-point)))
 (define-key clojure-mode-map (kbd "C-c C-c") (lambda () (interactive)
                                                (save-excursion
                                                  (mark-defun)
                                                  ;; TODO: Odd; doesn't seem to work? But F9 (above) does tho.
                                                  (indent-region (region-beginning) (region-end))
-                                                 (cider-eval-defun-at-point))))
+                                                 (whitespace-cleanup-region (region-beginning) (region-end)))
+                                               (cider-eval-defun-at-point)))
 
 (define-key clojure-mode-map (kbd "C-<tab>") (lambda () (interactive)
                                                (save-excursion
