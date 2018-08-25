@@ -113,7 +113,7 @@
 
 ;; File handling.
 (global-set-key (kbd "<f2>") (lambda () (interactive)
-                               (save-excursion 
+                               (save-excursion
                                  (mark-whole-buffer)
                                  (indent-region (region-beginning) (region-end)))
                                (save-some-buffers 1)))
@@ -180,7 +180,7 @@
 (define-key clojure-mode-map (kbd "<s-delete>") 'cider-clear-compilation-highlights)
 (define-key clojure-mode-map (kbd "C-|") 'comment-or-uncomment-region)
 (define-key clojure-mode-map (kbd "<f2>") (lambda () (interactive)
-                                            (save-excursion 
+                                            (save-excursion
                                               (mark-whole-buffer)
                                               (indent-region (region-beginning) (region-end)))
                                             (save-some-buffers 1)))

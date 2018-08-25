@@ -14,11 +14,11 @@ rewrite ^/$ /qa/index.html redirect;
 
 
 ## Do very little (none at all?) caching and ask for validation (HTTP 304) all the time.
-add_header 'Cache-Control' 'must-revalidate, proxy-revalidate, max-age=0';
+add_header 'Cache-Control' 'no-cache, must-revalidate, proxy-revalidate, max-age=0';
 expires off;
 
 
-## QuantAtaraxia built in HTTP server.
+## Quanto.ga built in HTTP server.
 location /qa_app/ {
     proxy_pass http://localhost:8080;
 }
