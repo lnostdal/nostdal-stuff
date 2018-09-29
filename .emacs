@@ -143,6 +143,7 @@
 (global-set-key (kbd "<s-next>")  'scroll-up-line)
 (global-set-key (kbd "<s-down>")  'scroll-up-line)
 
+(global-set-key (kbd "<pause>") 'magit-status)
 
 
 ;;; Clojure
@@ -151,6 +152,7 @@
 (require 'cider)
 (require 'clojure-mode)
 (require 'cider-mode)
+(setq cider-stacktrace-show-only-project t)
 (setq cider-pprint-fn 'puget) ;; 'fipp, 'puget or 'pprint
 (setq cider-repl-use-pretty-printing t)
 (setq cider-repl-popup-stacktraces t)
@@ -182,7 +184,8 @@
 (define-key clojure-mode-map (kbd "<f2>") (lambda () (interactive)
                                             (save-excursion
                                               (mark-whole-buffer)
-                                              (indent-region (region-beginning) (region-end)))
+                                              (indent-region (region-beginning) (region-end))
+                                              (whitespace-cleanup-region (region-beginning) (region-end)))
                                             (save-some-buffers 1)))
 (define-key cider-repl-mode-map (kbd "<f2>") (lambda () (interactive) ;; NOTE: So we don't indent in the REPL.
                                                (save-some-buffers 1)))
@@ -211,7 +214,8 @@
 (define-key clojure-mode-map (kbd "C-<tab>") (lambda () (interactive)
                                                (save-excursion
                                                  (mark-whole-buffer)
-                                                 (indent-region (region-beginning) (region-end)))))
+                                                 (indent-region (region-beginning) (region-end))
+                                                 (whitespace-cleanup-region (region-beginning) (region-end)))))
 
 (define-key clojure-mode-map (kbd "<up>") 'previous-logical-line)
 (define-key clojure-mode-map (kbd "<down>") 'next-logical-line)
