@@ -1,6 +1,8 @@
 ;;; Emacs configuration: http://nostdal.org/
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(defalias 'sesman-linked-sessions 'sesman--linked-sessions) ;; https://github.com/vspinu/sesman/issues/10#issuecomment-429528490  ;; TODO!: Remove later.
+
 
 ;;; Emacs package manager
 ;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -10,7 +12,8 @@
                          ;;("marmalade" . "https://marmalade-repo.org/packages/")
                          ("melpa" . "https://melpa.org/packages/")
                          ("melpa-stable" . "https://stable.melpa.org/packages/")))
-(package-initialize)
+
+;;(add-to-list 'package-pinned-packages '(cider . "melpa-stable") t)
 
 
 
@@ -19,21 +22,19 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(cider-lein-parameters "with-profiles production trampoline repl :headless")
+ '(custom-enabled-themes (quote (sanityinc-solarized-dark)))
+ '(custom-safe-themes
+   (quote
+    ("bb08c73af94ee74453c90422485b29e5643b73b05e8de029a6909af6a3fb3f58" "1b8d67b43ff1723960eb5e0cba512a2c7a2ad544ddb2533a90101fd1852b426e" "06f0b439b62164c6f8f84fdda32b62fb50b6d00e8b01c2208e55543a6337433a" "4aee8551b53a43a883cb0b7f3255d6859d766b6c5e14bcb01bed572fcbef4328" default)))
  '(epg-gpg-program "/usr/bin/gpg2")
  '(haskell-process-auto-import-loaded-modules t)
  '(haskell-process-log t)
  '(haskell-process-suggest-remove-import-lines t)
  '(package-selected-packages
    (quote
-    (jdee cider smartparens ivy parinfer highlight-thing elgrep magit python-mode php-mode web-mode cargo rust-mode rainbow-delimiters nginx-mode cider-decompile clojure-mode js2-mode highlight-parentheses haskell-mode company)))
+    (color-theme color-theme-sanityinc-solarized color-theme-sanityinc-tomorrow cider 0blayout magit-todos jdee smartparens ivy parinfer highlight-thing elgrep magit python-mode php-mode web-mode cargo rust-mode rainbow-delimiters nginx-mode cider-decompile clojure-mode js2-mode highlight-parentheses haskell-mode company)))
  '(word-wrap t))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(hi-yellow ((t (:background "SkyBlue4")))))
+
 
 
 ;;; General appearance
@@ -43,11 +44,11 @@
 (column-number-mode t)
 (if window-system (tool-bar-mode 0))
 (if window-system (scroll-bar-mode 0))
-(if window-system (set-background-color "black"))
-(if window-system (set-foreground-color "white"))
 (if window-system (toggle-frame-fullscreen))
-(add-to-list 'default-frame-alist '(foreground-color . "white"))
-(add-to-list 'default-frame-alist '(background-color . "black"))
+;;(if window-system (set-background-color "black"))
+;;(if window-system (set-foreground-color "white"))
+;;(add-to-list 'default-frame-alist '(foreground-color . "white"))
+;;(add-to-list 'default-frame-alist '(background-color . "black"))
 
 
 ;;(require 'company-mode)
@@ -61,7 +62,7 @@
 
 (if (display-graphic-p) ;; TODO: Ho-hum, what's the difference between this and `window-system` above?
     (progn
-      (set-default-font "DejaVu Sans Mono-9")))
+      (set-frame-font "DejaVu Sans Mono-9")))
 
 
 
@@ -86,9 +87,21 @@
 
 (global-auto-revert-mode 1) ;; Buffers are always kept in sync with the file system.
 
+(put 'downcase-region 'disabled nil)
+(put 'upcase-region 'disabled nil)
+
+
+
+;; Tramp stuff
+(require 'tramp)
+(add-to-list 'tramp-remote-path 'tramp-own-remote-path)
+(setq nrepl-use-ssh-fallback-for-remote-hosts t)
+
+
 
 
 ;; Desktop mode stuff
+(setq desktop-buffers-not-to-save nil) ;;"^$")
 (setq desktop-path '("."))
 (setq desktop-dirname ".")
 (setq desktop-restore-frames nil) ;; http://stackoverflow.com/questions/18612742/emacs-desktop-save-mode-error#comment27403618_18612742
@@ -289,5 +302,9 @@
 ;;(define-key haskell-cabal-mode-map (kbd "C-c C-k") 'haskell-interactive-mode-clear)
 ;;(define-key haskell-cabal-mode-map (kbd "C-c C-c") 'haskell-process-cabal-build)
 ;;(define-key haskell-cabal-mode-map (kbd "C-c c") 'haskell-process-cabal)
-(put 'downcase-region 'disabled nil)
-(put 'upcase-region 'disabled nil)
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
