@@ -1,5 +1,4 @@
-;;; Emacs configuration: http://nostdal.org/
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(package-initialize)
 
 (defalias 'sesman-linked-sessions 'sesman--linked-sessions) ;; https://github.com/vspinu/sesman/issues/10#issuecomment-429528490  ;; TODO!: Remove later.
 
@@ -53,6 +52,7 @@
 
 ;;(require 'company-mode)
 (global-company-mode)
+(global-hl-line-mode)
 
 
 
