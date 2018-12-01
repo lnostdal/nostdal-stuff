@@ -1,5 +1,3 @@
-(package-initialize)
-
 (defalias 'sesman-linked-sessions 'sesman--linked-sessions) ;; https://github.com/vspinu/sesman/issues/10#issuecomment-429528490  ;; TODO!: Remove later.
 
 
@@ -28,8 +26,9 @@
  '(haskell-process-auto-import-loaded-modules t)
  '(haskell-process-log t)
  '(haskell-process-suggest-remove-import-lines t)
+ '(org-export-with-sub-superscripts nil)
  '(package-selected-packages
-   '(hl-todo color-theme color-theme-sanityinc-solarized color-theme-sanityinc-tomorrow cider 0blayout magit-todos jdee smartparens ivy parinfer highlight-thing elgrep magit python-mode php-mode web-mode cargo rust-mode rainbow-delimiters nginx-mode cider-decompile clojure-mode js2-mode highlight-parentheses haskell-mode company))
+   '(color-theme color-theme-sanityinc-solarized color-theme-sanityinc-tomorrow cider 0blayout magit-todos jdee smartparens ivy parinfer highlight-thing elgrep magit python-mode php-mode web-mode cargo rust-mode rainbow-delimiters nginx-mode cider-decompile clojure-mode js2-mode highlight-parentheses haskell-mode company))
  '(word-wrap t))
 
 

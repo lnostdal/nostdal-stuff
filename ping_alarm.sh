@@ -6,7 +6,7 @@
 for (( ; ; ))
 do
     #wget -q -T 10 -O - https://nostdal.duckdns.org/qa_app/ping &> /dev/null
-    wget -q -T 10 -O - https://encrypted.google.com &> /dev/null
+    wget -q -T 10 -o /dev/null -O - https://encrypted.google.com &> /dev/null 
     if [ $? -ne 0 ]; then
         paplay /usr/share/sounds/freedesktop/stereo/bell.oga
     fi
