@@ -119,7 +119,6 @@
 ;; Movement.
 (global-set-key (kbd "ESC <up>") 'backward-paragraph)
 (global-set-key (kbd "ESC <down>") 'forward-paragraph)
-(global-set-key (kbd "<s-return>") 'goto-line)
 
 ;; File handling.
 (global-set-key (kbd "<f2>") (lambda () (interactive)
