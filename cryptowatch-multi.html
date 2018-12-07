@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="description" content="2x2 Bitcoin Chart Layout" />
+    <!-- Taken from ircaddict.net: "2x2 cryptowat.ch by @moaa (thanks hypron)" -->
+    <title>Quanto.ga: multichart view</title>
+    <style>
+      html { height: 100%; }
+      body { height: 100%; margin:0px; padding:0px; }
+      .table { display: table; width: 100%; height: 100%; }
+      .row { display: table-row; width: 100%; height: 33%; }
+      .cell { display: table-cell; overflow: hidden; }
+      .cell iframe { margin-top: 0px; height:105%; width:100%; border: 0px; }
+    </style>
+  </head>
+
+  <body>
+    <div class="table">
+      <!--
+          <div class="row">
+            <div class="cell"><iframe src="https://cryptowat.ch/markets/bitfinex/eth/usd/3m"></iframe></div>
+            <div class="cell"><iframe src="https://cryptowat.ch/markets/bitfinex/xrp/usd/3m"></iframe></div>
+          </div>
+          -->
+          <div class="row">
+            <div class="cell"><iframe src="https://cryptowat.ch/markets/bitfinex/btc/usd/3m"></iframe></div>
+            <div class="cell"><iframe src="https://cryptowat.ch/markets/coinbase-pro/btc/usd/3m"></iframe></div>
+          </div>
+          <div class="row">
+            <div class="cell"><iframe src="https://cryptowat.ch/futures/bitmex/btc/usd/perpetual/3m"></iframe></div>
+            <div class="cell"><iframe src="https://cryptowat.ch/markets/bitflyer/btc/jpy/3m"></iframe></div>
+          </div>
+    </div>
+  </body>
+</html>
