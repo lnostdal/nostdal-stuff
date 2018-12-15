@@ -49,7 +49,6 @@
 
 ;;(require 'company-mode)
 (global-company-mode)
-(global-hl-todo-mode)
 
 
 
