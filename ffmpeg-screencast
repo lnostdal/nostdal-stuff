@@ -1,0 +1,17 @@
+#!/bin/bash
+
+# This will generate very well compressed VP9+Opus output suitable for screencasts.
+# Params based on: https://developers.google.com/media/vp9/settings/vod/
+
+audioformat=$(ffprobe -loglevel error -select_streams a:0 -show_entries stream=codec_name -of default=nw=1:nk=1 "$1")
+
+nice ffmpeg -i "$1" -c:v libvpx-vp9 -pass 1 -crf 40 -b:v 0 -deadline best -an -f webm /dev/null
+
+if [ "$audioformat" = "opus" ]; then
+    nice ffmpeg -i "$1" -c:v libvpx-vp9 -pass 2 -crf 40 -b:v 0 -deadline best -tile-columns 2 -threads 8 -c:a copy "$2"
+else
+    nice ffmpeg -i "$1" -c:v libvpx-vp9 -pass 2 -crf 40 -b:v 0 -deadline best -tile-columns 2 -threads 8 -c:a libopus -b:a 128k -frame_duration 60 "$2"
+fi
+
+
+

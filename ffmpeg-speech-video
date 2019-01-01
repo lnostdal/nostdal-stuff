@@ -1,7 +1,10 @@
 #!/bin/bash
 
-## This will generate a very well compressed VP9 video with Opus mono audio suitable for speech.
+# This will generate very well compressed VP9 video with Opus mono audio suitable for speech.
+# Params based on: https://developers.google.com/media/vp9/settings/vod/
 
-ffmpeg -i $1 -c:v libvpx-vp9 -pass 1 -crf 50 -b:v 0 -threads 8 -speed 4 -tile-columns 6 -frame-parallel 1 -an -f webm /dev/null
+nice ffmpeg -i "$1" -c:v libvpx-vp9 -pass 1 -crf 50 -b:v 0 -deadline best -tile-columns 2 -threads 8 -an -f webm /dev/null
 
-ffmpeg -i $1 -c:v libvpx-vp9 -pass 2 -crf 50 -b:v 0 -threads 8 -speed 1 -tile-columns 6 -frame-parallel 1 -auto-alt-ref 1 -lag-in-frames 25 -c:a libopus -b:a 64k -ac 1 $2
+nice ffmpeg -i "$1" -c:v libvpx-vp9 -pass 2 -crf 50 -b:v 0 -deadline best -tile-columns 2 -threads 8 -c:a libopus -b:a 32k -frame_duration 60 -ac 1 "$2"
+
+

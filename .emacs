@@ -106,12 +106,12 @@
 
 
 
-;;; Keyboard shortcuts: general
+;;; Keyboard shortcuts: general  [ s = windows key, M = Alt ]
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; Fast buffer switching (s == Windows key).
-(global-set-key (kbd "<s-right>") 'next-buffer)
-(global-set-key (kbd "<s-left>") 'previous-buffer)
+;; Fast buffer switching
+(global-set-key (kbd "<M-next>") 'next-buffer)
+(global-set-key (kbd "<M-prior>") 'previous-buffer)
 
 (global-set-key (kbd "<backtab>") 'other-window) ;; Shift-Tab
 
@@ -145,11 +145,13 @@
 (global-set-key (kbd "M-s-<up>") 'shrink-window) (global-set-key (kbd "<f5>") 'shrink-window)
 (global-set-key (kbd "M-s-<down>") 'enlarge-window) (global-set-key (kbd "<f6>") 'enlarge-window)
 
-;; Scroll buffer line by line without moving cursor (s == Windows key).
+;; Scroll buffer line by line without moving cursor
 (global-set-key (kbd "<s-up>")    'scroll-down-line)
+(global-set-key (kbd "<M-up>")    'scroll-down-line)
 (global-set-key (kbd "<s-prior>") 'scroll-down-line)
 (global-set-key (kbd "<s-next>")  'scroll-up-line)
 (global-set-key (kbd "<s-down>")  'scroll-up-line)
+(global-set-key (kbd "<M-down>")  'scroll-up-line)
 
 (global-set-key (kbd "<pause>") 'magit-status)
 
@@ -227,12 +229,11 @@
 
 (define-key clojure-mode-map (kbd "<up>") 'previous-logical-line)
 (define-key clojure-mode-map (kbd "<down>") 'next-logical-line)
-(define-key clojure-mode-map (kbd "M-<up>") 'backward-paragraph)
-(define-key clojure-mode-map (kbd "M-<down>") 'forward-paragraph)
-(define-key clojure-mode-map (kbd "C-<up>") 'clojure-backward-logical-sexp)
-(define-key clojure-mode-map (kbd "C-<left>") 'clojure-backward-logical-sexp)
-(define-key clojure-mode-map (kbd "C-<right>") 'clojure-forward-logical-sexp)
-(define-key clojure-mode-map (kbd "C-<down>") 'clojure-forward-logical-sexp)
+
+(define-key clojure-mode-map (kbd "M-<up>") 'up-list)
+(define-key clojure-mode-map (kbd "M-<down>") 'down-list)
+(define-key clojure-mode-map (kbd "M-<left>") 'clojure-backward-logical-sexp)
+(define-key clojure-mode-map (kbd "M-<right>") 'clojure-forward-logical-sexp)
 
 (define-key clojure-mode-map (kbd "<tab>") 'company-indent-or-complete-common)
 (define-key cider-repl-mode-map (kbd "<tab>") 'company-indent-or-complete-common)
