@@ -29,6 +29,10 @@
  '(org-export-with-sub-superscripts nil)
  '(package-selected-packages
    '(color-theme color-theme-sanityinc-solarized color-theme-sanityinc-tomorrow cider 0blayout magit-todos jdee smartparens ivy parinfer highlight-thing elgrep magit python-mode php-mode web-mode cargo rust-mode rainbow-delimiters nginx-mode cider-decompile clojure-mode js2-mode highlight-parentheses haskell-mode company))
+ '(web-mode-code-indent-offset 2)
+ '(web-mode-css-indent-offset 2)
+ '(web-mode-markup-indent-offset 2)
+ '(web-mode-sql-indent-offset 2)
  '(word-wrap t))
 
 
@@ -160,6 +164,7 @@
 (require 'cider)
 (require 'clojure-mode)
 (require 'cider-mode)
+(setq cider-repl-display-help-banner nil)
 (setq cider-stacktrace-show-only-project t)
 (setq cider-pprint-fn 'puget) ;; 'fipp, 'puget or 'pprint
 (setq cider-repl-use-pretty-printing t)
