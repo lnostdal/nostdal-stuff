@@ -146,12 +146,8 @@
 (global-set-key (kbd "M-s-<down>") 'enlarge-window) (global-set-key (kbd "<f6>") 'enlarge-window)
 
 ;; Scroll buffer line by line without moving cursor
-(global-set-key (kbd "<s-up>")    'scroll-down-line)
-(global-set-key (kbd "<M-up>")    'scroll-down-line)
-(global-set-key (kbd "<s-prior>") 'scroll-down-line)
-(global-set-key (kbd "<s-next>")  'scroll-up-line)
-(global-set-key (kbd "<s-down>")  'scroll-up-line)
-(global-set-key (kbd "<M-down>")  'scroll-up-line)
+(global-set-key (kbd "<C-M-up>")    'scroll-down-line)
+(global-set-key (kbd "<C-M-down>")  'scroll-up-line)
 
 (global-set-key (kbd "<pause>") 'magit-status)
 
@@ -163,7 +159,7 @@
 (require 'clojure-mode)
 (require 'cider-mode)
 (setq cider-stacktrace-show-only-project t)
-(setq cider-pprint-fn 'puget) ;; 'fipp, 'puget or 'pprint
+(setq cider-pprint-fn 'puget) ;; 'fipp, 'puget, 'pprint or 'zprint
 (setq cider-repl-use-pretty-printing t)
 (setq cider-repl-popup-stacktraces t)
 (setq cider-auto-select-error-buffer t)
@@ -259,6 +255,7 @@
 (put 'add-rest-head 'clojure-indent-function 1)
 (put 'iter 'clojure-indent-function 1)
 (put 'doiter 'clojure-indent-function 1)
+(put 'seque 'clojure-indent-function 1)
 
 
 
