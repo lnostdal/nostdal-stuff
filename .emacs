@@ -4,15 +4,12 @@
 ;;; Emacs package manager
 ;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;;(require 'package)
 (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
                          ;;("marmalade" . "https://marmalade-repo.org/packages/")
                          ("melpa" . "https://melpa.org/packages/")
                          ("melpa-stable" . "https://stable.melpa.org/packages/")))
 
 ;;(add-to-list 'package-pinned-packages '(cider . "melpa-stable") t)
-
-
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -28,7 +25,7 @@
  '(haskell-process-suggest-remove-import-lines t)
  '(org-export-with-sub-superscripts nil)
  '(package-selected-packages
-   '(color-theme color-theme-sanityinc-solarized color-theme-sanityinc-tomorrow cider 0blayout magit-todos jdee smartparens ivy parinfer highlight-thing elgrep magit python-mode php-mode web-mode cargo rust-mode rainbow-delimiters nginx-mode cider-decompile clojure-mode js2-mode highlight-parentheses haskell-mode company))
+   '(symon beacon color-identifiers-mode color-theme color-theme-sanityinc-solarized color-theme-sanityinc-tomorrow cider 0blayout magit-todos jdee smartparens ivy parinfer highlight-thing elgrep magit python-mode php-mode web-mode cargo rust-mode rainbow-delimiters nginx-mode cider-decompile clojure-mode js2-mode highlight-parentheses haskell-mode company))
  '(web-mode-code-indent-offset 2)
  '(web-mode-css-indent-offset 2)
  '(web-mode-markup-indent-offset 2)
@@ -45,14 +42,10 @@
 (if window-system (tool-bar-mode 0))
 (if window-system (scroll-bar-mode 0))
 (if window-system (toggle-frame-fullscreen))
-;;(if window-system (set-background-color "black"))
-;;(if window-system (set-foreground-color "white"))
-;;(add-to-list 'default-frame-alist '(foreground-color . "white"))
-;;(add-to-list 'default-frame-alist '(background-color . "black"))
 
-
-;;(require 'company-mode)
 (global-company-mode)
+(add-hook 'after-init-hook 'global-color-identifiers-mode)
+(add-hook 'after-init-hook 'beacon-mode)
 
 
 
@@ -153,7 +146,8 @@
 (global-set-key (kbd "<C-M-up>")    'scroll-down-line)
 (global-set-key (kbd "<C-M-down>")  'scroll-up-line)
 
-(global-set-key (kbd "<pause>") 'magit-status)
+(global-set-key (kbd "<M-pause>") 'magit-status)
+(global-set-key (kbd "<pause>") 'magit-diff-buffer-file)
 
 
 ;;; Clojure
@@ -165,6 +159,11 @@
 (setq cider-repl-display-help-banner nil)
 (setq cider-stacktrace-show-only-project t)
 (setq cider-pprint-fn 'puget) ;; 'fipp, 'puget, 'pprint or 'zprint
+;; For zprint:
+;;(setq cider-pprint-options '(dict "max-length" 100 "max-depth" 6 "width" 270))
+;; For puget:
+(setq cider-pprint-options '(dict "print-length" 100 "print-level" 6 "width" 270))
+
 (setq cider-repl-use-pretty-printing t)
 (setq cider-repl-popup-stacktraces t)
 (setq cider-auto-select-error-buffer t)
@@ -182,7 +181,12 @@
 
 (add-hook 'cider-mode-hook 'highlight-thing-mode)
 (add-hook 'clojure-mode-hook 'highlight-thing-mode)
-;;(add-hook 'cider-repl-mode-hook 'highlight-thing-mode) ;; I often print a ton of output in the REPL...
+(add-hook 'cider-repl-mode-hook 'highlight-thing-mode) ;; I often print a ton of output in the REPL...
+(setq highlight-thing-limit-to-region-in-large-buffers-p nil
+      highlight-thing-narrow-region-lines 111
+      highlight-thing-large-buffer-limit 5000
+      highlight-thing-case-sensitive-p t
+      highlight-thing-delay-seconds 0.125)
 
 (add-hook 'clojure-mode-hook 'goto-address-mode)
 
@@ -300,9 +304,14 @@
 ;;(define-key haskell-cabal-mode-map (kbd "C-c C-k") 'haskell-interactive-mode-clear)
 ;;(define-key haskell-cabal-mode-map (kbd "C-c C-c") 'haskell-process-cabal-build)
 ;;(define-key haskell-cabal-mode-map (kbd "C-c c") 'haskell-process-cabal)
+
+
+
+
+
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(hi-yellow ((t (:underline "dim gray" :weight extra-bold)))))

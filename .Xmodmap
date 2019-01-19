@@ -1,8 +1,16 @@
-!!! nostdal.org: Modifications to (Norwegian) Dvorak layout
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!! Modifications to (Norwegian) Dvorak layout
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 clear Lock
 
+
+! Additional fixes for BG layout emergency keyboard. :P [TODO: REMOVE THIS LATER]
+!keycode 0x23 = apostrophe
+! Right shift
+keycode 0x3E = parenright bracketright braceright NoSymbol braceright braceright braceright
+keycode 0x30 = minus underscore NoSymbol NoSymbol asciicircum
+keycode 0x23 = asciicircum asciitilde
+keycode 0x33 = oslash
 
 
 ! Shift + 8 and 9 give < and >.
@@ -10,12 +18,10 @@ keycode 0x11 =	8 less bracketleft NoSymbol bracketleft
 keycode 0x12 =	9 greater bracketright NoSymbol bracketright
 
 
-
 ! Caps-Lock and ' give ( and ).
 ! Shift+Capslock and Shift+' give [ and ].
-keycode 0x42 =  parenleft bracketleft braceleft Greek_lambda braceleft braceleft braceleft
-keycode 0x33 =  parenright bracketright braceright NoSymbol braceright braceright braceright
-
+keycode 0x42 = parenleft bracketleft braceleft Greek_lambda braceleft braceleft braceleft
+!keycode 0x33 = parenright bracketright braceright NoSymbol braceright braceright braceright
 
 
 ! Alt-GR+I give {
@@ -30,13 +36,13 @@ keycode 0x2e = n N NoSymbol NoSymbol 0x0bb
 keycode 0x2f = s S NoSymbol NoSymbol 0xaaa
 
 
-
 ! Various arrow symbols; I think these only work on Numpads..
-keycode 0x50 =  NoSymbol uparrow
-keycode 0x51 =  NoSymbol uprightcorner
-keycode 0x55 =  NoSymbol rightarrow
-keycode 0x53 =  NoSymbol leftarrow
-keycode 0x58 =  NoSymbol downarrow
+!keycode 0x50 =  NoSymbol uparrow
+!keycode 0x51 =  NoSymbol uprightcorner
+!keycode 0x55 =  NoSymbol rightarrow
+!keycode 0x53 =  NoSymbol leftarrow
+!keycode 0x58 =  NoSymbol downarrow
+
 
 ! ↺
-keycode 0x54 = NoSymbol U21BA
+!keycode 0x54 = NoSymbol U21BA
