@@ -56,7 +56,7 @@
 
 (if (display-graphic-p) ;; TODO: Ho-hum, what's the difference between this and `window-system` above?
     (progn
-      (set-frame-font "DejaVu Sans Mono-9")))
+      (set-frame-font "DejaVu Sans Mono-9" nil t)))
 
 
 
