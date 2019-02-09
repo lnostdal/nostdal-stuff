@@ -26,7 +26,7 @@
  '(org-export-with-sub-superscripts nil)
  '(org-startup-truncated nil)
  '(package-selected-packages
-   '(symon beacon color-identifiers-mode color-theme color-theme-sanityinc-solarized color-theme-sanityinc-tomorrow cider 0blayout magit-todos jdee smartparens ivy parinfer highlight-thing elgrep magit python-mode php-mode web-mode cargo rust-mode rainbow-delimiters nginx-mode cider-decompile clojure-mode js2-mode highlight-parentheses haskell-mode company))
+   '(htmlize symon beacon color-identifiers-mode color-theme color-theme-sanityinc-solarized color-theme-sanityinc-tomorrow cider 0blayout magit-todos jdee smartparens ivy parinfer highlight-thing elgrep magit python-mode php-mode web-mode cargo rust-mode rainbow-delimiters nginx-mode cider-decompile clojure-mode js2-mode highlight-parentheses haskell-mode company))
  '(web-mode-code-indent-offset 2)
  '(web-mode-css-indent-offset 2)
  '(web-mode-markup-indent-offset 2)
@@ -67,6 +67,7 @@
 (show-paren-mode 1) ;; Highlight matching parens.
 (require 'rainbow-delimiters)
 (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
+(add-hook 'prog-mode-hook 'flyspell-prog-mode)
 (set-face-attribute 'rainbow-delimiters-unmatched-face nil
                     :foreground "white"
                     :background "red"
@@ -115,6 +116,7 @@
 (global-set-key (kbd "<M-prior>") 'previous-buffer)
 
 (global-set-key (kbd "<backtab>") 'other-window) ;; Shift-Tab
+(global-set-key (kbd "<C-S-iso-lefttab>") 'other-window) ;; Ctrl-Shift-Tab
 
 ;; Movement.
 (global-set-key (kbd "ESC <up>") 'backward-paragraph)
@@ -162,11 +164,11 @@
 (require 'cider-mode)
 (setq cider-repl-display-help-banner nil)
 (setq cider-stacktrace-show-only-project t)
-(setq cider-pprint-fn 'puget) ;; 'fipp, 'puget, 'pprint or 'zprint
+(setq cider-pprint-fn 'zprint) ;; 'fipp, 'puget, 'pprint or 'zprint
 ;; For zprint:
-;;(setq cider-pprint-options '(dict "max-length" 100 "max-depth" 6 "width" 270))
+(setq cider-pprint-options '(dict "max-length" 50 "max-depth" 6 "width" 130))
 ;; For puget:
-(setq cider-pprint-options '(dict "print-length" 100 "print-level" 6 "width" 270))
+;;(setq cider-pprint-options '(dict "print-length" 50 "print-level" 6 "width" 270))
 
 (setq cider-repl-use-pretty-printing t)
 (setq cider-repl-popup-stacktraces t)
@@ -266,9 +268,11 @@
 (put 'js-run 'clojure-indent-function 1)
 (put 'add-rest-initial 'clojure-indent-function 1)
 (put 'add-rest-head 'clojure-indent-function 1)
-(put 'iter 'clojure-indent-function 1)
+(put 'jiter 'clojure-indent-function 1)
+(put 'vec-iter 'clojure-indent-function 1)
 (put 'doiter 'clojure-indent-function 1)
 (put 'seque 'clojure-indent-function 1)
+(put 'when-cdebug 'clojure-indent-function 1)
 
 
 
