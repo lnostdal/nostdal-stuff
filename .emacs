@@ -84,6 +84,9 @@
 (put 'downcase-region 'disabled nil)
 (put 'upcase-region 'disabled nil)
 
+(setq revert-without-query '("png$")) ;; Makes auto-revert-mode on image files work way better. Tho it still thinks I've been 'editing' the image buffer sometimes. x)
+(setq auto-revert-verbose nil) ;; This is really annoying when auto reverting plots, so we disable it.
+
 
 
 ;; Tramp stuff
