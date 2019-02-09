@@ -182,12 +182,9 @@
 
 (setq cider-auto-jump-to-error 'errors-only)
 
-(add-hook 'cider-mode-hook #'eldoc-mode)
-(add-hook 'cider-repl-mode-hook #'eldoc-mode)
-
 (add-hook 'cider-mode-hook 'highlight-thing-mode)
 (add-hook 'clojure-mode-hook 'highlight-thing-mode)
-(add-hook 'cider-repl-mode-hook 'highlight-thing-mode) ;; I often print a ton of output in the REPL...
+;;(add-hook 'cider-repl-mode-hook 'highlight-thing-mode) ;; I often print a ton of output in the REPL...
 (setq highlight-thing-limit-to-region-in-large-buffers-p nil
       highlight-thing-narrow-region-lines 111
       highlight-thing-large-buffer-limit 5000
