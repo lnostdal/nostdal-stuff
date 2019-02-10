@@ -25,6 +25,7 @@
  '(haskell-process-auto-import-loaded-modules t)
  '(haskell-process-log t)
  '(haskell-process-suggest-remove-import-lines t)
+ '(make-backup-files nil)
  '(org-export-with-sub-superscripts nil)
  '(org-startup-truncated nil)
  '(package-selected-packages
