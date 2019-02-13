@@ -13,6 +13,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(auto-revert-check-vc-info t)
  '(auto-revert-interval 2)
  '(auto-revert-remote-files t)
  '(auto-revert-use-notify t)
@@ -27,8 +28,9 @@
  '(haskell-process-suggest-remove-import-lines t)
  '(make-backup-files nil)
  '(org-export-with-sub-superscripts nil)
+ '(org-startup-truncated nil)
  '(package-selected-packages
-   '(hl-todo symon beacon color-identifiers-mode color-theme color-theme-sanityinc-solarized color-theme-sanityinc-tomorrow cider 0blayout magit-todos jdee smartparens ivy parinfer highlight-thing elgrep magit python-mode php-mode web-mode cargo rust-mode rainbow-delimiters nginx-mode cider-decompile clojure-mode js2-mode highlight-parentheses haskell-mode company))
+   '(cider htmlize symon beacon color-identifiers-mode color-theme color-theme-sanityinc-solarized color-theme-sanityinc-tomorrow 0blayout magit-todos jdee smartparens ivy parinfer highlight-thing elgrep magit python-mode php-mode web-mode cargo rust-mode rainbow-delimiters nginx-mode cider-decompile clojure-mode js2-mode highlight-parentheses haskell-mode company))
  '(web-mode-code-indent-offset 2)
  '(web-mode-css-indent-offset 2)
  '(web-mode-markup-indent-offset 2)
@@ -166,14 +168,27 @@
 (require 'clojure-mode)
 (require 'cider-mode)
 (setq cider-repl-display-help-banner nil)
-(setq cider-stacktrace-show-only-project t)
-(setq cider-pprint-fn 'zprint) ;; 'fipp, 'puget, 'pprint or 'zprint
-;; For zprint:
-(setq cider-pprint-options '(dict "max-length" 50 "max-depth" 6 "width" 130))
-;; For puget:
-;;(setq cider-pprint-options '(dict "print-length" 50 "print-level" 6 "width" 270))
 
-(setq cider-repl-use-pretty-printing t)
+
+;;(setq cider-pprint-fn 'zprint) ;; 'fipp, 'puget, 'pprint or 'zprint
+;; For zprint:
+;;(setq cider-pprint-options '(dict "max-length" 50 "max-depth" 6 "width" 130))
+;; For puget:
+;;(setq cider-print-options '(dict "print-length" 50 "print-level" 6 "width" 130))
+
+;; TODO: Something like this is needed later when I upgrade to Cider 0.21 and nREPL 0.6 ....sigh:
+
+(add-hook 'cider-repl-mode-hook '(lambda () (setq scroll-conservatively 101)))
+;;(setq fill-column 130)
+;;(setq cider-print-fn nil) ;; Let nrepl.middleware.print/*print-fn* decide! TODO: Well, this shit doesn't work at all.
+;;(setq cider-print-fn 'zprint) ;; 'fipp, 'puget, 'pprint or 'zprint
+
+;; For zprint:
+;;(setq cider-print-options '(dict "max-length" 50 "max-depth" 6 "width" 130))
+;; For puget:
+;;(setq cider-print-options '(dict "print-length" 50 "print-level" 6 "width" 130))
+
+
 (setq cider-repl-popup-stacktraces t)
 (setq cider-auto-select-error-buffer t)
 (setq cider-repl-wrap-history nil)
