@@ -169,23 +169,19 @@
 (setq cider-repl-display-help-banner nil)
 
 
-;;(setq cider-pprint-fn 'zprint) ;; 'fipp, 'puget, 'pprint or 'zprint
-;; For zprint:
-;;(setq cider-pprint-options '(dict "max-length" 50 "max-depth" 6 "width" 130))
-;; For puget:
-;;(setq cider-print-options '(dict "print-length" 50 "print-level" 6 "width" 130))
-
-;; TODO: Something like this is needed later when I upgrade to Cider 0.21 and nREPL 0.6 ....sigh:
-
-(add-hook 'cider-repl-mode-hook '(lambda () (setq scroll-conservatively 101)))
-;;(setq fill-column 130)
-;;(setq cider-print-fn nil) ;; Let nrepl.middleware.print/*print-fn* decide! TODO: Well, this shit doesn't work at all.
-;;(setq cider-print-fn 'zprint) ;; 'fipp, 'puget, 'pprint or 'zprint
-
+;; REPL pretty printing. NOTE: Don't fiddle with this bullshit; it'll break and you'll waste half your day. Use debugging wrappers that call zprint/puget directly instead!
+(add-hook 'cider-repl-mode-hook 
+          '(lambda ()
+             ;;(setq fill-column 130) ;; ???
+             (setq scroll-conservatively 101))) ;; Without this, the REPL looks like and behaves like crap.
+;;(setq cider-print-fn nil) ;; Let nrepl.middleware.print/*print-fn* decide! NOTE: Doesn't actually work!
+(setq cider-print-fn 'pprint) ;; 'fipp, 'puget, 'pprint or 'zprint
+;; For clojure.pprint:
+;;(setq cider-print-options '(dict "length" 50 "level" 6 "right-margin" 130))
 ;; For zprint:
 ;;(setq cider-print-options '(dict "max-length" 50 "max-depth" 6 "width" 130))
 ;; For puget:
-;;(setq cider-print-options '(dict "print-length" 50 "print-level" 6 "width" 130))
+;;(setq cider-print-options '(dict "print-length" 50 "print-level" 6 "width" 130)) ;; NOTE: Doesn't actually work!
 
 
 (setq cider-repl-popup-stacktraces t)
@@ -193,11 +189,9 @@
 (setq cider-repl-wrap-history nil)
 (setq cider-repl-history-file "~/.emacs.d/cider-repl-history.dat")
 (setq cider-prompt-for-symbol nil)
-(setq cider-overlays-use-font-lock t)
-;;(setq cider-repl-pop-to-buffer-on-connect t)
 (setq cider-repl-display-in-current-window t)
-
 (setq cider-auto-jump-to-error 'errors-only)
+
 
 (add-hook 'cider-mode-hook 'highlight-thing-mode)
 (add-hook 'clojure-mode-hook 'highlight-thing-mode)
