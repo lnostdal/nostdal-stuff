@@ -7,6 +7,9 @@
                          ("melpa-stable" . "https://stable.melpa.org/packages/")))
 ;;(add-to-list 'package-pinned-packages '(cider . "melpa-stable") t)
 
+(package-initialize) ;; Needed for Emacs < 27.
+
+
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -170,7 +173,7 @@
 
 
 ;; REPL pretty printing. NOTE: Don't fiddle with this bullshit; it'll break and you'll waste half your day. Use debugging wrappers that call zprint/puget directly instead!
-(add-hook 'cider-repl-mode-hook 
+(add-hook 'cider-repl-mode-hook
           '(lambda ()
              ;;(setq fill-column 130) ;; ???
              (setq scroll-conservatively 101))) ;; Without this, the REPL looks like and behaves like crap.
