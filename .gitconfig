@@ -1,9 +1,20 @@
 [user]
-	name = Lars Rune Nøstdal
-	email = larsnostdal@gmail.com
+name = Lars Rune Nøstdal
+email = larsnostdal@gmail.com
+
 [color]
-	ui = true
+diff = auto
+status = auto
+branch = auto
+interactive = auto
+ui = true
+pager = true
+decorate = always
+grep = always
+showbranch = always
+
 [push]
-	default = simple
+default = simple
+
 [cola]
-	spellcheck = false
+spellcheck = false
