@@ -34,7 +34,7 @@
  '(org-startup-truncated nil)
  '(package-selected-packages
    (quote
-    (hl-todo counsel flycheck cider htmlize symon beacon color-identifiers-mode color-theme color-theme-sanityinc-solarized color-theme-sanityinc-tomorrow 0blayout magit-todos jdee smartparens ivy parinfer highlight-thing elgrep magit python-mode php-mode web-mode cargo rust-mode rainbow-delimiters nginx-mode cider-decompile clojure-mode js2-mode highlight-parentheses haskell-mode company)))
+    (hl-todo counsel flycheck cider docker dockerfile-mode htmlize symon beacon color-identifiers-mode color-theme color-theme-sanityinc-solarized color-theme-sanityinc-tomorrow 0blayout magit-todos jdee smartparens ivy parinfer highlight-thing elgrep magit python-mode php-mode web-mode cargo rust-mode rainbow-delimiters nginx-mode cider-decompile clojure-mode js2-mode highlight-parentheses haskell-mode company)))
  '(web-mode-code-indent-offset 2)
  '(web-mode-css-indent-offset 2)
  '(web-mode-markup-indent-offset 2)
