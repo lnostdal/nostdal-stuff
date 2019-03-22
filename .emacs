@@ -51,7 +51,7 @@
 (if window-system (toggle-frame-fullscreen))
 
 (global-company-mode)
-(add-hook 'after-init-hook 'global-color-identifiers-mode)
+(if window-system (add-hook 'after-init-hook 'global-color-identifiers-mode))
 (add-hook 'after-init-hook 'beacon-mode)
 
 
