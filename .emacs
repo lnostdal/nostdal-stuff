@@ -171,8 +171,7 @@
 (global-set-key (kbd "<C-pause>") 'magit-checkout)
 
 ;; Grepping etc.
-(global-set-key [M-f1] (quote counsel-git-grep))
-
+(global-set-key [M-f1] (quote counsel-git-grep)) (global-set-key [27 f1] (quote counsel-git-grep))
 
 
 
