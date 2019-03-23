@@ -170,6 +170,10 @@
 (global-set-key (kbd "<pause>") 'magit-diff-buffer-file)
 (global-set-key (kbd "<C-pause>") 'magit-checkout)
 
+;; Grepping etc.
+(global-set-key [M-f1] (quote counsel-git-grep))
+
+
 
 
 ;;; Clojure
