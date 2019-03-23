@@ -34,7 +34,7 @@
  '(org-startup-truncated nil)
  '(package-selected-packages
    (quote
-    (hl-todo counsel flycheck cider docker dockerfile-mode htmlize symon beacon color-identifiers-mode color-theme color-theme-sanityinc-solarized color-theme-sanityinc-tomorrow 0blayout magit-todos jdee smartparens ivy parinfer highlight-thing elgrep magit python-mode php-mode web-mode cargo rust-mode rainbow-delimiters nginx-mode cider-decompile clojure-mode js2-mode highlight-parentheses haskell-mode company)))
+    (counsel-projectile projectile counsel clj-refactor cider docker dockerfile-mode htmlize symon beacon color-identifiers-mode color-theme color-theme-sanityinc-solarized color-theme-sanityinc-tomorrow 0blayout magit-todos jdee smartparens ivy parinfer highlight-thing elgrep magit python-mode php-mode web-mode cargo rust-mode rainbow-delimiters nginx-mode cider-decompile clojure-mode js2-mode highlight-parentheses haskell-mode company)))
  '(web-mode-code-indent-offset 2)
  '(web-mode-css-indent-offset 2)
  '(web-mode-markup-indent-offset 2)
@@ -118,6 +118,11 @@
 ;;; Keyboard shortcuts: general  [ s = windows key, M = Alt ]
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+;; Projectile mode
+(projectile-mode +1)
+(define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
+(define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+
 ;; Fast buffer switching
 (global-set-key (kbd "<M-next>") 'next-buffer)
 (global-set-key (kbd "<M-prior>") 'previous-buffer)
@@ -131,12 +136,13 @@
 (global-set-key (kbd "ESC <down>") 'forward-paragraph)
 
 ;; File handling.
+(global-set-key (kbd "<f1>") 'find-file)
 (global-set-key (kbd "<f2>") (lambda () (interactive)
                                (save-excursion
                                  (mark-whole-buffer)
                                  (indent-region (region-beginning) (region-end)))
                                (save-some-buffers 1)))
-(global-set-key (kbd "<f3>") 'find-file)
+(global-set-key (kbd "<f3>") 'projectile-find-file)
 (global-set-key (kbd "<f4>") 'switch-to-buffer)
 
 ;; Split windows (s == Windows key).
