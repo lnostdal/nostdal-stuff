@@ -72,6 +72,7 @@
 ;;;;;;;;;;;;;;;;;;;;
 
 ;;(global-highlight-parentheses-mode) ;; Colorize nested parens.
+
 (show-paren-mode 1) ;; Highlight matching parens.
 (require 'rainbow-delimiters)
 (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
@@ -88,21 +89,21 @@
 (add-hook 'before-save-hook 'whitespace-cleanup) ;; No extra whitespace and no tab characters.
 (setq-default indent-tabs-mode nil)
 
-
 (put 'downcase-region 'disabled nil)
 (put 'upcase-region 'disabled nil)
 
-
 (setq revert-without-query '("png$")) ;; Makes auto-revert-mode on image files work way better. Tho it still thinks I've been 'editing' the image buffer sometimes. x)
 
+(ivy-mode 1)
+;;(setq enable-recursive-minibuffers nil)
+(setq ivy-use-virtual-buffers t)
+(setq ivy-count-format "(%d/%d) ")
 
 
 ;; Tramp stuff
 (require 'tramp)
 (add-to-list 'tramp-remote-path 'tramp-own-remote-path)
 (setq nrepl-use-ssh-fallback-for-remote-hosts t)
-
-
 
 
 ;; Desktop mode stuff
@@ -117,6 +118,9 @@
 
 ;;; Keyboard shortcuts: general  [ s = windows key, M = Alt ]
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(global-set-key "\370" (quote counsel-M-x))
+(global-set-key "\C-s" 'swiper) (global-set-key "\C-r" 'swiper) ;; Better than standard isearch.
 
 ;; Projectile mode
 (projectile-mode +1)
@@ -136,14 +140,14 @@
 (global-set-key (kbd "ESC <down>") 'forward-paragraph)
 
 ;; File handling.
-(global-set-key (kbd "<f1>") 'find-file)
+(global-set-key (kbd "<f1>") 'counsel-find-file)
 (global-set-key (kbd "<f2>") (lambda () (interactive)
                                (save-excursion
                                  (mark-whole-buffer)
                                  (indent-region (region-beginning) (region-end)))
                                (save-some-buffers 1)))
 (global-set-key (kbd "<f3>") 'projectile-find-file)
-(global-set-key (kbd "<f4>") 'switch-to-buffer)
+(global-set-key (kbd "<f4>") 'counsel-switch-buffer)
 
 ;; Split windows (s == Windows key).
 ;;(global-set-key (kbd "s-<up>") 'split-window-vertically)
