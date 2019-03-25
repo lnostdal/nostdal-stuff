@@ -34,7 +34,7 @@
  '(org-startup-truncated nil)
  '(package-selected-packages
    (quote
-    (counsel-projectile projectile counsel clj-refactor cider docker dockerfile-mode htmlize symon beacon color-identifiers-mode color-theme color-theme-sanityinc-solarized color-theme-sanityinc-tomorrow 0blayout magit-todos jdee smartparens ivy parinfer highlight-thing elgrep magit python-mode php-mode web-mode cargo rust-mode rainbow-delimiters nginx-mode cider-decompile clojure-mode js2-mode highlight-parentheses haskell-mode company)))
+    (hl-todo counsel-projectile projectile counsel clj-refactor cider docker dockerfile-mode htmlize symon beacon color-identifiers-mode color-theme color-theme-sanityinc-solarized color-theme-sanityinc-tomorrow 0blayout magit-todos jdee smartparens ivy parinfer highlight-thing elgrep magit python-mode php-mode web-mode cargo rust-mode rainbow-delimiters nginx-mode cider-decompile clojure-mode js2-mode highlight-parentheses haskell-mode company)))
  '(web-mode-code-indent-offset 2)
  '(web-mode-css-indent-offset 2)
  '(web-mode-markup-indent-offset 2)
@@ -170,9 +170,9 @@
 (global-set-key (kbd "<C-M-up>")    'scroll-down-line)
 (global-set-key (kbd "<C-M-down>")  'scroll-up-line)
 
-(global-set-key (kbd "<M-pause>") 'magit-status)
-(global-set-key (kbd "<pause>") 'magit-diff-buffer-file)
-(global-set-key (kbd "<C-pause>") 'magit-checkout)
+(global-set-key (kbd "<pause>") 'magit-status) (global-set-key [f10] (quote magit-status))
+(global-set-key (kbd "<M-pause>") 'magit-diff-buffer-file) (global-set-key [27 f10] (quote magit-diff-buffer-file))
+(global-set-key (kbd "<C-pause>") 'magit-checkout) (global-set-key [C-f10] (quote magit-checkout))
 
 ;; Grepping etc.
 (global-set-key [M-f1] (quote counsel-git-grep)) (global-set-key [27 f1] (quote counsel-git-grep))
