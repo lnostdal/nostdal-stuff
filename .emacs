@@ -56,6 +56,8 @@
 (if window-system (add-hook 'after-init-hook 'global-color-identifiers-mode))
 (add-hook 'after-init-hook 'beacon-mode)
 
+(global-hl-todo-mode 1)
+
 
 
 ;; Make sure there is enough room for a 2 column frame setup where each frame is 130 characters wide:
@@ -251,6 +253,7 @@
                                               (indent-region (region-beginning) (region-end))
                                               (whitespace-cleanup-region (region-beginning) (region-end)))
                                             (cider-eval-defun-at-point)))
+
 (define-key clojure-mode-map (kbd "C-c C-c") (lambda () (interactive)
                                                (save-excursion
                                                  (mark-defun)
