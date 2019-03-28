@@ -268,10 +268,10 @@
 (define-key clojure-mode-map (kbd "<up>") 'previous-logical-line)
 (define-key clojure-mode-map (kbd "<down>") 'next-logical-line)
 
-(define-key clojure-mode-map (kbd "M-<up>") 'up-list)
-(define-key clojure-mode-map (kbd "M-<down>") 'down-list)
-(define-key clojure-mode-map (kbd "M-<left>") 'clojure-backward-logical-sexp)
-(define-key clojure-mode-map (kbd "M-<right>") 'clojure-forward-logical-sexp)
+(define-key clojure-mode-map (kbd "M-<up>") 'clojure-backward-logical-sexp)
+(define-key clojure-mode-map (kbd "M-<down>") 'clojure-forward-logical-sexp)
+(define-key clojure-mode-map (kbd "M-<left>") 'up-list)
+(define-key clojure-mode-map (kbd "M-<right>") 'down-list)
 
 (define-key clojure-mode-map (kbd "<tab>") 'company-indent-or-complete-common)
 (define-key cider-repl-mode-map (kbd "<tab>") 'company-indent-or-complete-common)
