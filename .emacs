@@ -5,9 +5,8 @@
                          ;;("marmalade" . "https://marmalade-repo.org/packages/")
                          ("melpa" . "https://melpa.org/packages/")
                          ("melpa-stable" . "https://stable.melpa.org/packages/")))
-;;(add-to-list 'package-pinned-packages '(cider . "melpa-stable") t)
-
 (package-initialize) ;; Needed for Emacs < 27.
+(add-to-list 'package-pinned-packages '(cider . "melpa-stable") t)
 
 
 
