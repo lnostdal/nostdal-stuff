@@ -45,6 +45,10 @@
 ;;; General appearance
 ;;;;;;;;;;;;;;;;;;;;;;
 
+;; Theme
+(setq solarized-high-contrast-mode-line t)
+(load-theme 'solarized-dark)
+
 (menu-bar-mode 0)
 (column-number-mode t)
 (if window-system (tool-bar-mode 0))
