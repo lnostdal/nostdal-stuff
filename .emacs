@@ -97,6 +97,7 @@
 (put 'downcase-region 'disabled nil)
 (put 'upcase-region 'disabled nil)
 
+(add-to-list 'auto-mode-alist '("\\.log\\'" . auto-revert-tail-mode))
 (setq revert-without-query '("png$")) ;; Makes auto-revert-mode on image files work way better. Tho it still thinks I've been 'editing' the image buffer sometimes. x)
 
 (ivy-mode 1)
