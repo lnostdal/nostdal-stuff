@@ -3,6 +3,8 @@
 {:user
  {:global-vars {*warn-on-reflection* true, *unchecked-math* :warn-on-boxed, *print-length* 100}
 
+  :plugins [[lein-ancient "LATEST"]]
+
   :jvm-opts
   ["-Xverify:none" ;; Suppresses the bytecode verifier (which speeds up classloading).
    "-XX:-OmitStackTraceInFastThrow" ;; See http://stackoverflow.com/a/2070568/160305 ..and this is also interesting http://blogs.atlassian.com/2011/05/if_you_use_exceptions_for_path_control_dont_fill_in_the_stac/
