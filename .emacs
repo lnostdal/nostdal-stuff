@@ -33,7 +33,7 @@
  '(org-startup-truncated nil)
  '(package-selected-packages
    (quote
-    (solarized-theme cider wgrep hl-todo counsel-projectile projectile counsel clj-refactor docker dockerfile-mode htmlize symon beacon color-identifiers-mode 0blayout magit-todos jdee smartparens ivy parinfer highlight-thing elgrep magit python-mode php-mode web-mode cargo rust-mode rainbow-delimiters nginx-mode cider-decompile clojure-mode js2-mode highlight-parentheses haskell-mode company)))
+    (solarized-theme cider wgrep hl-todo counsel-projectile projectile counsel clj-refactor dockerfile-mode htmlize symon beacon color-identifiers-mode 0blayout magit-todos jdee smartparens ivy parinfer highlight-thing elgrep magit python-mode php-mode web-mode cargo rust-mode rainbow-delimiters nginx-mode cider-decompile clojure-mode js2-mode highlight-parentheses haskell-mode company)))
  '(web-mode-code-indent-offset 2)
  '(web-mode-css-indent-offset 2)
  '(web-mode-markup-indent-offset 2)
@@ -197,10 +197,10 @@
 ;; REPL pretty printing. NOTE: Don't fiddle with this bullshit; it'll break and you'll waste half your day. Use debugging wrappers that call zprint/puget directly instead!
 (add-hook 'cider-repl-mode-hook
           '(lambda ()
-             ;;(setq fill-column 130) ;; ???
+             (setq fill-column 130)
              (setq scroll-conservatively 101))) ;; Without this, the REPL looks like and behaves like crap.
 ;;(setq cider-print-fn nil) ;; Let nrepl.middleware.print/*print-fn* decide! NOTE: Doesn't actually work!
-(setq cider-print-fn 'pprint) ;; 'fipp, 'puget, 'pprint or 'zprint
+(setq cider-print-fn 'puget) ;; 'fipp, 'puget, 'pprint or 'zprint
 ;; For clojure.pprint:
 ;;(setq cider-print-options '(dict "length" 50 "level" 6 "right-margin" 130))
 ;; For zprint:
