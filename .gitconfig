@@ -19,3 +19,6 @@ default = simple
 
 [cola]
 spellcheck = false
+
+[merge]
+conflictStyle = diff3
