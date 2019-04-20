@@ -166,11 +166,11 @@
 ;;(global-set-key (kbd "s-<left>") 'delete-window)
 (global-set-key (kbd "<f12>") 'delete-window)
 
-;; Resize windows (M = Alt, s == Windows key).
-;;(global-set-key (kbd "M-s-<right>") 'enlarge-window-horizontally)
-;;(global-set-key (kbd "M-s-<left>") 'shrink-window-horizontally)
-(global-set-key (kbd "M-s-<up>") 'shrink-window) (global-set-key (kbd "<f5>") 'shrink-window)
-(global-set-key (kbd "M-s-<down>") 'enlarge-window) (global-set-key (kbd "<f6>") 'enlarge-window)
+;; Resize windows (M = Alt, S == Shift).
+(global-set-key (kbd "M-S-<right>") 'enlarge-window-horizontally)
+(global-set-key (kbd "M-S-<left>") 'shrink-window-horizontally)
+(global-set-key (kbd "M-S-<down>") 'shrink-window) (global-set-key (kbd "<f5>") 'shrink-window)
+(global-set-key (kbd "M-S-<up>") 'enlarge-window) (global-set-key (kbd "<f6>") 'enlarge-window)
 
 ;; Scroll buffer line by line without moving cursor
 (global-set-key (kbd "<C-M-up>")    'scroll-down-line)
