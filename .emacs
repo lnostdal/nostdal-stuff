@@ -181,7 +181,8 @@
 (global-set-key (kbd "<C-pause>") 'magit-checkout) (global-set-key [C-f10] (quote magit-checkout))
 
 ;; Grepping etc.
-(global-set-key [M-f1] (quote counsel-git-grep)) (global-set-key [27 f1] (quote counsel-git-grep))
+(global-set-key [M-f1] (quote counsel-git-grep)) ;; GUI
+(global-set-key [27 f1] (quote counsel-git-grep)) (global-set-key [27 91 49 59 51 112] (quote counsel-git-grep)) ;; CLI modes.
 
 
 
