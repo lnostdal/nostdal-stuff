@@ -166,11 +166,11 @@
 ;;(global-set-key (kbd "s-<left>") 'delete-window)
 (global-set-key (kbd "<f12>") 'delete-window)
 
-;; Resize windows (M = Alt, s == Windows key).
-;;(global-set-key (kbd "M-s-<right>") 'enlarge-window-horizontally)
-;;(global-set-key (kbd "M-s-<left>") 'shrink-window-horizontally)
-(global-set-key (kbd "M-s-<up>") 'shrink-window) (global-set-key (kbd "<f5>") 'shrink-window)
-(global-set-key (kbd "M-s-<down>") 'enlarge-window) (global-set-key (kbd "<f6>") 'enlarge-window)
+;; Resize windows (M = Alt, S == Shift).
+(global-set-key (kbd "M-S-<right>") 'enlarge-window-horizontally)
+(global-set-key (kbd "M-S-<left>") 'shrink-window-horizontally)
+(global-set-key (kbd "M-S-<down>") 'shrink-window) (global-set-key (kbd "<f5>") 'shrink-window)
+(global-set-key (kbd "M-S-<up>") 'enlarge-window) (global-set-key (kbd "<f6>") 'enlarge-window)
 
 ;; Scroll buffer line by line without moving cursor
 (global-set-key (kbd "<C-M-up>")    'scroll-down-line)
@@ -181,7 +181,8 @@
 (global-set-key (kbd "<C-pause>") 'magit-checkout) (global-set-key [C-f10] (quote magit-checkout))
 
 ;; Grepping etc.
-(global-set-key [M-f1] (quote counsel-git-grep)) (global-set-key [27 f1] (quote counsel-git-grep))
+(global-set-key [M-f1] (quote counsel-git-grep)) ;; GUI
+(global-set-key [27 f1] (quote counsel-git-grep)) (global-set-key [27 91 49 59 51 112] (quote counsel-git-grep)) ;; CLI modes.
 
 
 
