@@ -1,0 +1,2 @@
+#!/bin/sh
+find "$@" -name '*.git' -exec sh -xc 'cd "${0%/*}" && git diff' '{}' ';'
