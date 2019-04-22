@@ -193,6 +193,9 @@
 (require 'clojure-mode)
 (require 'cider-mode)
 (setq cider-repl-display-help-banner nil)
+(setq cider-infer-remote-nrepl-ports t)
+(setq cider-known-endpoints
+      '(("bec" "127.0.0.1" "9999")))
 
 
 ;; REPL pretty printing. NOTE: Don't fiddle with this bullshit; it'll break and you'll waste half your day. Use debugging wrappers that call zprint/puget directly instead!
