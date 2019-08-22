@@ -9,7 +9,7 @@ clear Lock
 keycode 0x3E = parenright bracketright braceright NoSymbol braceright braceright braceright
 keycode 0x30 = minus underscore NoSymbol NoSymbol asciicircum
 keycode 0x23 = asciicircum asciicircum NoSymbol NoSymbol asciitilde
-keycode 0x33 = oslash grave
+keycode 0x33 = oslash Oslash 0xaaa
 
 
 ! Shift + 8 and 9 give < and >.
@@ -27,21 +27,9 @@ keycode 0x42 = parenleft bracketleft braceleft Greek_lambda braceleft braceleft 
 keycode 0x1f = c C NoSymbol NoSymbol braceleft
 ! Alt-GR + O give }
 keycode 0x20 = r R NoSymbol NoSymbol braceright
+
+
 ! Alt-GR + K gives «
 keycode 0x2d = t T NoSymbol NoSymbol 0x0ab
 ! Alt-GR + L gives »
 keycode 0x2e = n N NoSymbol NoSymbol 0x0bb
-! Alt-GR + Ø gives –
-keycode 0x2f = s S NoSymbol NoSymbol 0xaaa
-
-
-! Various arrow symbols; I think these only work on Numpads..
-!keycode 0x50 =  NoSymbol uparrow
-!keycode 0x51 =  NoSymbol uprightcorner
-!keycode 0x55 =  NoSymbol rightarrow
-!keycode 0x53 =  NoSymbol leftarrow
-!keycode 0x58 =  NoSymbol downarrow
-
-
-! ↺
-!keycode 0x54 = NoSymbol U21BA

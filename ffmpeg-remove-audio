@@ -1,0 +1,2 @@
+#!/bin/bash
+nice ffmpeg -i "$1" -c:v copy -an "$2"
