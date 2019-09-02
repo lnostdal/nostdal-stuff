@@ -6,7 +6,7 @@
                          ("melpa" . "https://melpa.org/packages/")
                          ("melpa-stable" . "https://stable.melpa.org/packages/")))
 (package-initialize) ;; Needed for Emacs < 27.
-(add-to-list 'package-pinned-packages '(cider . "melpa-stable") t)
+;;(add-to-list 'package-pinned-packages '(cider . "melpa-stable") t)
 
 
 
@@ -28,12 +28,13 @@
  '(haskell-process-auto-import-loaded-modules t)
  '(haskell-process-log t)
  '(haskell-process-suggest-remove-import-lines t)
+ '(inhibit-startup-screen t)
  '(make-backup-files nil)
  '(org-export-with-sub-superscripts nil)
  '(org-startup-truncated nil)
  '(package-selected-packages
    (quote
-    (habamax-theme spacemacs-theme csharp-mode cider systemd lxd-tramp counsel-tramp docker docker-compose-mode solarized-theme wgrep hl-todo counsel-projectile projectile counsel clj-refactor dockerfile-mode htmlize symon beacon 0blayout magit-todos jdee smartparens ivy parinfer highlight-thing elgrep magit python-mode php-mode web-mode cargo rust-mode rainbow-delimiters nginx-mode cider-decompile clojure-mode js2-mode highlight-parentheses haskell-mode company)))
+    (cider habamax-theme spacemacs-theme csharp-mode systemd lxd-tramp counsel-tramp docker docker-compose-mode solarized-theme wgrep hl-todo counsel-projectile projectile counsel clj-refactor dockerfile-mode htmlize symon beacon 0blayout magit-todos jdee smartparens ivy parinfer highlight-thing elgrep magit python-mode php-mode web-mode cargo rust-mode rainbow-delimiters nginx-mode cider-decompile clojure-mode js2-mode highlight-parentheses haskell-mode company)))
  '(web-mode-code-indent-offset 2)
  '(web-mode-css-indent-offset 2)
  '(web-mode-markup-indent-offset 2)
@@ -47,7 +48,7 @@
 
 ;; Theme
 (setq solarized-high-contrast-mode-line t)
-(load-theme 'solarized-dark)
+(load-theme 'solarized-light)
 
 (menu-bar-mode 0)
 (column-number-mode t)
