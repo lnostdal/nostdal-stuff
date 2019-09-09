@@ -52,7 +52,9 @@
 (column-number-mode t)
 (if window-system (tool-bar-mode 0))
 (if window-system (scroll-bar-mode 0))
-(if window-system (toggle-frame-fullscreen))
+(if window-system (add-to-list 'initial-frame-alist '(fullscreen . maximized)))
+(if window-system (set-frame-parameter nil 'undecorated t))
+
 
 (global-company-mode)
 ;;(if window-system (add-hook 'after-init-hook 'global-color-identifiers-mode))
