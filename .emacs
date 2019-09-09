@@ -228,9 +228,9 @@
 
 (add-hook 'cider-mode-hook 'highlight-thing-mode)
 (add-hook 'clojure-mode-hook 'highlight-thing-mode)
-;;(add-hook 'cider-repl-mode-hook 'highlight-thing-mode) ;; I often print a ton of output in the REPL...
-(setq highlight-thing-limit-to-region-in-large-buffers-p nil
-      highlight-thing-narrow-region-lines 111
+(add-hook 'cider-repl-mode-hook 'highlight-thing-mode)
+(setq highlight-thing-limit-to-region-in-large-buffers-p t
+      highlight-thing-narrow-region-lines 500
       highlight-thing-large-buffer-limit 5000
       highlight-thing-case-sensitive-p t
       highlight-thing-delay-seconds 0.125)
