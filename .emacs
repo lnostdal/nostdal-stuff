@@ -46,7 +46,7 @@
 
 ;; Theme
 (setq solarized-high-contrast-mode-line t)
-(load-theme 'solarized-light)
+(load-theme 'spacemacs-light)
 
 (menu-bar-mode 0)
 (column-number-mode t)
