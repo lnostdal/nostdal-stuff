@@ -28,11 +28,12 @@
  '(haskell-process-log t)
  '(haskell-process-suggest-remove-import-lines t)
  '(inhibit-startup-screen t)
+ '(magit-diff-refine-ignore-whitespace t)
  '(make-backup-files nil)
  '(org-export-with-sub-superscripts nil)
  '(org-startup-truncated nil)
  '(package-selected-packages
-   '(color-identifiers-mode cider habamax-theme spacemacs-theme csharp-mode systemd lxd-tramp counsel-tramp docker docker-compose-mode solarized-theme wgrep hl-todo counsel-projectile projectile counsel clj-refactor dockerfile-mode htmlize symon beacon 0blayout magit-todos jdee smartparens ivy parinfer highlight-thing elgrep magit python-mode php-mode web-mode cargo rust-mode rainbow-delimiters nginx-mode cider-decompile clojure-mode js2-mode highlight-parentheses haskell-mode company))
+   '(ws-butler omnisharp color-identifiers-mode cider habamax-theme spacemacs-theme csharp-mode systemd lxd-tramp counsel-tramp docker docker-compose-mode solarized-theme wgrep hl-todo counsel-projectile projectile counsel clj-refactor dockerfile-mode htmlize symon beacon 0blayout magit-todos jdee smartparens ivy parinfer highlight-thing elgrep magit python-mode php-mode web-mode cargo rust-mode rainbow-delimiters nginx-mode cider-decompile clojure-mode js2-mode highlight-parentheses haskell-mode company))
  '(web-mode-code-indent-offset 2)
  '(web-mode-css-indent-offset 2)
  '(web-mode-markup-indent-offset 2)
@@ -83,6 +84,7 @@
 (require 'rainbow-delimiters)
 (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
 (add-hook 'prog-mode-hook 'flyspell-prog-mode)
+(add-hook 'prog-mode-hook 'ws-butler-mode)
 (set-face-attribute 'rainbow-delimiters-unmatched-face nil
                     :foreground "white"
                     :background "red"
@@ -92,7 +94,7 @@
 (set-variable 'vc-follow-symlinks t)
 (set-variable 'scroll-step 1)
 
-(add-hook 'before-save-hook 'whitespace-cleanup) ;; No extra whitespace and no tab characters.
+;;(add-hook 'before-save-hook 'whitespace-cleanup) ;; No extra whitespace and no tab characters.
 (setq-default indent-tabs-mode nil)
 
 (put 'downcase-region 'disabled nil)
@@ -149,10 +151,10 @@
 ;; File handling.
 (global-set-key (kbd "<f1>") 'counsel-find-file)
 (global-set-key (kbd "<f2>") (lambda () (interactive)
-                               (whitespace-cleanup)
-                               (save-excursion
-                                 (mark-whole-buffer)
-                                 (indent-region (region-beginning) (region-end)))
+                               ;; (whitespace-cleanup)
+                               ;; (save-excursion
+                               ;;   (mark-whole-buffer)
+                               ;;   (indent-region (region-beginning) (region-end)))
                                (save-some-buffers 1)))
 (global-set-key (kbd "<f3>") 'projectile-find-file)
 (global-set-key (kbd "<f4>") 'counsel-switch-buffer)
@@ -246,31 +248,33 @@
 (define-key cider-repl-mode-map (kbd "<f2>") (lambda () (interactive) ;; NOTE: So we don't indent in the REPL.
                                                (save-some-buffers 1)))
 (define-key clojure-mode-map (kbd "<f7>") (lambda () (interactive)
-                                            (whitespace-cleanup)
-                                            (save-excursion
-                                              (mark-whole-buffer)
-                                              (indent-region (region-beginning) (region-end)))
+                                            ;; (whitespace-cleanup)
+                                            ;; (save-excursion
+                                            ;;   (mark-whole-buffer)
+                                            ;;   (indent-region (region-beginning) (region-end)))
                                             (save-buffer 1)
                                             (cider-load-buffer)))
 (define-key clojure-mode-map (kbd "<f8>") 'cider-eval-last-sexp)
 (define-key clojure-mode-map (kbd "<f9>") (lambda () (interactive)
-                                            (save-excursion
-                                              (mark-defun)
-                                              (indent-region (region-beginning) (region-end))
-                                              (whitespace-cleanup-region (region-beginning) (region-end)))
+                                            ;; (whitespace-cleanup)
+                                            ;; (save-excursion
+                                            ;;   (mark-defun)
+                                            ;;   (indent-region (region-beginning) (region-end))
+                                            ;;   (whitespace-cleanup-region (region-beginning) (region-end)))
                                             (cider-eval-defun-at-point)))
 
 (define-key clojure-mode-map (kbd "C-c C-c") (lambda () (interactive)
-                                               (save-excursion
-                                                 (mark-defun)
-                                                 ;; TODO: Odd; doesn't seem to work? But F9 (above) does tho.
-                                                 (indent-region (region-beginning) (region-end))
-                                                 (whitespace-cleanup-region (region-beginning) (region-end)))
+                                               ;; (whitespace-cleanup)
+                                               ;; (save-excursion
+                                               ;;   (mark-defun)
+                                               ;;   ;; TODO: Odd; doesn't seem to work? But F9 (above) does tho.
+                                               ;;   (indent-region (region-beginning) (region-end))
+                                               ;;   (whitespace-cleanup-region (region-beginning) (region-end)))
                                                (cider-eval-defun-at-point)))
 
 (define-key clojure-mode-map (kbd "C-<tab>") (lambda () (interactive)
                                                (save-excursion
-                                                 (mark-whole-buffer)
+                                                 (mark-defun)
                                                  (indent-region (region-beginning) (region-end))
                                                  (whitespace-cleanup-region (region-beginning) (region-end)))))
 
