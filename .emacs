@@ -151,10 +151,10 @@
 ;; File handling.
 (global-set-key (kbd "<f1>") 'counsel-find-file)
 (global-set-key (kbd "<f2>") (lambda () (interactive)
-                               ;; (whitespace-cleanup)
-                               ;; (save-excursion
-                               ;;   (mark-whole-buffer)
-                               ;;   (indent-region (region-beginning) (region-end)))
+                               (whitespace-cleanup)
+                               (save-excursion
+                                 (mark-whole-buffer)
+                                 (indent-region (region-beginning) (region-end)))
                                (save-some-buffers 1)))
 (global-set-key (kbd "<f3>") 'projectile-find-file)
 (global-set-key (kbd "<f4>") 'counsel-switch-buffer)
@@ -256,20 +256,20 @@
                                             (cider-load-buffer)))
 (define-key clojure-mode-map (kbd "<f8>") 'cider-eval-last-sexp)
 (define-key clojure-mode-map (kbd "<f9>") (lambda () (interactive)
-                                            ;; (whitespace-cleanup)
-                                            ;; (save-excursion
-                                            ;;   (mark-defun)
-                                            ;;   (indent-region (region-beginning) (region-end))
-                                            ;;   (whitespace-cleanup-region (region-beginning) (region-end)))
+                                            (whitespace-cleanup)
+                                            (save-excursion
+                                              (mark-defun)
+                                              (indent-region (region-beginning) (region-end))
+                                              (whitespace-cleanup-region (region-beginning) (region-end)))
                                             (cider-eval-defun-at-point)))
 
 (define-key clojure-mode-map (kbd "C-c C-c") (lambda () (interactive)
-                                               ;; (whitespace-cleanup)
-                                               ;; (save-excursion
-                                               ;;   (mark-defun)
-                                               ;;   ;; TODO: Odd; doesn't seem to work? But F9 (above) does tho.
-                                               ;;   (indent-region (region-beginning) (region-end))
-                                               ;;   (whitespace-cleanup-region (region-beginning) (region-end)))
+                                               (whitespace-cleanup)
+                                               (save-excursion
+                                                 (mark-defun)
+                                                 ;; TODO: Odd; doesn't seem to work? But F9 (above) does tho.
+                                                 (indent-region (region-beginning) (region-end))
+                                                 (whitespace-cleanup-region (region-beginning) (region-end)))
                                                (cider-eval-defun-at-point)))
 
 (define-key clojure-mode-map (kbd "C-<tab>") (lambda () (interactive)
