@@ -1,0 +1,3 @@
+#!/bin/bash
+printf "HINT: You'd probably want to use a .mp4 or .webm container for web output"
+nice ffmpeg -i "$1" -c:v copy -c:a copy -movflags faststart "$2"
