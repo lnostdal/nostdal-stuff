@@ -246,6 +246,8 @@
 
 (define-key clojure-mode-map (kbd "<s-delete>") 'cider-clear-compilation-highlights)
 (define-key clojure-mode-map (kbd "C-|") 'comment-or-uncomment-region)
+(define-key clojure-mode-map (kbd "C-\\") 'comment-or-uncomment-region)
+
 (define-key cider-repl-mode-map (kbd "<f2>") (lambda () (interactive) ;; NOTE: So we don't indent in the REPL.
                                                (save-some-buffers 1)))
 (define-key clojure-mode-map (kbd "<f7>") (lambda () (interactive)
