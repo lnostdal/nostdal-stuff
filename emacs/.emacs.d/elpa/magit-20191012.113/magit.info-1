@@ -31,7 +31,7 @@ to perform almost all of their daily version control tasks directly from
 within Emacs.  While many fine Git clients exist, only Magit and Git
 itself deserve to be called porcelains.
 
-This manual is for Magit version 2.90.1 (v2.90.1-789-g3add5310b+1).
+This manual is for Magit version 2.90.1 (v2.90.1-791-g62dad50a+1).
 
      Copyright (C) 2015-2019 Jonas Bernoulli <jonas@bernoul.li>
 
@@ -7718,6 +7718,10 @@ Also see *note (gitman)git-worktree::.
 ‘% c’     (‘magit-worktree-branch’)
 
      Create a new BRANCH and check it out in a new worktree at PATH.
+
+‘% m’     (‘magit-worktree-move’)
+
+     Move an existing worktree to a new PATH.
 
 ‘% k’     (‘magit-worktree-delete’)
 

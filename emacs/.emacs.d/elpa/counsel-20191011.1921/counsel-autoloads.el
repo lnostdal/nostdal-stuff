@@ -357,6 +357,9 @@ Browse Eshell history." t nil)
 (autoload 'counsel-shell-history "counsel" "\
 Browse shell history." t nil)
 
+(autoload 'counsel-slime-repl-history "counsel" "\
+Browse Slime REPL history." t nil)
+
 (autoload 'counsel-hydra-heads "counsel" "\
 Call a head of the current/last hydra." t nil)
 

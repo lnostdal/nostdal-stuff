@@ -315,7 +315,7 @@ If `(minibuffer-depth)' equals this, `ivy-completing-read' will
 act as if `ivy-completing-read-handlers-alist' is empty.")
 
 (defvar ivy-highlight-grep-commands nil
-  "List of counsel grep-like commands.")
+  "List of grep-like commands.")
 
 (defvar ivy--actions-list nil
   "A list of extra actions per command.")
@@ -677,8 +677,7 @@ functionality, e.g. as seen in `isearch'."
   "Store the current overriding `case-fold-search'.")
 
 (defvar ivy-more-chars-alist
-  '((counsel-grep . 2)
-    (t . 3))
+  '((t . 3))
   "Map commands to their minimum required input length.
 That is the number of characters prompted for before fetching
 candidates.  The special key t is used as a fallback.")
@@ -1383,8 +1382,8 @@ If the input is empty, select the previous history element instead."
 Example use:
 
     (let* ((ivy-inhibit-action t)
-          (str (counsel-locate \"lispy.el\")))
-     ;; do whatever with str - the corresponding file will not be opened
+           (str (ivy-switch-buffer)))
+     ;; do whatever with str - the corresponding buffer will not be opened
      )")
 
 (defun ivy-recursive-restore ()
@@ -1830,11 +1829,7 @@ specified for the current collection in
       (ivy--reset-state ivy-last))))
 
 (defvar ivy-index-functions-alist
-  '((swiper . ivy-recompute-index-swiper)
-    (swiper-multi . ivy-recompute-index-swiper)
-    (counsel-git-grep . ivy-recompute-index-swiper)
-    (counsel-grep . ivy-recompute-index-swiper-async)
-    (t . ivy-recompute-index-zero))
+  '((t . ivy-recompute-index-zero))
   "An alist of index recomputing functions for each collection function.
 When the input changes, the appropriate function returns an
 integer - the index of the matched candidate that should be
@@ -1873,24 +1868,77 @@ like.")
   '((org-refile . "^")
     (org-agenda-refile . "^")
     (org-capture-refile . "^")
-    (counsel-M-x . "^")
-    (counsel-describe-function . "^")
-    (counsel-describe-variable . "^")
-    (counsel-org-capture . "^")
     (Man-completion-table . "^")
     (woman . "^"))
   "An alist associating commands with their initial input.
 
 Each cdr is either a string or a function called in the context
 of a call to `ivy-read'."
-  :type '(alist :key-type (symbol)
-                :value-type (choice (string) (function))))
+  :type '(alist
+          :key-type (symbol)
+          :value-type (choice (string) (function))))
 
 (defcustom ivy-hooks-alist nil
   "An alist associating commands to setup functions.
 Examples: `toggle-input-method', (lambda () (insert \"^\")), etc.
 May supersede `ivy-initial-inputs-alist'."
   :type '(alist :key-type symbol :value-type function))
+
+(defvar ivy--occurs-list nil
+  "A list of custom occur generators per command.")
+
+(defun ivy-set-occur (cmd occur)
+  "Assign CMD a custom OCCUR function."
+  (setq ivy--occurs-list
+        (plist-put ivy--occurs-list cmd occur)))
+
+(defcustom ivy-update-fns-alist nil
+  "An alist associating commands to their :update-fn values."
+  :type '(alist
+          :key-type symbol
+          :value-type
+          (radio
+           (const :tag "Off" nil)
+           (const :tag "Call action on change" auto))))
+
+(defvar ivy-unwind-fns-alist nil
+  "An alist associating commands to their :unwind values.")
+
+(defun ivy--alist-set (alist-sym key val)
+  (let ((cell (assoc key (symbol-value alist-sym))))
+    (if cell
+        (setcdr cell val)
+      (set alist-sym (cons (cons key val)
+                           (symbol-value alist-sym))))))
+
+(cl-defun ivy-configure (caller
+                         &key
+                           initial-input
+                           occur
+                           update-fn
+                           unwind-fn
+                           index-fn
+                           display-transformer-fn
+                           more-chars
+                           grep-p)
+  "Configure `ivy-read' params for CALLER."
+  (declare (indent 1))
+  (when initial-input
+    (ivy--alist-set 'ivy-initial-inputs-alist caller initial-input))
+  (when occur
+    (ivy-set-occur caller occur))
+  (when update-fn
+    (ivy--alist-set 'ivy-update-fns-alist caller update-fn))
+  (when unwind-fn
+    (ivy--alist-set 'ivy-unwind-fns-alist caller unwind-fn))
+  (when index-fn
+    (ivy--alist-set 'ivy-index-functions-alist caller index-fn))
+  (when display-transformer-fn
+    (ivy-set-display-transformer caller display-transformer-fn))
+  (when more-chars
+    (ivy--alist-set 'ivy-more-chars-alist caller more-chars))
+  (when grep-p
+    (cl-pushnew caller ivy-highlight-grep-commands)))
 
 (defcustom ivy-sort-max-size 30000
   "Sorting won't be done for collections larger than this."
@@ -2021,6 +2069,9 @@ candidates is updated after each input by calling COLLECTION.
 CALLER is a symbol to uniquely identify the caller to `ivy-read'.
 It is used, along with COLLECTION, to determine which
 customizations apply to the current completion session."
+  ;; get un-stuck from an existing `read-key' overriding minibuffer keys
+  (when (equal overriding-local-map '(keymap))
+    (keyboard-quit))
   (setq caller (or caller this-command))
   (let* ((ivy-recursive-last (and (active-minibuffer-window) ivy-last))
          (ivy--display-function
@@ -2028,6 +2079,8 @@ customizations apply to the current completion session."
                     (not (window-minibuffer-p)))
             (ivy-alist-setting ivy-display-functions-alist caller)))
          result)
+    (setq update-fn (or update-fn (ivy-alist-setting ivy-update-fns-alist caller)))
+    (setq unwind (or unwind (ivy-alist-setting ivy-unwind-fns-alist caller)))
     (setq ivy-last
           (make-ivy-state
            :prompt prompt
@@ -2400,13 +2453,15 @@ behavior."
    prompt collection predicate require-match initial-input
    history (or def "") inherit-input-method))
 
+(declare-function mc/all-fake-cursors "ext:multiple-cursors-core")
+
 (defun ivy-completion-in-region-action (str)
   "Insert STR, erasing the previous one.
 The previous string is between `ivy-completion-beg' and `ivy-completion-end'."
   (when (consp str)
     (setq str (cdr str)))
   (when (stringp str)
-    (let ((fake-cursors (and (fboundp 'mc/all-fake-cursors)
+    (let ((fake-cursors (and (require 'multiple-cursors-core nil t)
                              (mc/all-fake-cursors)))
           (pt (point))
           (beg ivy-completion-beg)
@@ -3129,9 +3184,14 @@ Should be run via minibuffer `post-command-hook'."
               (setq coll (funcall (ivy-state-collection ivy-last) ivy-text))
               (when (eq coll 0)
                 (setq coll nil)
+                (setq ivy--old-re nil)
                 (setq in-progress t))
               (setq ivy--all-candidates (ivy--sort-maybe coll))
               (setq ivy--old-text ivy-text)))
+          (when (eq ivy--all-candidates 0)
+            (setq ivy--all-candidates nil)
+            (setq ivy--old-re nil)
+            (setq in-progress t))
           (when (or ivy--all-candidates
                     (and (not (get-process " *counsel*"))
                          (not in-progress)))
@@ -3795,7 +3855,7 @@ Note: The usual last two arguments are flipped for convenience.")
          (str (if (eq ivy-display-style 'fancy)
                   (if (memq (ivy-state-caller ivy-last)
                             ivy-highlight-grep-commands)
-                      (let* ((start (if (string-match "\\`[^:]+:[^:]+:" str)
+                      (let* ((start (if (string-match "\\`[^:]+:\\(?:[^:]+:\\)?" str)
                                         (match-end 0) 0))
                              (file (substring str 0 start))
                              (match (substring str start)))
@@ -3820,13 +3880,6 @@ Note: The usual last two arguments are flipped for convenience.")
       (ivy-add-face-text-property
        olen (length str) 'ivy-completions-annotations str))
     str))
-
-(ivy-set-display-transformer
- 'counsel-find-file 'ivy-read-file-transformer)
-(ivy-set-display-transformer
- 'counsel-dired 'ivy-read-file-transformer)
-(ivy-set-display-transformer
- 'read-file-name-internal 'ivy-read-file-transformer)
 
 (defun ivy-read-file-transformer (str)
   "Transform candidate STR when reading files."
@@ -3857,6 +3910,7 @@ CANDS is a list of strings."
     (let* ((bnd (ivy--minibuffer-index-bounds
                  ivy--index ivy--length ivy-height))
            (wnd-cands (cl-subseq cands (car bnd) (cadr bnd)))
+           (case-fold-search (ivy--case-fold-p ivy-text))
            transformer-fn)
       (setq ivy--window-index (nth 2 bnd))
       (when (setq transformer-fn (ivy-state-display-transformer-fn ivy-last))
@@ -4263,11 +4317,6 @@ Skip buffers that match `ivy-ignore-buffers'."
           (and (eq ivy-use-ignore t)
                res)))))
 
-(ivy-set-display-transformer
- 'ivy-switch-buffer 'ivy-switch-buffer-transformer)
-(ivy-set-display-transformer
- 'internal-complete-buffer 'ivy-switch-buffer-transformer)
-
 (defun ivy-append-face (str face)
   "Append to STR the property FACE."
   (setq str (copy-sequence str))
@@ -4308,6 +4357,10 @@ Skip buffers that match `ivy-ignore-buffers'."
             :matcher #'ivy--switch-buffer-matcher
             :caller 'ivy-switch-buffer))
 
+(ivy-configure 'ivy-switch-buffer
+  :occur #'ivy-switch-buffer-occur
+  :display-transformer-fn #'ivy-switch-buffer-transformer)
+
 ;;;###autoload
 (defun ivy-switch-view ()
   "Switch to one of the window views stored by `ivy-push-view'."
@@ -4326,6 +4379,9 @@ Skip buffers that match `ivy-ignore-buffers'."
             :action #'ivy--switch-buffer-other-window-action
             :keymap ivy-switch-buffer-map
             :caller 'ivy-switch-buffer-other-window))
+
+(ivy-configure 'ivy-switch-buffer-other-window
+  :occur #'ivy-switch-buffer-occur)
 
 (defun ivy--yank-handle-case-fold (text)
   (if (and (> (length ivy-text) 0)
@@ -4503,20 +4559,23 @@ This list can be rotated with `ivy-rotate-preferred-builders'."
     (define-key map (kbd "C-k") 'ivy-reverse-i-search-kill)
     map))
 
-(defun ivy-history-contents (sym-or-ring)
-  "Copy contents of SYM-OR-RING.
+(defun ivy-history-contents (history)
+  "Copy contents of HISTORY.
 A copy is necessary so that we don't clobber any string attributes.
-Also set `ivy--reverse-i-search-symbol' to SYM-OR-RING."
-  (setq ivy--reverse-i-search-symbol sym-or-ring)
-  (cond ((symbolp sym-or-ring)
+Also set `ivy--reverse-i-search-symbol' to HISTORY."
+  (setq ivy--reverse-i-search-symbol history)
+  (cond ((symbolp history)
          (delete-dups
-          (copy-sequence (symbol-value sym-or-ring))))
-        ((ring-p sym-or-ring)
+          (copy-sequence (symbol-value history))))
+        ((ring-p history)
          (delete-dups
-          (when (> (ring-size sym-or-ring) 0)
-            (ring-elements sym-or-ring))))
+          (when (> (ring-size history) 0)
+            (ring-elements history))))
+        ((sequencep history)
+         (delete-dups
+          (copy-sequence history)))
         (t
-         (error "Expected a symbol or a ring: %S" sym-or-ring))))
+         (error "Expected a symbol, ring, or sequence: %S" history))))
 
 (defun ivy-reverse-i-search ()
   "Enter a recursive `ivy-read' session using the current history.
@@ -4685,17 +4744,6 @@ When `ivy-calling' isn't nil, call `ivy-occur-press'."
   (when (fboundp 'wgrep-setup)
     (wgrep-setup)))
 
-(defvar ivy--occurs-list nil
-  "A list of custom occur generators per command.")
-
-(defun ivy-set-occur (cmd occur)
-  "Assign CMD a custom OCCUR function."
-  (setq ivy--occurs-list
-        (plist-put ivy--occurs-list cmd occur)))
-
-(ivy-set-occur 'ivy-switch-buffer 'ivy-switch-buffer-occur)
-(ivy-set-occur 'ivy-switch-buffer-other-window 'ivy-switch-buffer-occur)
-
 (defun ivy--starts-with-dotslash (str)
   (string-match-p "\\`\\.[/\\]" str))
 
@@ -4779,7 +4827,7 @@ updated original buffer."
                (erase-buffer)
                (funcall (plist-get ivy--occurs-list caller) t)
                (ivy-occur-grep-mode))))
-          ((memq caller '(counsel-git-grep counsel-grep counsel-ag counsel-rg))
+          ((memq caller ivy-highlight-grep-commands)
            (let ((inhibit-read-only t)
                  (line (line-number-at-pos)))
              (erase-buffer)
@@ -4829,11 +4877,11 @@ EVENT gives the mouse position."
 (declare-function swiper--cleanup "swiper")
 (declare-function swiper--add-overlays "swiper")
 (defvar ivy-occur-timer nil)
-(defvar counsel-grep-last-line)
 
 (defun ivy--occur-press-update-window ()
-  (cl-case (ivy-state-caller ivy-occur-last)
-    ((swiper swiper-isearch counsel-git-grep counsel-grep counsel-ag counsel-rg)
+  (cond
+    ((memq (ivy-state-caller ivy-occur-last)
+           (append '(swiper swiper-isearch) ivy-highlight-grep-commands))
      (let ((window (ivy-state-window ivy-occur-last))
            (buffer (ivy-state-buffer ivy-occur-last)))
        (when (buffer-live-p buffer)
@@ -4846,7 +4894,8 @@ EVENT gives the mouse position."
                 (with-selected-window window
                   (switch-to-buffer buffer)))))))
 
-    ((counsel-describe-function counsel-describe-variable)
+    ((memq (ivy-state-caller ivy-occur-last)
+           '(counsel-describe-function counsel-describe-variable))
      (setf (ivy-state-window ivy-occur-last)
            (selected-window))
      (selected-window))))
@@ -4874,7 +4923,6 @@ EVENT gives the mouse position."
            (action (ivy--get-action ivy-last))
            (ivy-exit 'done))
       (with-ivy-window
-        (setq counsel-grep-last-line nil)
         (with-current-buffer (ivy--occur-press-buffer)
           (save-restriction
             (widen)
@@ -4884,8 +4932,7 @@ EVENT gives the mouse position."
                          (assoc str coll)
                        (substring str offset)))))
         (if (memq (ivy-state-caller ivy-last)
-                  '(swiper swiper-isearch
-                    counsel-git-grep counsel-grep counsel-ag counsel-rg))
+                  (append '(swiper swiper-isearch) ivy-highlight-grep-commands))
             (with-current-buffer (window-buffer (selected-window))
               (swiper--cleanup)
               (swiper--add-overlays
@@ -5003,6 +5050,12 @@ make decisions based on the whole marked list."
   "Calls `ffap-url-fetcher'."
   (require 'ffap)
   (funcall ffap-url-fetcher url))
+
+(ivy-configure 'read-file-name-internal
+  :display-transformer-fn #'ivy-read-file-transformer)
+
+(ivy-configure 'internal-complete-buffer
+  :display-transformer-fn #'ivy-switch-buffer-transformer)
 
 (provide 'ivy)
 
