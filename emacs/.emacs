@@ -32,7 +32,7 @@
  '(org-export-with-sub-superscripts nil)
  '(org-startup-truncated nil)
  '(package-selected-packages
-   '(ssh-config-mode cider ws-butler omnisharp color-identifiers-mode habamax-theme spacemacs-theme csharp-mode systemd lxd-tramp counsel-tramp docker docker-compose-mode solarized-theme wgrep hl-todo counsel-projectile projectile counsel clj-refactor dockerfile-mode htmlize symon beacon 0blayout magit-todos jdee smartparens ivy highlight-thing elgrep magit python-mode php-mode web-mode cargo rust-mode rainbow-delimiters nginx-mode cider-decompile clojure-mode js2-mode highlight-parentheses haskell-mode company))
+   '(ssh-config-mode cider spacemacs-theme csharp-mode systemd lxd-tramp counsel-tramp docker docker-compose-mode solarized-theme wgrep hl-todo counsel-projectile projectile counsel clj-refactor dockerfile-mode htmlize symon beacon 0blayout magit-todos jdee smartparens ivy highlight-thing elgrep magit python-mode php-mode web-mode cargo rust-mode rainbow-delimiters nginx-mode cider-decompile clojure-mode js2-mode highlight-parentheses haskell-mode company))
  '(web-mode-code-indent-offset 2)
  '(web-mode-css-indent-offset 2)
  '(web-mode-markup-indent-offset 2)
@@ -82,13 +82,21 @@
 (show-paren-mode 1) ;; Highlight matching parens.
 (require 'rainbow-delimiters)
 (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
-(add-hook 'prog-mode-hook 'flyspell-prog-mode)
-(add-hook 'prog-mode-hook 'ws-butler-mode)
 (set-face-attribute 'rainbow-delimiters-unmatched-face nil
                     :foreground "white"
                     :background "red"
                     :inherit 'error
                     :box t)
+
+(add-hook 'prog-mode-hook 'highlight-thing-mode)
+(setq highlight-thing-limit-to-region-in-large-buffers-p t
+      highlight-thing-narrow-region-lines 500
+      highlight-thing-large-buffer-limit 5000
+      highlight-thing-case-sensitive-p t
+      highlight-thing-delay-seconds 0.125)
+
+
+(add-hook 'prog-mode-hook 'flyspell-prog-mode)
 
 (set-variable 'vc-follow-symlinks t)
 (set-variable 'scroll-step 1)
@@ -227,16 +235,6 @@
 (setq cider-prompt-for-symbol nil)
 (setq cider-repl-display-in-current-window t)
 (setq cider-auto-jump-to-error 'errors-only)
-
-
-(add-hook 'cider-mode-hook 'highlight-thing-mode)
-(add-hook 'clojure-mode-hook 'highlight-thing-mode)
-(add-hook 'cider-repl-mode-hook 'highlight-thing-mode)
-(setq highlight-thing-limit-to-region-in-large-buffers-p t
-      highlight-thing-narrow-region-lines 500
-      highlight-thing-large-buffer-limit 5000
-      highlight-thing-case-sensitive-p t
-      highlight-thing-delay-seconds 0.125)
 
 (add-hook 'clojure-mode-hook 'goto-address-mode)
 
