@@ -22,3 +22,5 @@ spellcheck = false
 
 [merge]
 conflictStyle = diff3
+[receive]
+	denyCurrentBranch = updateInstead
