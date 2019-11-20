@@ -7,6 +7,7 @@
   #=(eval
      (concat
       ["--illegal-access=deny"
+       "-XX:-DontCompileHugeMethods" ;; Compile big Fns.
        "-XX:-OmitStackTraceInFastThrow" ;; See http://stackoverflow.com/a/2070568/160305 ..and this is also interesting http://blogs.atlassian.com/2011/05/if_you_use_exceptions_for_path_control_dont_fill_in_the_stac/
 
        ;; VisualVM needs this (ref: https://torsten.io/stdout/how-to-profile-clojure-code/ )
