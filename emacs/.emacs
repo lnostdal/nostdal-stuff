@@ -135,8 +135,6 @@
 ;;; Keyboard shortcuts: general  [ s = windows key, M = Alt ]
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(global-set-key (kbd "M-p") 'projectile-switch-project)
-
 (global-set-key "\370" (quote counsel-M-x))
 (global-set-key "\C-s" 'swiper) (global-set-key "\C-r" 'swiper) ;; Better than standard isearch.
 
@@ -144,6 +142,7 @@
 (projectile-mode +1)
 (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
 (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+(global-set-key (kbd "C-|") 'projectile-switch-project)
 
 ;; Fast buffer switching
 (global-set-key (kbd "<M-next>") 'next-buffer)
