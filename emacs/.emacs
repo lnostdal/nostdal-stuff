@@ -138,6 +138,8 @@
 (global-set-key "\370" (quote counsel-M-x))
 (global-set-key "\C-s" 'swiper) (global-set-key "\C-r" 'swiper) ;; Better than standard isearch.
 
+(global-set-key (kbd "<C-delete>") 'comment-or-uncomment-region)
+
 ;; Projectile mode
 (projectile-mode +1)
 (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
@@ -240,8 +242,6 @@
 (define-key clojure-mode-map (kbd "M-.") 'cider-find-dwim)
 
 (define-key clojure-mode-map (kbd "<s-delete>") 'cider-clear-compilation-highlights)
-(define-key clojure-mode-map (kbd "C-|") 'comment-or-uncomment-region)
-(define-key clojure-mode-map (kbd "C-\\") 'comment-or-uncomment-region)
 
 (define-key cider-repl-mode-map (kbd "<f2>") (lambda () (interactive) ;; NOTE: So we don't indent in the REPL.
                                                (save-some-buffers 1)))
