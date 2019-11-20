@@ -149,9 +149,7 @@
 (global-set-key (kbd "<M-next>") 'next-buffer)
 (global-set-key (kbd "<M-prior>") 'previous-buffer)
 
-(global-set-key (kbd "<backtab>") 'other-window) ;; Shift-Tab
-(global-set-key "|" 'other-window) ;; Alt-|  ..this seems to work better or more consistently in terminal mode.
-(global-set-key (kbd "<C-S-iso-lefttab>") 'other-window) ;; Ctrl-Shift-Tab
+(global-set-key "§" 'other-window) ;; Shift-|  ..this seems to work better or more consistently in terminal mode.
 
 ;; Movement.
 (global-set-key (kbd "ESC <up>") 'backward-paragraph)
