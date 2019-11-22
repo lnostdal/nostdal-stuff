@@ -145,6 +145,7 @@
 (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
 (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
 (global-set-key (kbd "C-|") 'projectile-switch-project)
+(global-set-key (kbd "C-\\") 'projectile-switch-project)
 
 ;; Fast buffer switching
 (global-set-key (kbd "<M-next>") 'next-buffer)
