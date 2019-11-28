@@ -20,7 +20,7 @@
  '(auto-revert-verbose nil)
  '(custom-enabled-themes '(sanityinc-solarized-dark))
  '(custom-safe-themes
-   '("bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" "fa2b58bb98b62c3b8cf3b6f02f058ef7827a8e497125de0254f56e373abee088" "a8245b7cc985a0610d71f9852e9f2767ad1b852c2bdea6f4aadc12cce9c4d6d0" "d91ef4e714f05fff2070da7ca452980999f5361209e679ee988e3c432df24347" "0598c6a29e13e7112cfbc2f523e31927ab7dce56ebb2016b567e1eff6dc1fd4f" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" default))
+   '("c433c87bd4b64b8ba9890e8ed64597ea0f8eb0396f4c9a9e01bd20a04d15d358" "bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" "fa2b58bb98b62c3b8cf3b6f02f058ef7827a8e497125de0254f56e373abee088" "a8245b7cc985a0610d71f9852e9f2767ad1b852c2bdea6f4aadc12cce9c4d6d0" "d91ef4e714f05fff2070da7ca452980999f5361209e679ee988e3c432df24347" "0598c6a29e13e7112cfbc2f523e31927ab7dce56ebb2016b567e1eff6dc1fd4f" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" default))
  '(epg-gpg-program "/usr/bin/gpg2")
  '(global-auto-revert-mode t)
  '(haskell-process-auto-import-loaded-modules t)
@@ -76,6 +76,10 @@
 
 ;;; General behavior
 ;;;;;;;;;;;;;;;;;;;;
+
+(winner-mode 1)
+(global-set-key (kbd "<C-M-prior>") 'winner-undo)
+(global-set-key (kbd "<C-M-next>") 'winner-redo)
 
 ;;(global-highlight-parentheses-mode) ;; Colorize nested parens.
 
@@ -212,6 +216,7 @@
 (setq cider-known-endpoints
       '(("bec" "127.0.0.1" "9999")))
 
+(add-hook 'cider-repl-mode-hook 'highlight-thing-mode)
 
 ;; REPL pretty printing. NOTE: Don't fiddle with this bullshit; it'll break and you'll waste half your day. Use debugging wrappers that call zprint/puget directly instead!
 (add-hook 'cider-repl-mode-hook
