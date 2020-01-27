@@ -225,7 +225,7 @@
              (setq fill-column 130)
              (setq scroll-conservatively 101))) ;; Without this, the REPL looks like and behaves like crap.
 ;;(setq cider-print-fn nil) ;; Let nrepl.middleware.print/*print-fn* decide! NOTE: Doesn't actually work!
-(setq cider-print-fn 'puget) ;; 'fipp, 'puget, 'pprint or 'zprint
+;;(setq cider-print-fn 'puget) ;; 'fipp, 'puget, 'pprint or 'zprint
 ;; For clojure.pprint:
 ;;(setq cider-print-options '(dict "length" 50 "level" 6 "right-margin" 130))
 ;; For zprint:
