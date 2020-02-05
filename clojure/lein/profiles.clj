@@ -1,5 +1,6 @@
 {:user
- {:global-vars {*warn-on-reflection* true, *unchecked-math* :warn-on-boxed, *print-length* 100}
+ {:global-vars {;;*warn-on-reflection* true, *unchecked-math* :warn-on-boxed,
+                *print-length* 100}
 
   :plugins [[lein-ancient "LATEST"]]
 
