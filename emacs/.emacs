@@ -320,6 +320,9 @@
 (put 'doiter 'clojure-indent-function 1)
 (put 'seque 'clojure-indent-function 1)
 (put 'when-cdebug 'clojure-indent-function 1)
+(put 'reg-event-db 'clojure-indent-function 1)
+(put 'reg-event-fx 'clojure-indent-function 1)
+(put 'reg-sub 'clojure-indent-function 1)
 
 
 
