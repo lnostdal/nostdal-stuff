@@ -1,9 +1,12 @@
 ;;; cargo-autoloads.el --- automatically extracted autoloads
 ;;
 ;;; Code:
-(add-to-list 'load-path (directory-file-name (or (file-name-directory #$) (car load-path))))
+
+(add-to-list 'load-path (directory-file-name
+                         (or (file-name-directory #$) (car load-path))))
+
 
-;;;### (autoloads nil "cargo" "cargo.el" (24076 55584 873373 743000))
+;;;### (autoloads nil "cargo" "cargo.el" (0 0 0 0))
 ;;; Generated autoloads from cargo.el
 
 (autoload 'cargo-minor-mode "cargo" "\
@@ -13,10 +16,11 @@ Cargo minor mode. Used to hold keybindings for cargo-mode.
 
 \(fn &optional ARG)" t nil)
 
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "cargo" '("cargo-minor-mode")))
+
 ;;;***
 
-;;;### (autoloads nil "cargo-process" "cargo-process.el" (24076 55584
-;;;;;;  885373 761000))
+;;;### (autoloads nil "cargo-process" "cargo-process.el" (0 0 0 0))
 ;;; Generated autoloads from cargo-process.el
 
 (autoload 'cargo-process-bench "cargo-process" "\
@@ -198,9 +202,11 @@ Run the last cargo-process command.
 
 \(fn)" t nil)
 
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "cargo-process" '("cargo-" "manifest-path-argument" "set-rust-backtrace" "rustc-errno")))
+
 ;;;***
 
-;;;### (autoloads nil nil ("cargo-pkg.el") (24076 55584 885373 761000))
+;;;### (autoloads nil nil ("cargo-pkg.el") (0 0 0 0))
 
 ;;;***
 
@@ -208,5 +214,6 @@ Run the last cargo-process command.
 ;; version-control: never
 ;; no-byte-compile: t
 ;; no-update-autoloads: t
+;; coding: utf-8
 ;; End:
 ;;; cargo-autoloads.el ends here
