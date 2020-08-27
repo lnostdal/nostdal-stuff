@@ -1,7 +1,6 @@
 [user]
 name = Lars Rune Nøstdal
 email = larsnostdal@gmail.com
-signingkey = A08AC77A7B281AED
 
 [color]
 diff = auto
@@ -22,5 +21,9 @@ spellcheck = false
 
 [merge]
 conflictStyle = diff3
+
 [receive]
-	denyCurrentBranch = updateInstead
+denyCurrentBranch = updateInstead
+
+[diff]
+algorithm = histogram
