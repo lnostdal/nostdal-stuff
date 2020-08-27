@@ -8,7 +8,8 @@
 ;; Maintainer: Fanael Linithien <fanael4@gmail.com>
 ;; Created: 2010-09-02
 ;; Version: 2.1.4
-;; Package-Version: 20191018.1233
+;; Package-Version: 20200827.321
+;; Package-Commit: f43d48a24602be3ec899345a3326ed0247b960c6
 ;; Keywords: faces, convenience, lisp, tools
 ;; Homepage: https://github.com/Fanael/rainbow-delimiters
 
@@ -232,6 +233,10 @@ Returns t if char at loc meets one of the following conditions:
   "Highlight delimiters in region between point and END.
 
 Used by font-lock for dynamic highlighting."
+  (when (bound-and-true-p mmm-current-submode)
+    ;; `mmm-mode' is weird and apparently needs this hack, because otherwise we
+    ;; may end up thinking matched parentheses are mismatched.
+    (widen))
   (let* ((last-ppss-pos (point))
          (ppss (syntax-ppss)))
     (while (> end (progn (skip-syntax-forward "^()" end)
