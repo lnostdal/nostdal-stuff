@@ -1,0 +1,2 @@
+#!/bin/bash
+rsync -vhzrlpgoDc --partial --inplace --progress "$1" "$2"
