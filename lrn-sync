@@ -1,2 +1,2 @@
 #!/bin/bash
-rsync -vhzrlpgoDc --partial --inplace --progress "$1" "$2"
+rsync -vhzrlpgoDc --compress-level=9 --partial --inplace --progress "$1" "$2"
