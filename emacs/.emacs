@@ -35,7 +35,6 @@
  '(package-selected-packages
    (quote
     (yaml-mode cider ssh-config-mode spacemacs-theme csharp-mode systemd lxd-tramp counsel-tramp docker docker-compose-mode solarized-theme wgrep hl-todo counsel-projectile projectile counsel clj-refactor dockerfile-mode htmlize symon beacon 0blayout magit-todos jdee smartparens ivy highlight-thing elgrep magit python-mode php-mode web-mode cargo rust-mode rainbow-delimiters nginx-mode cider-decompile clojure-mode js2-mode highlight-parentheses haskell-mode company)))
- '(truncate-lines t)
  '(visible-bell t)
  '(web-mode-code-indent-offset 2)
  '(web-mode-css-indent-offset 2)
@@ -84,6 +83,7 @@
 (winner-mode 1)
 (global-set-key (kbd "<C-M-prior>") 'winner-undo)
 (global-set-key (kbd "<C-M-next>") 'winner-redo)
+(global-set-key (kbd "M-(") 'toggle-truncate-lines)
 
 ;;(global-highlight-parentheses-mode) ;; Colorize nested parens.
 
