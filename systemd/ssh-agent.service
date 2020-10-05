@@ -1,0 +1,26 @@
+# From: https://gist.github.com/magnetikonline/b6255da90606fe9c5c25d3333c98c90d
+
+# Create /etc/systemd/user/ssh-agent.service.
+
+# Run the following commands (under your user account, not root) to install the systemd unit and start:
+
+#  $ systemctl --user enable ssh-agent.service
+#  $ systemctl --user start ssh-agent.service
+# Add the following to ~/.bashrc:
+
+#  export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
+# Logout then login, confirm ssh-agent is running:
+
+#  $ systemctl --user status ssh-agent.service
+#  $ ssh-add -L
+# Done.
+
+[Unit]
+Description=SSH authentication agent
+
+[Service]
+ExecStart=/usr/bin/ssh-agent -a %t/ssh-agent.socket -D
+Type=simple
+
+[Install]
+WantedBy=default.target
