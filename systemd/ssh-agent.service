@@ -6,7 +6,7 @@
 
 #  $ systemctl --user enable ssh-agent.service
 #  $ systemctl --user start ssh-agent.service
-# Add the following to ~/.bashrc:
+# Add the following to ~/.bashrc or ~/.profile (seems to work better):
 
 #  export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
 # Logout then login, confirm ssh-agent is running:

@@ -1,0 +1,19 @@
+# NOTE: SSHFS is really only usable on local networks IMO YMMV.
+# Create /etc/systemd/user/sshfs@<your_hostname>.service symlink to this file.
+
+# Run the following commands (under your user account, not root) to install the systemd unit and start:
+
+# $ systemctl --user enable sshfs@<your_hostname>.service
+# $ systemctl --user start sshfs@<your_hostname>.service
+# $ systemctl --user status sshfs@<your_hostname>.service
+
+[Unit]
+Description=SSHFS user service for %i
+
+[Service]
+ExecStart=/usr/bin/bash -c '/usr/bin/fusermount -uz ~/mount/%i ; /usr/bin/sshfs -f -o kernel_cache,transform_symlinks,ConnectTimeout=3,ConnectionAttempts=1,ServerAliveInterval=5,ServerAliveCountMax=3 %i:/ ~/mount/%i'
+RestartSec=5
+Restart=always
+
+[Install]
+WantedBy=default.target
