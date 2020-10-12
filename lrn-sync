@@ -1,2 +1,2 @@
 #!/bin/bash
-rsync -vhzrlpgoDc --compress-level=9 --partial --inplace --progress "$1" "$2"
+rsync --progress --checksum --human-readable --copy-links --recursive --perms --owner --group --compress --compress-level=9 --partial --inplace "$1" "$2"
