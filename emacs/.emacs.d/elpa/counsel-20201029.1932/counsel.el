@@ -4,8 +4,8 @@
 
 ;; Author: Oleh Krehel <ohwoeowho@gmail.com>
 ;; URL: https://github.com/abo-abo/swiper
-;; Package-Version: 20201023.2340
-;; Package-Commit: 49f9d662a42d51db39b6a84c3fd1d78ca8c5103d
+;; Package-Version: 20201029.1932
+;; Package-Commit: b472d347f6a3d31afe2807c0c0bb76a8ab128efe
 ;; Version: 0.13.0
 ;; Package-Requires: ((emacs "24.5") (swiper "0.13.0"))
 ;; Keywords: convenience, matching, tools
@@ -1098,21 +1098,22 @@ See `describe-buffer-bindings' for further information."
                        "<vertical-scroll-bar>" "<horizontal-scroll-bar>")))
         res)
     (with-temp-buffer
-      (let ((indent-tabs-mode t))
+      (let ((standard-output (current-buffer))
+            (indent-tabs-mode t))
         (describe-buffer-bindings buffer prefix))
       (goto-char (point-min))
       ;; Skip the "Key translations" section
-      (re-search-forward "")
-      (forward-char 1)
+      (skip-chars-forward "^\C-l")
+      (forward-char 2)
       (while (not (eobp))
         (when (looking-at "^\\([^\t\n]+\\)[\t ]*\\(.*\\)$")
           (let ((key (match-string 1))
                 (fun (match-string 2))
                 cmd)
             (unless (or (member fun '("??" "self-insert-command"))
-                        (string-match re-exclude key)
+                        (string-match-p re-exclude key)
                         (not (or (commandp (setq cmd (intern-soft fun)))
-                                 (member fun '("Prefix Command")))))
+                                 (equal fun "Prefix Command"))))
               (push
                (cons (format
                       "%-15s %s"
@@ -1120,7 +1121,7 @@ See `describe-buffer-bindings' for further information."
                       fun)
                      (cons key cmd))
                res))))
-        (forward-line 1)))
+        (forward-line)))
     (nreverse res)))
 
 (defcustom counsel-descbinds-function #'describe-function

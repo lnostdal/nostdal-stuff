@@ -4,8 +4,8 @@
 
 ;; Author: Bozhidar Batsov <bozhidar@batsov.com>
 ;; URL: https://github.com/bbatsov/projectile
-;; Package-Version: 20201011.657
-;; Package-Commit: 3670ebea092c7bae4973f5bcecf5ac3588a0ac60
+;; Package-Version: 20201030.1132
+;; Package-Commit: d1daf274e8ca2eb0f20475b8f314bb955167c6a1
 ;; Keywords: project, convenience
 ;; Version: 2.3.0-snapshot
 ;; Package-Requires: ((emacs "25.1") (pkg-info "0.4"))
@@ -3701,16 +3701,19 @@ to run the replacement."
       ;; Emacs 25 and 26
       ;;
       ;; Adapted from `tags-query-replace' for literal strings (not regexp)
-      (setq tags-loop-scan `(let ,(unless (equal old-text (downcase old-text))
-                                    '((case-fold-search nil)))
-                              (if (search-forward ',old-text nil t)
-                                  ;; When we find a match, move back to
-                                  ;; the beginning of it so
-                                  ;; perform-replace will see it.
-                                  (goto-char (match-beginning 0))))
-            tags-loop-operate `(perform-replace ',old-text ',new-text t nil nil
-                                                nil multi-query-replace-map))
-      (with-no-warnings (tags-loop-continue (or (cons 'list files) t))))))
+      (with-no-warnings
+        (setq tags-loop-scan
+              `(let ,(unless (equal old-text (downcase old-text))
+                       '((case-fold-search nil)))
+                 (if (search-forward ',old-text nil t)
+                     ;; When we find a match, move back to
+                     ;; the beginning of it so
+                     ;; perform-replace will see it.
+                     (goto-char (match-beginning 0)))))
+        (setq tags-loop-operate
+              `(perform-replace ',old-text ',new-text t nil nil
+                                nil multi-query-replace-map))
+        (tags-loop-continue (or (cons 'list files) t))))))
 
 ;;;###autoload
 (defun projectile-replace-regexp (&optional arg)
