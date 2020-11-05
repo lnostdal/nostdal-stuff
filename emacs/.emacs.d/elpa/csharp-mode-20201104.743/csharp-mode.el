@@ -6,8 +6,8 @@
 ;; Created    : September 2020
 ;; Modified   : 2020
 ;; Version    : 0.10.0
-;; Package-Version: 20201028.1502
-;; Package-Commit: 1d02407790912a4c8d6de8c0a6004bb5ad0da7ab
+;; Package-Version: 20201104.743
+;; Package-Commit: 77411966bd9f95dadf2af39f95f86273f5c903bd
 ;; Keywords   : c# languages oop mode
 ;; X-URL      : https://github.com/josteink/csharp-mode
 
@@ -340,6 +340,17 @@
           ;; Merge with cc-mode defaults - enables us to add more later
           (c-lang-const c-basic-matchers-after)))
 
+(defcustom csharp-codedoc-tag-face 'c-doc-markup-face-name
+  "Face to be used on the codedoc docstring tags.
+
+Should be one of the font lock faces, such as
+`font-lock-variable-name-face' and friends.
+
+Needs to be set before `csharp-mode' is loaded, because of
+compilation and evaluation time conflicts."
+  :type 'symbol
+  :group 'csharp)
+
 (defcustom csharp-font-lock-extra-types
   (list csharp--regex-type-name)
   (c-make-font-lock-extra-types-blurb "C#" "csharp-mode" (concat))
@@ -429,16 +440,22 @@
 
 (defconst csharp-compilation-re-dotnet-testfail
   (concat
-   "\\[[A-Za-z.]+[[:blank:]]+[0-9]+:[0-9]+:[0-9]+.[0-9]+\\][^(\r\n)]+ \\[FAIL\\]\n"
-   "[[:blank:]]+X \\(?:.+\n\\)+"
+   "\\[[A-Za-z.]+[[:blank:]]+[0-9]+:[0-9]+:[0-9]+.[0-9]+\\][^(\n)]+ \\[FAIL\\]\n"
+   "[[:blank:]]+X \\(?:.+\n\\)"
+   "[[:blank:]]+Error Message:\n"
+   "[[:blank:]]+\\(?:.+\n\\)"
    "[[:blank:]]+Stack Trace:\n"
-   "[[:blank:]]+at [^\r\n]+ in \\([^\r\n]+\\):line \\([0-9]+\\)"))
+   "[[:blank:]]+at [^\n]+ in \\([^\n]+\\):line \\([0-9]+\\)"))
+
 
 (eval-after-load 'compile
   (lambda ()
     (dolist
         (regexp
-         `((xbuild-error
+         `((dotnet-testfail
+            ,csharp-compilation-re-dotnet-testfail
+            1 2)
+           (xbuild-error
             ,csharp-compilation-re-xbuild-error
             1 2 3 2)
            (xbuild-warning
@@ -467,10 +484,7 @@
             1)
            (dotnet-warning
             ,csharp-compilation-re-dotnet-warning
-            1 nil nil 1)
-           (dotnet-testfail
-            ,csharp-compilation-re-dotnet-testfail
-            1 2)))
+            1 nil nil 1)))
       (add-to-list 'compilation-error-regexp-alist-alist regexp)
       (add-to-list 'compilation-error-regexp-alist (car regexp)))))
 
@@ -484,11 +498,11 @@
 	      (concat "\\sw\\|\\s \\|[=\n\r*.:]\\|"
 		      "\"[^\"]*\"\\|'[^']*'")
 	      "\\)*/?>")
-     0 ,c-doc-markup-face-name prepend nil)
+     0 ,csharp-codedoc-tag-face prepend nil)
     ;; ("\\([a-zA-Z0-9_]+\\)=" 0 font-lock-variable-name-face prepend nil)
     ;; ("\".*\"" 0 font-lock-string-face prepend nil)
     ("&\\(\\sw\\|[.:]\\)+;"		; XML entities.
-     0 ,c-doc-markup-face-name prepend nil)))
+     0 ,csharp-codedoc-tag-face prepend nil)))
 
 (defconst codedoc-font-lock-keywords
   `((,(lambda (limit)

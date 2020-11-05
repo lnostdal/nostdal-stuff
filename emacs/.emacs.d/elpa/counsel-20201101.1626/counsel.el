@@ -4,8 +4,8 @@
 
 ;; Author: Oleh Krehel <ohwoeowho@gmail.com>
 ;; URL: https://github.com/abo-abo/swiper
-;; Package-Version: 20201029.1932
-;; Package-Commit: b472d347f6a3d31afe2807c0c0bb76a8ab128efe
+;; Package-Version: 20201101.1626
+;; Package-Commit: e58bfc162a2df5b67a820d0311c313d3db522073
 ;; Version: 0.13.0
 ;; Package-Requires: ((emacs "24.5") (swiper "0.13.0"))
 ;; Keywords: convenience, matching, tools
@@ -1098,8 +1098,7 @@ See `describe-buffer-bindings' for further information."
                        "<vertical-scroll-bar>" "<horizontal-scroll-bar>")))
         res)
     (with-temp-buffer
-      (let ((standard-output (current-buffer))
-            (indent-tabs-mode t))
+      (let ((indent-tabs-mode t))
         (describe-buffer-bindings buffer prefix))
       (goto-char (point-min))
       ;; Skip the "Key translations" section

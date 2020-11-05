@@ -1548,22 +1548,7 @@ Push a tag to another repository.
 Push a notes ref to another repository.
 
 \(fn REF REMOTE &optional ARGS)" t nil)
-
-(autoload 'magit-push-implicitly "magit-push" "\
-Push somewhere without using an explicit refspec.
-
-This command simply runs \"git push -v [ARGS]\".  ARGS are the
-arguments specified in the popup buffer.  No explicit refspec
-arguments are used.  Instead the behavior depends on at least
-these Git variables: `push.default', `remote.pushDefault',
-`branch.<branch>.pushRemote', `branch.<branch>.remote',
-`branch.<branch>.merge', and `remote.<remote>.push'.
-
-The function `magit-push-implicitly--desc' attempts to predict
-what this command will do.  The value it returns is displayed in
-the popup buffer.
-
-\(fn ARGS)" t nil)
+ (autoload 'magit-push-implicitly "magit-push" nil t)
 
 (autoload 'magit-push-to-remote "magit-push" "\
 Push to REMOTE without using an explicit refspec.

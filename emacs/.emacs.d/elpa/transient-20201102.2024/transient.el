@@ -889,7 +889,9 @@ example, sets a variable use `transient-define-infix' instead.
             (setq class v)
           (push k keys)
           (push v keys))))
-    (while (vectorp (car args))
+    (while (let ((arg (car args)))
+             (or (vectorp arg)
+                 (and arg (symbolp arg))))
       (push (pop args) suffixes))
     (list (if (eq (car-safe class) 'quote)
               (cadr class)
@@ -901,6 +903,12 @@ example, sets a variable use `transient-define-infix' instead.
 
 (defun transient--parse-child (prefix spec)
   (cl-etypecase spec
+    (symbol  (let ((value (symbol-value spec)))
+               (if (and (listp value)
+                        (or (listp (car value))
+                            (vectorp (car value))))
+                   (cl-mapcan (lambda (s) (transient--parse-child prefix s)) value)
+                 (transient--parse-child prefix value))))
     (vector  (when-let ((c (transient--parse-group  prefix spec))) (list c)))
     (list    (when-let ((c (transient--parse-suffix prefix spec))) (list c)))
     (string  (list spec))))
@@ -2438,7 +2446,8 @@ it\", in which case it is pointless to preserve history.)"
               ((and (equal value "\"\"") allow-empty)
                (setq value "")))
         (when value
-          (when (bound-and-true-p ivy-mode)
+          (when (and (bound-and-true-p ivy-mode)
+                     (stringp (car transient--history)))
             (set-text-properties 0 (length (car transient--history)) nil
                                  (car transient--history)))
           (setf (alist-get history-key transient-history)
@@ -3487,15 +3496,17 @@ we stop there."
 
 (defclass transient-lisp-variable (transient-variable)
   ((reader :initform transient-lisp-variable--reader)
-   (always-read :initform t))
+   (always-read :initform t)
+   (set-value :initarg :set-value :initform set))
   "[Experimental] Class used for Lisp variables.")
 
 (cl-defmethod transient-init-value ((obj transient-lisp-variable))
   (oset obj value (symbol-value (oref obj variable))))
 
 (cl-defmethod transient-infix-set ((obj transient-lisp-variable) value)
-  (set (oref obj variable)
-       (oset obj value value)))
+  (funcall (oref obj set-value)
+           (oref obj variable)
+           (oset obj value value)))
 
 (cl-defmethod transient-format-description ((obj transient-lisp-variable))
   (or (oref obj description)

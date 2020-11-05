@@ -6,8 +6,8 @@
 ;;         Marshall T. Vandegrift <llasram@gmail.com>
 ;; Maintainer: Vasilij Schneidermann <mail@vasilij.de>
 ;; Package-Requires: ((emacs "24.1"))
-;; Package-Version: 20200725.1836
-;; Package-Commit: 68fecb5f0dec712a10c8655df6881392a4613617
+;; Package-Version: 20201031.1448
+;; Package-Commit: 831ef3a04e4d32ec3fa3d77a54dc7e7bc5b6fd81
 ;; Keywords: data yaml
 ;; Version: 0.0.14
 
@@ -324,6 +324,8 @@ artificially limited to the value of
           (unless (looking-at yaml-blank-line-re)
             (setq min-level (min min-level (current-indentation))))
           (forward-line -1))
+        (when (looking-at-p " *- ")
+          (setq min-level (- min-level 2)))
         (cond
          ((and (< (current-indentation) min-level)
                (looking-at yaml-block-literal-re))
