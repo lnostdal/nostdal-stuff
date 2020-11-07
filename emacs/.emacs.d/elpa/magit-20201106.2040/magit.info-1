@@ -31,7 +31,7 @@ to perform almost all of their daily version control tasks directly from
 within Emacs.  While many fine Git clients exist, only Magit and Git
 itself deserve to be called porcelains.
 
-This manual is for Magit version 2.90.1 (v2.90.1-1078-gff8a616cd+1).
+This manual is for Magit version 2.90.1 (v2.90.1-1083-gb18be6c14+1).
 
      Copyright (C) 2015-2020 Jonas Bernoulli <jonas@bernoul.li>
 
@@ -237,7 +237,7 @@ Miscellaneous
 * Worktree::
 * Common Commands::
 * Wip Modes::
-* Minor Mode for Buffers Visiting Files::
+* Commands for Buffers Visiting Files::
 * Minor Mode for Buffers Visiting Blobs::
 
 Submodules
@@ -261,6 +261,7 @@ Essential Settings
 
 * Safety::
 * Performance::
+* Default Bindings::
 
 
 Plumbing
@@ -570,11 +571,8 @@ tutorial.  Alternatively you can use an existing local repository, but
 if you do that, then you should commit all uncommitted changes before
 proceeding.
 
-   To display information about the current Git repository, type ‘M-x
-magit-status RET’.  You will be using this command a lot, and should
-therefore give it a global key binding.  This is what we recommend:
-
-     (global-set-key (kbd "C-x g") 'magit-status)
+   Type ‘C-x g’ to display information about the current Git repository
+in a dedicated buffer, called the status buffer.
 
    Most Magit commands are commonly invoked from the status buffer.  It
 can be considered the primary interface for interacting with Git using
@@ -636,27 +634,24 @@ local branch onto the remote configured as the push-remote.  (If the
 push-remote is not configured yet, then you would first be prompted for
 the remote to push to.)
 
-   So far we have mentioned the commit, push, and log transient prefix
-commands.  These are probably among the transients you will be using the
-most, but many others exist.  To show a transient that lists all other
-transients (as well as the various apply commands and some other
-essential commands), type ‘h’.  Try a few.
+   So far we have mentioned the commit, push, and log menu commands.
+These are probably among the menus you will be using the most, but many
+others exist.  To show a menu that lists all other menus (as well as the
+various apply commands and some other essential commands), type ‘h’.
+Try a few.  (Such menus are also called "transient prefix commands" or
+just "transients".)
 
-   The key bindings in that transient correspond to the bindings in
-Magit buffers, including but not limited to the status buffer.  So you
-could type ‘h d’ to bring up the diff transient, but once you remember
-that "d" stands for "diff", you would usually do so by just typing ‘d’.
-But this "prefix of prefixes" is useful even once you have memorized all
-the bindings, as it can provide easy access to Magit commands from
-non-Magit buffers.  You should create a global key binding for this
-command too:
+   The key bindings in that menu correspond to the bindings in Magit
+buffers, including but not limited to the status buffer.  So you could
+type ‘h d’ to bring up the diff menu, but once you remember that "d"
+stands for "diff", you would usually do so by just typing ‘d’.  But this
+"prefix of prefixes" is useful even once you have memorized all the
+bindings, as it can provide easy access to Magit commands from non-Magit
+buffers.  The global binding is ‘C-x M-g’.
 
-     (global-set-key (kbd "C-x M-g") 'magit-dispatch)
-
-   In the same vein, you might also want to enable
-‘global-magit-file-mode’ to get some more Magit key bindings in regular
-file-visiting buffers (see *note Minor Mode for Buffers Visiting
-Files::).
+   In file visiting buffers ‘C-c M-g’ brings up a similar menu featuring
+commands that act on just the visited file, see *note Commands for
+Buffers Visiting Files::.
 
    It is not necessary that you do so now, but if you stick with Magit,
 then it is highly recommended that you read the next section too.
@@ -3067,7 +3062,7 @@ Reflog::.
      Show log for all references and ‘HEAD’.
 
    Two additional commands that show the log for the file or blob that
-is being visited in the current buffer exists, see *note Minor Mode for
+is being visited in the current buffer exists, see *note Commands for
 Buffers Visiting Files::.  The command ‘magit-cherry’ also shows a log,
 see *note Cherries::.
 
@@ -3545,7 +3540,7 @@ another buffer:
      Show all diffs of a stash in a buffer.
 
    Two additional commands that show the diff for the file or blob that
-is being visited in the current buffer exists, see *note Minor Mode for
+is being visited in the current buffer exists, see *note Commands for
 Buffers Visiting Files::.
 
 * Menu:
@@ -4506,10 +4501,7 @@ File: magit.info,  Node: Blaming,  Prev: Visiting Files and Blobs,  Up: Inspecti
 Also see *note (gitman)git-blame::.
 
    To start blaming invoke the ‘magit-file-dispatch’ transient prefix
-command by pressing ‘C-c M-g’.  (This is only the default binding and
-the recommended binding is ‘C-c g’.  Also neither binding may be
-available if you disabled ‘global-magit-file-mode’.  Also see *note
-Minor Mode for Buffers Visiting Files::.)
+command by pressing ‘C-c M-g’.
 
    The blaming suffix commands can be invoked from the dispatch
 transient.  However if you want to set an infix argument, then you have
@@ -7435,7 +7427,7 @@ File: magit.info,  Node: Miscellaneous,  Next: Customizing,  Prev: Transferring,
 * Worktree::
 * Common Commands::
 * Wip Modes::
-* Minor Mode for Buffers Visiting Files::
+* Commands for Buffers Visiting Files::
 * Minor Mode for Buffers Visiting Blobs::
 
 
@@ -7776,4 +7768,50 @@ Also see *note (gitman)git-worktree::.
      If there is no worktree at point, then read one in the minibuffer.
      If the worktree at point is the one whose status is already being
      displayed in the current buffer, then show it in Dired instead.
+
+
+File: magit.info,  Node: Common Commands,  Next: Wip Modes,  Prev: Worktree,  Up: Miscellaneous
+
+8.6 Common Commands
+===================
+
+These are some of the commands that can be used in all buffers whose
+major-modes derive from ‘magit-mode’.  There are other common commands
+beside the ones below, but these didn’t fit well anywhere else.
+
+‘C-w’     (‘magit-copy-section-value’)
+
+     This command saves the value of the current section to the
+     ‘kill-ring’, and, provided that the current section is a commit,
+     branch, or tag section, it also pushes the (referenced) revision to
+     the ‘magit-revision-stack’.
+
+     When the current section is a branch or a tag, and a prefix
+     argument is used, then it saves the revision at its tip to the
+     ‘kill-ring’ instead of the reference name.
+
+     When the region is active, this command saves that to the
+     ‘kill-ring’, like ‘kill-ring-save’ would, instead of behaving as
+     described above.  If a prefix argument is used and the region is
+     within a hunk, it strips the outer diff marker column before saving
+     the text.
+
+‘M-w’     (‘magit-copy-buffer-revision’)
+
+     This command saves the revision being displayed in the current
+     buffer to the ‘kill-ring’ and also pushes it to the
+     ‘magit-revision-stack’.  It is mainly intended for use in
+     ‘magit-revision-mode’ buffers, the only buffers where it is always
+     unambiguous exactly which revision should be saved.
+
+     Most other Magit buffers usually show more than one revision, in
+     some way or another, so this command has to select one of them, and
+     that choice might not always be the one you think would have been
+     the best pick.
+
+   Outside of Magit ‘M-w’ and ‘C-w’ are usually bound to
+‘kill-ring-save’ and ‘kill-region’, and these commands would also be
+useful in Magit buffers.  Therefore when the region is active, then both
+of these commands behave like ‘kill-ring-save’ instead of as described
+above.
 

@@ -34,6 +34,35 @@ running 'man git-rebase' at the command line) for details.
 
 ;;;### (autoloads nil "magit" "magit.el" (0 0 0 0))
 ;;; Generated autoloads from magit.el
+
+(define-obsolete-variable-alias 'global-magit-file-mode 'magit-define-global-key-bindings "Magit 3.0.0")
+
+(defvar magit-define-global-key-bindings t "\
+Whether to bind some Magit commands in the global keymap.
+
+If this variable is non-nil, then the following bindings are
+added to the global keymap.  The default is t.
+
+key             binding
+---             -------
+C-x g           magit-status
+C-x M-g         magit-dispatch
+C-c M-g         magit-file-dispatch
+
+To prevent this, you must set this variable to nil *before*
+`magit' is loaded or autoloaded, afterwards it has no effect.
+
+Even if you use the above bindings, you may still wish to
+bind \"C-c g\" instead of \"C-c M-g\" to `magit-file-dispatch'.
+The former is a much better binding but the \"C-c <letter>\"
+namespace is strictly reserved for users; preventing Magit
+from using it by default.
+
+Also see info node `(magit)Commands for Buffers Visiting Files'.")
+
+(custom-autoload 'magit-define-global-key-bindings "magit" t)
+
+(when magit-define-global-key-bindings (let ((map (current-global-map))) (define-key map (kbd "C-x g") 'magit-status) (define-key map (kbd "C-x M-g") 'magit-dispatch) (define-key map (kbd "C-c M-g") 'magit-file-dispatch)))
  (autoload 'magit-dispatch "magit" nil t)
  (autoload 'magit-run "magit" nil t)
 
@@ -1039,30 +1068,6 @@ the line and column corresponding to that location.
 
 \(fn REV FILE)" t nil)
  (autoload 'magit-file-dispatch "magit" nil t)
-
-(put 'global-magit-file-mode 'globalized-minor-mode t)
-
-(defvar global-magit-file-mode t "\
-Non-nil if Global Magit-File mode is enabled.
-See the `global-magit-file-mode' command
-for a description of this minor mode.
-Setting this variable directly does not take effect;
-either customize it (see the info node `Easy Customization')
-or call the function `global-magit-file-mode'.")
-
-(custom-autoload 'global-magit-file-mode "magit-files" nil)
-
-(autoload 'global-magit-file-mode "magit-files" "\
-Toggle Magit-File mode in all buffers.
-With prefix ARG, enable Global Magit-File mode if ARG is positive;
-otherwise, disable it.  If called from Lisp, enable the mode if
-ARG is omitted or nil.
-
-Magit-File mode is enabled in all buffers where
-`magit-file-mode-turn-on' would do it.
-See `magit-file-mode' for more information on Magit-File mode.
-
-\(fn &optional ARG)" t nil)
 
 (autoload 'magit-blob-visit-file "magit-files" "\
 View the file from the worktree corresponding to the current blob.

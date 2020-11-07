@@ -18,53 +18,7 @@ START-INFO-DIR-ENTRY
 END-INFO-DIR-ENTRY
 
 
-File: magit.info,  Node: Common Commands,  Next: Wip Modes,  Prev: Worktree,  Up: Miscellaneous
-
-8.6 Common Commands
-===================
-
-These are some of the commands that can be used in all buffers whose
-major-modes derive from ‘magit-mode’.  There are other common commands
-beside the ones below, but these didn’t fit well anywhere else.
-
-‘C-w’     (‘magit-copy-section-value’)
-
-     This command saves the value of the current section to the
-     ‘kill-ring’, and, provided that the current section is a commit,
-     branch, or tag section, it also pushes the (referenced) revision to
-     the ‘magit-revision-stack’.
-
-     When the current section is a branch or a tag, and a prefix
-     argument is used, then it saves the revision at its tip to the
-     ‘kill-ring’ instead of the reference name.
-
-     When the region is active, this command saves that to the
-     ‘kill-ring’, like ‘kill-ring-save’ would, instead of behaving as
-     described above.  If a prefix argument is used and the region is
-     within a hunk, it strips the outer diff marker column before saving
-     the text.
-
-‘M-w’     (‘magit-copy-buffer-revision’)
-
-     This command saves the revision being displayed in the current
-     buffer to the ‘kill-ring’ and also pushes it to the
-     ‘magit-revision-stack’.  It is mainly intended for use in
-     ‘magit-revision-mode’ buffers, the only buffers where it is always
-     unambiguous exactly which revision should be saved.
-
-     Most other Magit buffers usually show more than one revision, in
-     some way or another, so this command has to select one of them, and
-     that choice might not always be the one you think would have been
-     the best pick.
-
-   Outside of Magit ‘M-w’ and ‘C-w’ are usually bound to
-‘kill-ring-save’ and ‘kill-region’, and these commands would also be
-useful in Magit buffers.  Therefore when the region is active, then both
-of these commands behave like ‘kill-ring-save’ instead of as described
-above.
-
-
-File: magit.info,  Node: Wip Modes,  Next: Minor Mode for Buffers Visiting Files,  Prev: Common Commands,  Up: Miscellaneous
+File: magit.info,  Node: Wip Modes,  Next: Commands for Buffers Visiting Files,  Prev: Common Commands,  Up: Miscellaneous
 
 8.7 Wip Modes
 =============
@@ -308,55 +262,22 @@ making changes that could cause the loss of earlier changes.
      Mode-line lighter for ‘magit-wip-initial-backup-mode’.
 
 
-File: magit.info,  Node: Minor Mode for Buffers Visiting Files,  Next: Minor Mode for Buffers Visiting Blobs,  Prev: Wip Modes,  Up: Miscellaneous
+File: magit.info,  Node: Commands for Buffers Visiting Files,  Next: Minor Mode for Buffers Visiting Blobs,  Prev: Wip Modes,  Up: Miscellaneous
 
-8.8 Minor Mode for Buffers Visiting Files
-=========================================
+8.8 Commands for Buffers Visiting Files
+=======================================
 
-The minor-mode ‘magit-file-mode’ enables certain Magit features in
-file-visiting buffers belonging to a Git repository.  The globalized
-variant ‘global-magit-file-mode’ enables the local mode in all such
-buffers.  It is enabled by default.  Currently the local mode only
-establishes a few key bindings, but this might be extended in the
-future.
+Magit defines a few global key bindings unless the user sets
+‘magit-define-global-key-bindings’ to ‘nil’.  This includes binding ‘C-c
+M-g’ to ‘magit-file-dispatch’.  ‘C-c g’ would be a much better binding
+but the ‘C-c <letter>’ namespace is reserved for users, meaning that
+packages are not allowed to use it.  If you want to use ‘C-c g’, then
+you have to add that binding yourself.  Also see *note Default
+Bindings:: and *note (elisp)Key Binding Conventions::.
 
- -- User Option: global-magit-file-mode
+   If you want a better binding, you have to add it yourself:
 
-     Whether to establish certain Magit key bindings in all
-     file-visiting buffers belonging to any Git repository.  This is
-     enabled by default.  This globalized mode turns on the local
-     minor-mode ‘magit-file-mode’ in all suitable buffers.
-
- -- Variable: magit-file-mode-map
-
-     This keymap is used by the local minor-mode ‘magit-file-mode’ and
-     establishes the key bindings described below.
-
-     Note that the default binding for ‘magit-file-dispatch’ is very
-     cumbersome to use and that we recommend that you add a better
-     binding.
-
-     Instead of ‘C-c M-g’ I would have preferred to use ‘C-c g’ because
-     (1) it is similar to ‘C-x g’ (the recommended global binding for
-     ‘~magit-status’), (2) we cannot use ‘C-c C-g’ because we have been
-     recommending that that be bound to ‘magit-dispatch’ for a long
-     time, (3) we cannot use ‘C-x C-g’ because that is a convenient way
-     of aborting the incomplete key sequence ‘C-x’, and most importantly
-     (4) it would make it much easier to type the next key (a suffix
-     binding) because most of those are letters.
-
-     For example ‘C-c g b’ is much easier to type than ‘C-c M-g b’.  For
-     suffix bindings that use uppercase letters, the default is just
-     horrible—having to use e.g.  ‘C-c M-g B’ (‘Control+c Meta+g
-     Shift+b’) would drive anyone up the walls (or to Vim).
-
-     However ‘C-c LETTER’ bindings are reserved for users (see *note
-     (elisp)Key Binding Conventions::).  Packages are forbidden from
-     using those.  Doing so anyway is considered heresy.  Therefore if
-     you want a better binding, you have to add it yourself:
-
-          (define-key magit-file-mode-map
-            (kbd "C-c g") 'magit-file-dispatch)
+     (global-set-key (kbd "C-c g") 'magit-file-dispatch)
 
    The key bindings shown below assume that you have not improved the
 binding for ‘magit-file-dispatch’.
@@ -365,6 +286,9 @@ binding for ‘magit-file-dispatch’.
 
      This transient prefix command binds the following suffix commands
      and displays them in a temporary buffer until a suffix is invoked.
+
+     When invoked in a buffer that does not visit a file, then it falls
+     back to regular ‘magit-dispatch’.
 
 ‘C-c M-g s’     (‘magit-stage-file’)
 
@@ -484,7 +408,7 @@ leave edit mode (‘C-g’).  Also see *note (transient)Enabling and
 Disabling Suffixes::.
 
 
-File: magit.info,  Node: Minor Mode for Buffers Visiting Blobs,  Prev: Minor Mode for Buffers Visiting Files,  Up: Miscellaneous
+File: magit.info,  Node: Minor Mode for Buffers Visiting Blobs,  Prev: Commands for Buffers Visiting Files,  Up: Miscellaneous
 
 8.9 Minor Mode for Buffers Visiting Blobs
 =========================================
@@ -620,6 +544,7 @@ might want to customize, for safety and/or performance reasons.
 
 * Safety::
 * Performance::
+* Default Bindings::
 
 
 File: magit.info,  Node: Safety,  Next: Performance,  Up: Essential Settings
@@ -659,7 +584,7 @@ to make an informed decision you should see *note Risk of Reverting
 Automatically::.
 
 
-File: magit.info,  Node: Performance,  Prev: Safety,  Up: Essential Settings
+File: magit.info,  Node: Performance,  Next: Default Bindings,  Prev: Safety,  Up: Essential Settings
 
 9.2.2 Performance
 -----------------
@@ -870,6 +795,39 @@ resolving the ‘$PATH’.
 
    (1) 
 <https://lists.gnu.org/archive/html/bug-gnu-emacs/2017-04/msg00201.html>
+
+
+File: magit.info,  Node: Default Bindings,  Prev: Performance,  Up: Essential Settings
+
+9.2.3 Default Bindings
+----------------------
+
+ -- User Option: magit-define-global-key-bindings
+
+     This option controls whether to bind some Magit commands in the
+     global keymap.
+
+     If this variable is non-nil, which it is by default, then the
+     following bindings are added to the global keymap.
+
+     ‘C-x g’     ‘magit-status’
+     ‘C-x M-g’   ‘magit-dispatch’
+     ‘C-c M-g’   ‘magit-file-dispatch’
+
+     To prevent this, you must set this variable to nil *before* ‘magit’
+     is loaded or autoloaded, afterwards it has no effect.
+
+     Even if you use the above bindings, you may still wish to bind ‘C-c
+     g’ instead of ‘C-c M-g’ to ‘magit-file-dispatch’.  The former is a
+     much better binding but the ‘C-c <letter>’ namespace is strictly
+     reserved for users; preventing Magit from using it by default.
+
+     If you want a better binding, you have to add it yourself:
+
+          (global-set-key (kbd "C-c g") 'magit-file-dispatch)
+
+     Also see *note Commands for Buffers Visiting Files:: and *note
+     (elisp)Key Binding Conventions::.
 
 
 File: magit.info,  Node: Plumbing,  Next: FAQ,  Prev: Customizing,  Up: Top
@@ -2187,7 +2145,7 @@ Appendix C Keystroke Index
 * A s:                                   Cherry Picking.      (line  76)
 * A s <1>:                               Cherry Picking.      (line  94)
 * B:                                     Bisecting.           (line   8)
-* b:                                     Blaming.             (line 105)
+* b:                                     Blaming.             (line 102)
 * b <1>:                                 Branch Commands.     (line  12)
 * b <2>:                                 Editing Rebase Sequences.
                                                               (line  85)
@@ -2207,7 +2165,7 @@ Appendix C Keystroke Index
 * b s:                                   Branch Commands.     (line  97)
 * b S:                                   Branch Commands.     (line 125)
 * b x:                                   Branch Commands.     (line 131)
-* c:                                     Blaming.             (line 138)
+* c:                                     Blaming.             (line 135)
 * C:                                     Cloning Repository.  (line  20)
 * c <1>:                                 Initiating a Commit. (line   8)
 * c <2>:                                 Editing Rebase Sequences.
@@ -2269,39 +2227,39 @@ Appendix C Keystroke Index
                                                               (line  29)
 * C-c C-w:                               Using the Revision Stack.
                                                               (line   6)
-* C-c M-g:                               Minor Mode for Buffers Visiting Files.
-                                                              (line  54)
-* C-c M-g B:                             Blaming.             (line  21)
-* C-c M-g b:                             Blaming.             (line  32)
-* C-c M-g B <1>:                         Minor Mode for Buffers Visiting Files.
-                                                              (line 123)
-* C-c M-g B b:                           Blaming.             (line  33)
-* C-c M-g B e:                           Blaming.             (line  67)
-* C-c M-g B f:                           Blaming.             (line  58)
-* C-c M-g B r:                           Blaming.             (line  49)
-* C-c M-g c:                             Minor Mode for Buffers Visiting Files.
-                                                              (line  68)
-* C-c M-g D:                             Minor Mode for Buffers Visiting Files.
-                                                              (line  75)
-* C-c M-g d:                             Minor Mode for Buffers Visiting Files.
-                                                              (line  86)
-* C-c M-g e:                             Blaming.             (line  66)
-* C-c M-g e <1>:                         Minor Mode for Buffers Visiting Files.
-                                                              (line 136)
-* C-c M-g f:                             Blaming.             (line  57)
-* C-c M-g L:                             Minor Mode for Buffers Visiting Files.
-                                                              (line  96)
-* C-c M-g l:                             Minor Mode for Buffers Visiting Files.
-                                                              (line 107)
-* C-c M-g p:                             Minor Mode for Buffers Visiting Files.
-                                                              (line 146)
-* C-c M-g r:                             Blaming.             (line  48)
-* C-c M-g s:                             Minor Mode for Buffers Visiting Files.
-                                                              (line  59)
-* C-c M-g t:                             Minor Mode for Buffers Visiting Files.
-                                                              (line 114)
-* C-c M-g u:                             Minor Mode for Buffers Visiting Files.
-                                                              (line  63)
+* C-c M-g:                               Commands for Buffers Visiting Files.
+                                                              (line  21)
+* C-c M-g B:                             Blaming.             (line  18)
+* C-c M-g b:                             Blaming.             (line  29)
+* C-c M-g B <1>:                         Commands for Buffers Visiting Files.
+                                                              (line  93)
+* C-c M-g B b:                           Blaming.             (line  30)
+* C-c M-g B e:                           Blaming.             (line  64)
+* C-c M-g B f:                           Blaming.             (line  55)
+* C-c M-g B r:                           Blaming.             (line  46)
+* C-c M-g c:                             Commands for Buffers Visiting Files.
+                                                              (line  38)
+* C-c M-g D:                             Commands for Buffers Visiting Files.
+                                                              (line  45)
+* C-c M-g d:                             Commands for Buffers Visiting Files.
+                                                              (line  56)
+* C-c M-g e:                             Blaming.             (line  63)
+* C-c M-g e <1>:                         Commands for Buffers Visiting Files.
+                                                              (line 106)
+* C-c M-g f:                             Blaming.             (line  54)
+* C-c M-g L:                             Commands for Buffers Visiting Files.
+                                                              (line  66)
+* C-c M-g l:                             Commands for Buffers Visiting Files.
+                                                              (line  77)
+* C-c M-g p:                             Commands for Buffers Visiting Files.
+                                                              (line 116)
+* C-c M-g r:                             Blaming.             (line  45)
+* C-c M-g s:                             Commands for Buffers Visiting Files.
+                                                              (line  29)
+* C-c M-g t:                             Commands for Buffers Visiting Files.
+                                                              (line  84)
+* C-c M-g u:                             Commands for Buffers Visiting Files.
+                                                              (line  33)
 * C-c M-i:                               Commit Pseudo Headers.
                                                               (line  42)
 * C-c M-s:                               Editing Commit Messages.
@@ -2330,7 +2288,7 @@ Appendix C Keystroke Index
 * DEL:                                   Log Buffer.          (line  45)
 * DEL <1>:                               Commands Available in Diffs.
                                                               (line  60)
-* DEL <2>:                               Blaming.             (line  92)
+* DEL <2>:                               Blaming.             (line  89)
 * DEL <3>:                               Editing Rebase Sequences.
                                                               (line  28)
 * e:                                     Ediffing.            (line   9)
@@ -2427,7 +2385,7 @@ Appendix C Keystroke Index
                                                               (line  38)
 * M-p <2>:                               Editing Rebase Sequences.
                                                               (line  43)
-* M-w:                                   Blaming.             (line 130)
+* M-w:                                   Blaming.             (line 127)
 * M-w <1>:                               Common Commands.     (line  27)
 * M-x magit-debug-git-executable:        Git Executable.      (line  45)
 * M-x magit-debug-git-executable <1>:    Debugging Tools.     (line  36)
@@ -2455,8 +2413,8 @@ Appendix C Keystroke Index
 * Mt:                                    Editing Rebase Sequences.
                                                               (line 132)
 * n:                                     Section Movement.    (line  16)
-* n <1>:                                 Blaming.             (line 109)
-* N:                                     Blaming.             (line 113)
+* n <1>:                                 Blaming.             (line 106)
+* N:                                     Blaming.             (line 110)
 * n <2>:                                 Editing Rebase Sequences.
                                                               (line  39)
 * n <3>:                                 Minor Mode for Buffers Visiting Blobs.
@@ -2480,8 +2438,8 @@ Appendix C Keystroke Index
 * o s:                                   Submodule Transient. (line  44)
 * o u:                                   Submodule Transient. (line  39)
 * p:                                     Section Movement.    (line  10)
-* p <1>:                                 Blaming.             (line 117)
-* P:                                     Blaming.             (line 121)
+* p <1>:                                 Blaming.             (line 114)
+* P:                                     Blaming.             (line 118)
 * p <2>:                                 Editing Rebase Sequences.
                                                               (line  35)
 * P <1>:                                 Pushing.             (line   9)
@@ -2498,7 +2456,7 @@ Appendix C Keystroke Index
 * P u:                                   Pushing.             (line  23)
 * q:                                     Quitting Windows.    (line   6)
 * q <1>:                                 Log Buffer.          (line  14)
-* q <2>:                                 Blaming.             (line 125)
+* q <2>:                                 Blaming.             (line 122)
 * q <3>:                                 Minor Mode for Buffers Visiting Blobs.
                                                               (line  20)
 * r:                                     Rebasing.            (line   9)
@@ -2520,7 +2478,7 @@ Appendix C Keystroke Index
 * RET:                                   References Buffer.   (line 181)
 * RET <1>:                               Visiting Files and Blobs from a Diff.
                                                               (line   8)
-* RET <2>:                               Blaming.             (line  78)
+* RET <2>:                               Blaming.             (line  75)
 * RET <3>:                               Editing Rebase Sequences.
                                                               (line  16)
 * s:                                     Staging and Unstaging.
@@ -2533,7 +2491,7 @@ Appendix C Keystroke Index
 * SPC:                                   Log Buffer.          (line  35)
 * SPC <1>:                               Commands Available in Diffs.
                                                               (line  56)
-* SPC <2>:                               Blaming.             (line  82)
+* SPC <2>:                               Blaming.             (line  79)
 * SPC <3>:                               Editing Rebase Sequences.
                                                               (line  21)
 * t:                                     Editing Rebase Sequences.
@@ -2696,29 +2654,29 @@ Appendix D Command Index
 * magit-bisect-run:                      Bisecting.           (line  24)
 * magit-bisect-skip:                     Bisecting.           (line  41)
 * magit-bisect-start:                    Bisecting.           (line  16)
-* magit-blame:                           Blaming.             (line  21)
-* magit-blame <1>:                       Blaming.             (line 105)
-* magit-blame <2>:                       Minor Mode for Buffers Visiting Files.
-                                                              (line 123)
-* magit-blame-addition:                  Blaming.             (line  32)
-* magit-blame-addition <1>:              Blaming.             (line  33)
-* magit-blame-copy-hash:                 Blaming.             (line 130)
-* magit-blame-cycle-style:               Blaming.             (line 138)
-* magit-blame-echo:                      Blaming.             (line  66)
-* magit-blame-echo <1>:                  Blaming.             (line  67)
-* magit-blame-next-chunk:                Blaming.             (line 109)
-* magit-blame-next-chunk-same-commit:    Blaming.             (line 113)
-* magit-blame-previous-chunk:            Blaming.             (line 117)
-* magit-blame-previous-chunk-same-commit: Blaming.            (line 121)
-* magit-blame-quit:                      Blaming.             (line 125)
-* magit-blame-removal:                   Blaming.             (line  48)
-* magit-blame-removal <1>:               Blaming.             (line  49)
-* magit-blame-reverse:                   Blaming.             (line  57)
-* magit-blame-reverse <1>:               Blaming.             (line  58)
+* magit-blame:                           Blaming.             (line  18)
+* magit-blame <1>:                       Blaming.             (line 102)
+* magit-blame <2>:                       Commands for Buffers Visiting Files.
+                                                              (line  93)
+* magit-blame-addition:                  Blaming.             (line  29)
+* magit-blame-addition <1>:              Blaming.             (line  30)
+* magit-blame-copy-hash:                 Blaming.             (line 127)
+* magit-blame-cycle-style:               Blaming.             (line 135)
+* magit-blame-echo:                      Blaming.             (line  63)
+* magit-blame-echo <1>:                  Blaming.             (line  64)
+* magit-blame-next-chunk:                Blaming.             (line 106)
+* magit-blame-next-chunk-same-commit:    Blaming.             (line 110)
+* magit-blame-previous-chunk:            Blaming.             (line 114)
+* magit-blame-previous-chunk-same-commit: Blaming.            (line 118)
+* magit-blame-quit:                      Blaming.             (line 122)
+* magit-blame-removal:                   Blaming.             (line  45)
+* magit-blame-removal <1>:               Blaming.             (line  46)
+* magit-blame-reverse:                   Blaming.             (line  54)
+* magit-blame-reverse <1>:               Blaming.             (line  55)
 * magit-blob-next:                       Minor Mode for Buffers Visiting Blobs.
                                                               (line  16)
-* magit-blob-previous:                   Minor Mode for Buffers Visiting Files.
-                                                              (line 146)
+* magit-blob-previous:                   Commands for Buffers Visiting Files.
+                                                              (line 116)
 * magit-blob-previous <1>:               Minor Mode for Buffers Visiting Blobs.
                                                               (line  12)
 * magit-branch:                          Branch Commands.     (line  12)
@@ -2757,8 +2715,8 @@ Appendix D Command Index
 * magit-clone-shallow-exclude:           Cloning Repository.  (line  61)
 * magit-clone-shallow-since:             Cloning Repository.  (line  54)
 * magit-commit:                          Initiating a Commit. (line   8)
-* magit-commit <1>:                      Minor Mode for Buffers Visiting Files.
-                                                              (line  68)
+* magit-commit <1>:                      Commands for Buffers Visiting Files.
+                                                              (line  38)
 * magit-commit-amend:                    Initiating a Commit. (line  19)
 * magit-commit-augment:                  Initiating a Commit. (line  67)
 * magit-commit-create:                   Initiating a Commit. (line  14)
@@ -2777,10 +2735,10 @@ Appendix D Command Index
                                                               (line  13)
 * magit-describe-section-briefly <1>:    Matching Sections.   (line   6)
 * magit-diff:                            Diffing.             (line  21)
-* magit-diff <1>:                        Minor Mode for Buffers Visiting Files.
-                                                              (line  75)
-* magit-diff-buffer-file:                Minor Mode for Buffers Visiting Files.
-                                                              (line  86)
+* magit-diff <1>:                        Commands for Buffers Visiting Files.
+                                                              (line  45)
+* magit-diff-buffer-file:                Commands for Buffers Visiting Files.
+                                                              (line  56)
 * magit-diff-default-context:            Refreshing Diffs.    (line  73)
 * magit-diff-dwim:                       Diffing.             (line  27)
 * magit-diff-edit-hunk-commit:           Commands Available in Diffs.
@@ -2795,9 +2753,9 @@ Appendix D Command Index
 * magit-diff-save-default-arguments:     Refreshing Diffs.    (line  29)
 * magit-diff-set-default-arguments:      Refreshing Diffs.    (line  22)
 * magit-diff-show-or-scroll-down:        Log Buffer.          (line  45)
-* magit-diff-show-or-scroll-down <1>:    Blaming.             (line  92)
+* magit-diff-show-or-scroll-down <1>:    Blaming.             (line  89)
 * magit-diff-show-or-scroll-up:          Log Buffer.          (line  35)
-* magit-diff-show-or-scroll-up <1>:      Blaming.             (line  82)
+* magit-diff-show-or-scroll-up <1>:      Blaming.             (line  79)
 * magit-diff-staged:                     Diffing.             (line  51)
 * magit-diff-switch-range-type:          Refreshing Diffs.    (line  41)
 * magit-diff-toggle-file-filter:         Refreshing Diffs.    (line  51)
@@ -2833,8 +2791,8 @@ Appendix D Command Index
 * magit-ediff-show-unstaged:             Ediffing.            (line  53)
 * magit-ediff-show-working-tree:         Ediffing.            (line  61)
 * magit-ediff-stage:                     Ediffing.            (line  48)
-* magit-edit-line-commit:                Minor Mode for Buffers Visiting Files.
-                                                              (line 136)
+* magit-edit-line-commit:                Commands for Buffers Visiting Files.
+                                                              (line 106)
 * magit-emacs-Q-command:                 Debugging Tools.     (line  16)
 * magit-fetch:                           Fetching.            (line   9)
 * magit-fetch-all:                       Fetching.            (line  50)
@@ -2845,16 +2803,16 @@ Appendix D Command Index
 * magit-fetch-other:                     Fetching.            (line  36)
 * magit-fetch-refspec:                   Fetching.            (line  45)
 * magit-file-checkout:                   Resetting.           (line  50)
-* magit-file-checkout <1>:               Minor Mode for Buffers Visiting Files.
-                                                              (line 165)
-* magit-file-delete:                     Minor Mode for Buffers Visiting Files.
-                                                              (line 157)
-* magit-file-dispatch:                   Minor Mode for Buffers Visiting Files.
-                                                              (line  54)
-* magit-file-rename:                     Minor Mode for Buffers Visiting Files.
-                                                              (line 153)
-* magit-file-untrack:                    Minor Mode for Buffers Visiting Files.
-                                                              (line 161)
+* magit-file-checkout <1>:               Commands for Buffers Visiting Files.
+                                                              (line 135)
+* magit-file-delete:                     Commands for Buffers Visiting Files.
+                                                              (line 127)
+* magit-file-dispatch:                   Commands for Buffers Visiting Files.
+                                                              (line  21)
+* magit-file-rename:                     Commands for Buffers Visiting Files.
+                                                              (line 123)
+* magit-file-untrack:                    Commands for Buffers Visiting Files.
+                                                              (line 131)
 * magit-find-file:                       General-Purpose Visit Commands.
                                                               (line   9)
 * magit-find-file-other-frame:           General-Purpose Visit Commands.
@@ -2878,13 +2836,13 @@ Appendix D Command Index
 * magit-list-submodules:                 Listing Submodules.  (line  13)
 * magit-list-submodules <1>:             Submodule Transient. (line  54)
 * magit-log:                             Logging.             (line  29)
-* magit-log <1>:                         Minor Mode for Buffers Visiting Files.
-                                                              (line  96)
+* magit-log <1>:                         Commands for Buffers Visiting Files.
+                                                              (line  66)
 * magit-log-all:                         Logging.             (line  60)
 * magit-log-all-branches:                Logging.             (line  56)
 * magit-log-branches:                    Logging.             (line  52)
-* magit-log-buffer-file:                 Minor Mode for Buffers Visiting Files.
-                                                              (line 107)
+* magit-log-buffer-file:                 Commands for Buffers Visiting Files.
+                                                              (line  77)
 * magit-log-bury-buffer:                 Log Buffer.          (line  14)
 * magit-log-current:                     Logging.             (line  35)
 * magit-log-double-commit-limit:         Log Buffer.          (line  61)
@@ -2900,8 +2858,8 @@ Appendix D Command Index
 * magit-log-select-quit:                 Select from Log.     (line  26)
 * magit-log-set-default-arguments:       Refreshing Logs.     (line  22)
 * magit-log-toggle-commit-limit:         Log Buffer.          (line  55)
-* magit-log-trace-definition:            Minor Mode for Buffers Visiting Files.
-                                                              (line 114)
+* magit-log-trace-definition:            Commands for Buffers Visiting Files.
+                                                              (line  84)
 * magit-margin-settings:                 Log Margin.          (line  57)
 * magit-merge:                           Merging.             (line   9)
 * magit-merge <1>:                       Merging.             (line  89)
@@ -3034,7 +2992,7 @@ Appendix D Command Index
 * magit-shell-command-topdir:            Running Git Manually.
                                                               (line  35)
 * magit-show-commit:                     Diffing.             (line  69)
-* magit-show-commit <1>:                 Blaming.             (line  78)
+* magit-show-commit <1>:                 Blaming.             (line  75)
 * magit-show-refs:                       References Buffer.   (line   6)
 * magit-show-refs-current:               References Buffer.   (line  26)
 * magit-show-refs-head:                  References Buffer.   (line  21)
@@ -3046,8 +3004,8 @@ Appendix D Command Index
                                                               (line  28)
 * magit-stage-file:                      Staging from File-Visiting Buffers.
                                                               (line  10)
-* magit-stage-file <1>:                  Minor Mode for Buffers Visiting Files.
-                                                              (line  59)
+* magit-stage-file <1>:                  Commands for Buffers Visiting Files.
+                                                              (line  29)
 * magit-stage-modified:                  Staging and Unstaging.
                                                               (line  36)
 * magit-stash:                           Stashing.            (line   8)
@@ -3099,8 +3057,8 @@ Appendix D Command Index
                                                               (line  52)
 * magit-unstage-file:                    Staging from File-Visiting Buffers.
                                                               (line  18)
-* magit-unstage-file <1>:                Minor Mode for Buffers Visiting Files.
-                                                              (line  63)
+* magit-unstage-file <1>:                Commands for Buffers Visiting Files.
+                                                              (line  33)
 * magit-version:                         Git Executable.      (line  17)
 * magit-version <1>:                     Debugging Tools.     (line  10)
 * magit-visit-ref:                       References Buffer.   (line 181)
@@ -3192,14 +3150,14 @@ Appendix E Function Index
 * magit-display-buffer-same-window-except-diff-v1: Switching Buffers.
                                                               (line  53)
 * magit-display-buffer-traditional:      Switching Buffers.   (line  45)
-* magit-file-checkout:                   Minor Mode for Buffers Visiting Files.
-                                                              (line 165)
-* magit-file-delete:                     Minor Mode for Buffers Visiting Files.
-                                                              (line 157)
-* magit-file-rename:                     Minor Mode for Buffers Visiting Files.
-                                                              (line 153)
-* magit-file-untrack:                    Minor Mode for Buffers Visiting Files.
-                                                              (line 161)
+* magit-file-checkout:                   Commands for Buffers Visiting Files.
+                                                              (line 135)
+* magit-file-delete:                     Commands for Buffers Visiting Files.
+                                                              (line 127)
+* magit-file-rename:                     Commands for Buffers Visiting Files.
+                                                              (line 123)
+* magit-file-untrack:                    Commands for Buffers Visiting Files.
+                                                              (line 131)
 * magit-find-file:                       General-Purpose Visit Commands.
                                                               (line   9)
 * magit-find-file-other-frame:           General-Purpose Visit Commands.
@@ -3422,8 +3380,6 @@ Appendix F Variable Index
                                                               (line 103)
 * global-auto-revert-mode:               Automatic Reverting of File-Visiting Buffers.
                                                               (line  22)
-* global-magit-file-mode:                Minor Mode for Buffers Visiting Files.
-                                                              (line  13)
 * magit-auto-revert-immediately:         Automatic Reverting of File-Visiting Buffers.
                                                               (line  32)
 * magit-auto-revert-mode:                Automatic Reverting of File-Visiting Buffers.
@@ -3431,12 +3387,12 @@ Appendix F Variable Index
 * magit-auto-revert-tracked-only:        Automatic Reverting of File-Visiting Buffers.
                                                               (line  55)
 * magit-bisect-show-graph:               Bisecting.           (line  55)
-* magit-blame-disable-modes:             Blaming.             (line 168)
-* magit-blame-echo-style:                Blaming.             (line 151)
-* magit-blame-goto-chunk-hook:           Blaming.             (line 174)
-* magit-blame-read-only:                 Blaming.             (line 163)
-* magit-blame-styles:                    Blaming.             (line 146)
-* magit-blame-time-format:               Blaming.             (line 158)
+* magit-blame-disable-modes:             Blaming.             (line 165)
+* magit-blame-echo-style:                Blaming.             (line 148)
+* magit-blame-goto-chunk-hook:           Blaming.             (line 171)
+* magit-blame-read-only:                 Blaming.             (line 160)
+* magit-blame-styles:                    Blaming.             (line 143)
+* magit-blame-time-format:               Blaming.             (line 155)
 * magit-branch-adjust-remote-upstream-alist: Branch Commands. (line 210)
 * magit-branch-direct-configure:         Branch Commands.     (line  20)
 * magit-branch-prefer-remote-upstream:   Branch Commands.     (line 165)
@@ -3456,9 +3412,10 @@ Appendix F Variable Index
 * magit-commit-squash-confirm:           Initiating a Commit. (line  88)
 * magit-completing-read-function:        Support for Completion Frameworks.
                                                               (line  27)
+* magit-define-global-key-bindings:      Default Bindings.    (line   6)
 * magit-diff-adjust-tab-width:           Diff Options.        (line  21)
-* magit-diff-buffer-file-locked:         Minor Mode for Buffers Visiting Files.
-                                                              (line  91)
+* magit-diff-buffer-file-locked:         Commands for Buffers Visiting Files.
+                                                              (line  61)
 * magit-diff-hide-trailing-cr-characters: Diff Options.       (line  90)
 * magit-diff-highlight-hunk-region-functions: Diff Options.   (line  94)
 * magit-diff-highlight-indentation:      Diff Options.        (line  75)
@@ -3479,8 +3436,6 @@ Appendix F Variable Index
 * magit-ediff-dwim-show-on-hunks:        Ediffing.            (line  73)
 * magit-ediff-quit-hook:                 Ediffing.            (line  88)
 * magit-ediff-show-stash-with-index:     Ediffing.            (line  81)
-* magit-file-mode-map:                   Minor Mode for Buffers Visiting Files.
-                                                              (line  20)
 * magit-generate-buffer-name-function:   Naming Buffers.      (line   6)
 * magit-git-debug:                       Viewing Git Output.  (line  28)
 * magit-git-debug <1>:                   Getting a Value from Git.
@@ -3492,8 +3447,8 @@ Appendix F Variable Index
 * magit-list-refs-sortby:                Additional Completion Options.
                                                               (line   6)
 * magit-log-auto-more:                   Log Buffer.          (line  69)
-* magit-log-buffer-file-locked:          Minor Mode for Buffers Visiting Files.
-                                                              (line 118)
+* magit-log-buffer-file-locked:          Commands for Buffers Visiting Files.
+                                                              (line  88)
 * magit-log-margin:                      Log Margin.          (line  12)
 * magit-log-margin-show-committer-date:  Log Margin.          (line  49)
 * magit-log-section-commit-count:        Status Sections.     (line 136)
