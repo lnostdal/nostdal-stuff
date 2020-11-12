@@ -18,21 +18,22 @@
  '(auto-revert-remote-files t)
  '(auto-revert-use-notify t)
  '(auto-revert-verbose nil)
- '(custom-enabled-themes '(sanityinc-solarized-dark))
  '(custom-safe-themes
-   '("0fffa9669425ff140ff2ae8568c7719705ef33b7a927a0ba7c5e2ffcfac09b75" "00445e6f15d31e9afaa23ed0d765850e9cd5e929be5e8e63b114a3346236c44c" "2809bcb77ad21312897b541134981282dc455ccd7c14d74cc333b6e549b824f3" "7f1d414afda803f3244c6fb4c2c64bea44dac040ed3731ec9d75275b9e831fe5" "830877f4aab227556548dc0a28bf395d0abe0e3a0ab95455731c9ea5ab5fe4e1" "51ec7bfa54adf5fff5d466248ea6431097f5a18224788d0bd7eb1257a4f7b773" "285d1bf306091644fb49993341e0ad8bafe57130d9981b680c1dbd974475c5c7" "c433c87bd4b64b8ba9890e8ed64597ea0f8eb0396f4c9a9e01bd20a04d15d358" "bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" "fa2b58bb98b62c3b8cf3b6f02f058ef7827a8e497125de0254f56e373abee088" "a8245b7cc985a0610d71f9852e9f2767ad1b852c2bdea6f4aadc12cce9c4d6d0" "d91ef4e714f05fff2070da7ca452980999f5361209e679ee988e3c432df24347" "0598c6a29e13e7112cfbc2f523e31927ab7dce56ebb2016b567e1eff6dc1fd4f" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" default))
+   '("2f1518e906a8b60fac943d02ad415f1d8b3933a5a7f75e307e6e9a26ef5bf570" "79278310dd6cacf2d2f491063c4ab8b129fee2a498e4c25912ddaa6c3c5b621e" "13a8eaddb003fd0d561096e11e1a91b029d3c9d64554f8e897b2513dbf14b277" "0fffa9669425ff140ff2ae8568c7719705ef33b7a927a0ba7c5e2ffcfac09b75" "00445e6f15d31e9afaa23ed0d765850e9cd5e929be5e8e63b114a3346236c44c" "2809bcb77ad21312897b541134981282dc455ccd7c14d74cc333b6e549b824f3" "7f1d414afda803f3244c6fb4c2c64bea44dac040ed3731ec9d75275b9e831fe5" "830877f4aab227556548dc0a28bf395d0abe0e3a0ab95455731c9ea5ab5fe4e1" "51ec7bfa54adf5fff5d466248ea6431097f5a18224788d0bd7eb1257a4f7b773" "285d1bf306091644fb49993341e0ad8bafe57130d9981b680c1dbd974475c5c7" "c433c87bd4b64b8ba9890e8ed64597ea0f8eb0396f4c9a9e01bd20a04d15d358" "bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" "fa2b58bb98b62c3b8cf3b6f02f058ef7827a8e497125de0254f56e373abee088" "a8245b7cc985a0610d71f9852e9f2767ad1b852c2bdea6f4aadc12cce9c4d6d0" "d91ef4e714f05fff2070da7ca452980999f5361209e679ee988e3c432df24347" "0598c6a29e13e7112cfbc2f523e31927ab7dce56ebb2016b567e1eff6dc1fd4f" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" default))
  '(epg-gpg-program "/usr/bin/gpg2")
  '(global-auto-revert-mode t)
  '(haskell-process-auto-import-loaded-modules t)
  '(haskell-process-log t)
  '(haskell-process-suggest-remove-import-lines t)
+ '(highlight-thing-all-visible-buffers-p t)
+ '(highlight-thing-delay-seconds 0.125)
  '(inhibit-startup-screen t)
  '(magit-diff-refine-ignore-whitespace t)
  '(make-backup-files nil)
  '(org-export-with-sub-superscripts nil)
  '(org-startup-truncated nil)
  '(package-selected-packages
-   '(yaml-mode cider ssh-config-mode spacemacs-theme csharp-mode systemd lxd-tramp counsel-tramp docker docker-compose-mode solarized-theme wgrep hl-todo counsel-projectile projectile counsel clj-refactor dockerfile-mode htmlize symon beacon 0blayout magit-todos jdee smartparens ivy highlight-thing elgrep magit python-mode php-mode web-mode cargo rust-mode rainbow-delimiters nginx-mode cider-decompile clojure-mode js2-mode highlight-parentheses haskell-mode company))
+   '(doom-themes yaml-mode cider ssh-config-mode spacemacs-theme csharp-mode systemd lxd-tramp counsel-tramp docker docker-compose-mode solarized-theme wgrep hl-todo counsel-projectile projectile counsel clj-refactor dockerfile-mode htmlize symon beacon 0blayout magit-todos jdee smartparens ivy highlight-thing elgrep magit python-mode php-mode web-mode cargo rust-mode rainbow-delimiters nginx-mode cider-decompile clojure-mode js2-mode highlight-parentheses haskell-mode company))
  '(visible-bell t)
  '(web-mode-code-indent-offset 2)
  '(web-mode-css-indent-offset 2)
@@ -46,8 +47,8 @@
 ;;;;;;;;;;;;;;;;;;;;;;
 
 ;; Theme
-(setq solarized-high-contrast-mode-line t)
-(load-theme 'spacemacs-dark)
+;;(setq solarized-high-contrast-mode-line t)
+(load-theme 'solarized-dark t)
 
 (menu-bar-mode 0)
 (column-number-mode t)
@@ -88,21 +89,14 @@
 (show-paren-mode 1) ;; Highlight matching parens.
 (require 'rainbow-delimiters)
 (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
+(add-hook 'prog-mode-hook 'highlight-thing-mode)
+(add-hook 'prog-mode-hook 'flyspell-prog-mode)
+
 (set-face-attribute 'rainbow-delimiters-unmatched-face nil
                     :foreground "white"
                     :background "red"
                     :inherit 'error
                     :box t)
-
-(add-hook 'prog-mode-hook 'highlight-thing-mode)
-(setq highlight-thing-limit-to-region-in-large-buffers-p t
-      highlight-thing-narrow-region-lines 500
-      highlight-thing-large-buffer-limit 5000
-      highlight-thing-case-sensitive-p t
-      highlight-thing-delay-seconds 0.125)
-
-
-(add-hook 'prog-mode-hook 'flyspell-prog-mode)
 
 (set-variable 'vc-follow-symlinks t)
 (set-variable 'scroll-step 1)
@@ -371,4 +365,4 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(hi-yellow ((t (:underline "dim gray" :weight extra-bold)))))
+ )
