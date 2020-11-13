@@ -46,6 +46,7 @@
      ("#073642" . 100)))
  '(highlight-thing-all-visible-buffers-p t)
  '(highlight-thing-delay-seconds 0.125)
+ '(highlight-thing-exclude-thing-under-point t)
  '(hl-bg-colors
    '("#866300" "#992700" "#a7020a" "#a00559" "#243e9b" "#0061a8" "#007d76" "#5b7300"))
  '(hl-fg-colors
@@ -390,3 +391,9 @@
 ;;(define-key haskell-cabal-mode-map (kbd "C-c C-k") 'haskell-interactive-mode-clear)
 ;;(define-key haskell-cabal-mode-map (kbd "C-c C-c") 'haskell-process-cabal-build)
 ;;(define-key haskell-cabal-mode-map (kbd "C-c c") 'haskell-process-cabal)
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
