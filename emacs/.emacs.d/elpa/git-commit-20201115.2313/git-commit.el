@@ -12,8 +12,8 @@
 ;; Maintainer: Jonas Bernoulli <jonas@bernoul.li>
 
 ;; Package-Requires: ((emacs "25.1") (dash "20200524") (transient "20200601") (with-editor "20200522"))
-;; Package-Version: 20200828.1753
-;; Package-Commit: fd6466025725f8780b7da18639ded1b7b141de26
+;; Package-Version: 20201115.2313
+;; Package-Commit: 4b9c2d26a6aef09a9f3c35e364dacd3739562963
 ;; Keywords: git tools vc
 ;; Homepage: https://github.com/magit/magit
 
@@ -935,8 +935,12 @@ Added to `font-lock-extend-region-functions'."
     (modify-syntax-entry ?`  "." table)
     (set-syntax-table table))
   (setq-local comment-start
-              (or (ignore-errors
-                    (car (process-lines "git" "config" "core.commentchar")))
+              (or (with-temp-buffer
+                    (call-process "git" nil (current-buffer) nil
+                                  "config" "core.commentchar")
+                    (unless (bobp)
+                      (goto-char (point-min))
+                      (buffer-substring (point) (line-end-position))))
                   "#"))
   (setq-local comment-start-skip (format "^%s+[\s\t]*" comment-start))
   (setq-local comment-end-skip "\n")
