@@ -18,6 +18,7 @@
  '(auto-revert-remote-files t)
  '(auto-revert-use-notify t)
  '(auto-revert-verbose nil)
+ '(cider-jump-to-pop-to-buffer-actions '((display-buffer-same-window)))
  '(compilation-message-face 'default)
  '(cua-global-mark-cursor-color "#2aa198")
  '(cua-normal-cursor-color "#839496")
