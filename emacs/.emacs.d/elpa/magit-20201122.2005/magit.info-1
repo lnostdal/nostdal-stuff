@@ -31,7 +31,7 @@ to perform almost all of their daily version control tasks directly from
 within Emacs.  While many fine Git clients exist, only Magit and Git
 itself deserve to be called porcelains.
 
-This manual is for Magit version 2.90.1 (v2.90.1-1092-g4b9c2d26a+1).
+This manual is for Magit version 2.90.1 (v2.90.1-1097-g10b4bec5+1).
 
      Copyright (C) 2015-2020 Jonas Bernoulli <jonas@bernoul.li>
 
@@ -630,7 +630,7 @@ that invokes/sets it.  Do not worry about this for now.  We want to
 create a "normal" commit, which is done by typing ‘c’ again.
 
    Now two new buffers appear.  One is for writing the commit message,
-the other shows a diff with the changes that you are about to committed.
+the other shows a diff with the changes that you are about to commit.
 Write a message and then type ‘C-c C-c’ to actually create the commit.
 
    You probably don’t want to push the commit you just created because

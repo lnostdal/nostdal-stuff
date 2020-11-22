@@ -60,9 +60,14 @@
 
     ;; tab-line/tab-bar (Emacs 27+)
     (tab-line :background bg-alt :foreground bg-alt)
+    (tab-line-tab :background bg :foreground fg)
+    (tab-line-tab-inactive :background bg-alt :foreground fg-alt)
+    (tab-line-tab-current :background bg :foreground fg)
+    (tab-line-highlight :inherit 'tab-line-tab)
+    (tab-line-close-highlight :foreground highlight)
     ((tab-bar &inherit tab-line))
-    (tab-bar-tab :background bg :foreground fg)
-    (tab-bar-tab-inactive :background bg-alt :foreground fg-alt)
+    ((tab-bar-tab &inherit tab-line-tab))
+    ((tab-bar-tab-inactive &inherit tab-line-tab-inactive))
 
     ;; 1. Line number faces must explicitly disable its text style attributes
     ;;    because nearby faces may "bleed" into the line numbers otherwise.
@@ -196,6 +201,9 @@
     (hi-blue-b   :foreground blue :weight 'bold)
     ;; (hi-black-b  :weight 'bold)
     ;; (hi-black-hb :inherit 'variable-pitch :weight 'bold :height 1.67)
+
+    ;; hl-fill-column-face
+    (hl-fill-column-face :inherit '(hl-line shadow))
 
     ;; hl-line
     (hl-line :background bg-alt :extend t)
