@@ -4,8 +4,8 @@
 
 ;; Author: Bozhidar Batsov <bozhidar@batsov.com>
 ;; URL: https://github.com/bbatsov/projectile
-;; Package-Version: 20201122.724
-;; Package-Commit: f1308c787d484c81ecfa0178cc8efa0eff9602a3
+;; Package-Version: 20201123.741
+;; Package-Commit: 02a4a5f5dc3078fae04dc385ddc48024f49b3155
 ;; Keywords: project, convenience
 ;; Version: 2.3.0-snapshot
 ;; Package-Requires: ((emacs "25.1") (pkg-info "0.4"))
@@ -1826,9 +1826,9 @@ project-root for every file."
     (setq res
           (pcase (if (eq projectile-completion-system 'auto)
                      (cond
-                      ((and (boundp 'ido-mode)  ido-mode)  'ido)
-                      ((and (boundp 'helm-mode) helm-mode) 'helm)
-                      ((and (boundp 'ivy-mode)  ivy-mode)  'ivy)
+                      ((bound-and-true-p ido-mode)  'ido)
+                      ((bound-and-true-p helm-mode) 'helm)
+                      ((bound-and-true-p ivy-mode)  'ivy)
                       (t 'default))
                    projectile-completion-system)
             ('default (completing-read prompt choices nil nil initial-input))
@@ -1846,7 +1846,7 @@ project-root for every file."
                        :prompt prompt
                        :input initial-input
                        :buffer "*helm-projectile*")
-               (user-error "Please install helm from melpa")))
+               (user-error "Please install helm")))
             ('ivy
              (if (fboundp 'ivy-read)
                  (ivy-read prompt choices
@@ -1854,7 +1854,7 @@ project-root for every file."
                            :action (prog1 action
                                      (setq action nil))
                            :caller 'projectile-completing-read)
-               (user-error "Please install ivy from elpa")))
+               (user-error "Please install ivy")))
             (_ (funcall projectile-completion-system prompt choices))))
     (if action
         (funcall action res)
