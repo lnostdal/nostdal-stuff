@@ -1,2 +1,7 @@
 #!/bin/bash
-rsync --progress --checksum --human-readable --copy-links --recursive --perms --owner --group --compress --compress-level=9 --partial --inplace "$1" "$2"
+if [ $# -lt 2 ]; then
+    printf "lrn-rsync <ssh-source> <ssh-target>\n"
+    exit 1
+fi
+
+rsync --checksum --human-readable --progress --copy-links --recursive --perms --owner --group --compress --compress-level=9 --partial --inplace "$1" "$2"
