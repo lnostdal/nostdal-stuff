@@ -4,8 +4,8 @@
 
 ;; Author: Bozhidar Batsov <bozhidar@batsov.com>
 ;; URL: https://github.com/bbatsov/projectile
-;; Package-Version: 20201127.713
-;; Package-Commit: 248ff220b8672502a256e4b7cedd84e9c02ddc36
+;; Package-Version: 20201128.1539
+;; Package-Commit: c1b1602f3bfc0293e834f4690199ff7b56f53bb2
 ;; Keywords: project, convenience
 ;; Version: 2.3.0
 ;; Package-Requires: ((emacs "25.1") (pkg-info "0.4"))
@@ -2677,8 +2677,8 @@ test/impl/other files as below:
 ;; Erlang & Elixir
 (projectile-register-project-type 'rebar '("rebar.config")
                                   :project-file "rebar.config"
-                                  :compile "rebar"
-                                  :test "rebar eunit"
+                                  :compile "rebar3 compile"
+                                  :test "rebar3 do eunit,ct"
                                   :test-suffix "_SUITE")
 (projectile-register-project-type 'elixir '("mix.exs")
                                   :project-file "mix.exs"
