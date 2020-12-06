@@ -4,8 +4,8 @@
 
 ;; Author: Oleh Krehel <ohwoeowho@gmail.com>
 ;; URL: https://github.com/abo-abo/swiper
-;; Package-Version: 20201109.1753
-;; Package-Commit: 6bfada5a4dc59d8c9234e2ec583a4d91355fcd51
+;; Package-Version: 20201205.1008
+;; Package-Commit: 778d8bffa33ae0bf432aa23370bb2a535d2132ce
 ;; Version: 0.13.0
 ;; Package-Requires: ((emacs "24.5") (swiper "0.13.0"))
 ;; Keywords: convenience, matching, tools
@@ -3798,7 +3798,7 @@ include attachments of other Org buffers."
   (let (dirs)
     (save-excursion
       (goto-char (point-min))
-      (while (re-search-forward "^:\\(ATTACH_DIR\\|ID\\):[\t ]+\\(.*\\)$" nil t)
+      (while (re-search-forward "^:\\(?:ATTACH_DIR\\|ID\\):[\t ]+.*$" nil t)
         (let ((dir (org-attach-dir)))
           (when dir
             (push dir dirs)))))
@@ -5906,6 +5906,7 @@ as arguments."
           (const :tag "Command : Name - Comment" counsel-linux-app-format-function-default)
           (const :tag "Name - Comment (Command)" counsel-linux-app-format-function-name-first)
           (const :tag "Name - Comment" counsel-linux-app-format-function-name-only)
+          (const :tag "Name - Comment (Pretty)" counsel-linux-app-format-function-name-pretty)
           (const :tag "Command" counsel-linux-app-format-function-command-only)
           (function :tag "Custom")))
 
@@ -6008,6 +6009,16 @@ EXEC is the command to launch the application."
 (defun counsel-linux-app-format-function-command-only (_name _comment exec)
   "Display only the command EXEC when formatting Linux application names."
   exec)
+
+(defun counsel-linux-app-format-function-name-pretty (name comment _exec)
+  "Format Linux application names with the NAME (and COMMENT) only, but pretty."
+  (format "% -45s%s"
+          (propertize
+           (ivy--truncate-string name 45)
+           'face 'counsel-application-name)
+          (if comment
+              (concat ": " comment)
+            "")))
 
 (defun counsel-linux-apps-list-desktop-files ()
   "Return an alist of all Linux applications.
@@ -6139,7 +6150,7 @@ Any desktop entries that fail to parse are recorded in
   "Launch a Linux desktop application, similar to Alt-<F2>.
 When ARG is non-nil, ignore NoDisplay property in *.desktop files."
   (interactive "P")
-  (ivy-read "Run a command: " (counsel-linux-apps-list)
+  (ivy-read "Run application: " (counsel-linux-apps-list)
             :predicate (unless arg (lambda (x) (get-text-property 0 'visible (car x))))
             :action #'counsel-linux-app-action-default
             :caller 'counsel-linux-app))
