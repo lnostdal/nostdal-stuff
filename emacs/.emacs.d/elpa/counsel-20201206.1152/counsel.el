@@ -4,8 +4,8 @@
 
 ;; Author: Oleh Krehel <ohwoeowho@gmail.com>
 ;; URL: https://github.com/abo-abo/swiper
-;; Package-Version: 20201205.1008
-;; Package-Commit: 778d8bffa33ae0bf432aa23370bb2a535d2132ce
+;; Package-Version: 20201206.1152
+;; Package-Commit: ab36ccb32322f2b500f947bbe10f62194a9ef6c8
 ;; Version: 0.13.0
 ;; Package-Requires: ((emacs "24.5") (swiper "0.13.0"))
 ;; Keywords: convenience, matching, tools
@@ -3798,7 +3798,7 @@ include attachments of other Org buffers."
   (let (dirs)
     (save-excursion
       (goto-char (point-min))
-      (while (re-search-forward "^:\\(?:ATTACH_DIR\\|ID\\):[\t ]+.*$" nil t)
+      (while (re-search-forward ":\\(?:ATTACH_DIR\\|ID\\):[\t ]+.*$" nil t)
         (let ((dir (org-attach-dir)))
           (when dir
             (push dir dirs)))))
