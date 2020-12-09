@@ -6,8 +6,8 @@
 ;; Created    : September 2020
 ;; Modified   : 2020
 ;; Version    : 0.10.0
-;; Package-Version: 20201104.743
-;; Package-Commit: 77411966bd9f95dadf2af39f95f86273f5c903bd
+;; Package-Version: 20201209.1122
+;; Package-Commit: a6caa85b914ade93310da17f669a57c6f7ff94bb
 ;; Keywords   : c# languages oop mode
 ;; X-URL      : https://github.com/josteink/csharp-mode
 
@@ -60,7 +60,7 @@
     "Regex matching a type identifier in C#.")
 
   (defconst csharp--regex-using-or-namespace
-    (concat "using" "\\|" "namespace"
+    (concat "^using" "\\|" "namespace"
             "\\s *"
             csharp--regex-type-name-matcher)
     "Regex matching identifiers after a using or namespace
@@ -440,10 +440,11 @@ compilation and evaluation time conflicts."
 
 (defconst csharp-compilation-re-dotnet-testfail
   (concat
-   "\\[[A-Za-z.]+[[:blank:]]+[0-9]+:[0-9]+:[0-9]+.[0-9]+\\][^(\n)]+ \\[FAIL\\]\n"
-   "[[:blank:]]+X \\(?:.+\n\\)"
+   "^[[:blank:]]+X \\(?:.+\n\\)"
    "[[:blank:]]+Error Message:\n"
    "[[:blank:]]+\\(?:.+\n\\)"
+   "\\(?:^Expected: \\(?:.+\n\\)\\)?"
+   "\\(?:^Actual: \\(?:.+\n\\)\\)?"
    "[[:blank:]]+Stack Trace:\n"
    "[[:blank:]]+at [^\n]+ in \\([^\n]+\\):line \\([0-9]+\\)"))
 

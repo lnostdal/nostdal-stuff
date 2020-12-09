@@ -4,8 +4,8 @@
 
 ;; Author: Oleh Krehel <ohwoeowho@gmail.com>
 ;; URL: https://github.com/abo-abo/swiper
-;; Package-Version: 20201206.1152
-;; Package-Commit: ab36ccb32322f2b500f947bbe10f62194a9ef6c8
+;; Package-Version: 20201208.1022
+;; Package-Commit: ae9b121b834a68d11f79ca27b1e5c8790149ba2f
 ;; Version: 0.13.0
 ;; Package-Requires: ((emacs "24.5") (swiper "0.13.0"))
 ;; Keywords: convenience, matching, tools
@@ -4033,7 +4033,7 @@ This variable has no effect unless
 ;; Misc. Emacs
 ;;** `counsel-mark-ring'
 (defface counsel--mark-ring-highlight
-  '((t (:inherit highlight)))
+  '((t :inherit highlight))
   "Face for current `counsel-mark-ring' line."
   :group 'ivy-faces)
 
@@ -4590,7 +4590,7 @@ matching the register's value description against a regexp in
 
 ;;** `counsel-evil-registers'
 (defface counsel-evil-register-face
-  '((t (:inherit counsel-outline-1)))
+  '((t :inherit counsel-outline-1))
   "Face for highlighting `evil' registers in ivy."
   :group 'ivy-faces)
 
