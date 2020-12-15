@@ -62,7 +62,7 @@
  '(org-export-with-sub-superscripts nil)
  '(org-startup-truncated nil)
  '(package-selected-packages
-   '(doom-themes yaml-mode cider ssh-config-mode spacemacs-theme csharp-mode systemd lxd-tramp counsel-tramp docker docker-compose-mode solarized-theme wgrep hl-todo counsel-projectile projectile counsel clj-refactor dockerfile-mode htmlize symon beacon 0blayout magit-todos jdee smartparens ivy highlight-thing elgrep magit python-mode php-mode web-mode cargo rust-mode rainbow-delimiters nginx-mode cider-decompile clojure-mode js2-mode highlight-parentheses haskell-mode company))
+   '(forge doom-themes yaml-mode cider ssh-config-mode spacemacs-theme csharp-mode systemd lxd-tramp counsel-tramp docker docker-compose-mode solarized-theme wgrep hl-todo counsel-projectile projectile counsel clj-refactor dockerfile-mode htmlize symon beacon 0blayout magit-todos jdee smartparens ivy highlight-thing elgrep magit python-mode php-mode web-mode cargo rust-mode rainbow-delimiters nginx-mode cider-decompile clojure-mode js2-mode highlight-parentheses haskell-mode company))
  '(pos-tip-background-color "#073642")
  '(pos-tip-foreground-color "#93a1a1")
  '(smartrep-mode-line-active-bg (solarized-color-blend "#859900" "#073642" 0.2))
