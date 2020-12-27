@@ -4,8 +4,8 @@
 
 ;; Author: Bozhidar Batsov <bozhidar@batsov.com>
 ;; URL: https://github.com/bbatsov/projectile
-;; Package-Version: 20201222.1649
-;; Package-Commit: 72b3a47da3592eb10482b28140a940dbf81577c5
+;; Package-Version: 20201227.1430
+;; Package-Commit: 1f2887696ec4fa7ecc005f258da276c445db039c
 ;; Keywords: project, convenience
 ;; Version: 2.4.0-snapshot
 ;; Package-Requires: ((emacs "25.1") (pkg-info "0.4"))
@@ -1382,15 +1382,12 @@ If `command' is nil or an empty string, return nil.
 This allows commands to be disabled.
 
 Only text sent to standard output is taken into account."
-  (save-window-excursion
-    (when (stringp command)
-      (let ((default-directory root))
-        (with-temp-buffer
-          (let ((stderr-buffer (current-buffer)))
-            (with-temp-buffer
-              (shell-command command t stderr-buffer)
-              (let ((shell-output (buffer-substring (point-min) (point-max))))
-                (split-string (string-trim shell-output) "\0" t)))))))))
+  (when (stringp command)
+    (let ((default-directory root))
+      (with-temp-buffer
+        (shell-command command t "*projectile-files-errors*")
+        (let ((shell-output (buffer-substring (point-min) (point-max))))
+          (split-string (string-trim shell-output) "\0" t))))))
 
 (defun projectile-adjust-files (project vcs files)
   "First remove ignored files from FILES, then add back unignored files."
