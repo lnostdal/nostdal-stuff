@@ -3,12 +3,12 @@
 
 (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
                          ;;("marmalade" . "https://marmalade-repo.org/packages/")
-                         ;;("melpa" . "https://melpa.org/packages/")
-                         ("melpa-stable" . "https://stable.melpa.org/packages/")))
+                         ("melpa" . "https://melpa.org/packages/")
+                         ("melpa-stable" . "https://stable.melpa.org/packages/"))
+      package-archive-priorities '(("melpa-stable" . 10)
+                                   ("gnu" . 5)
+                                   ("melpa" . 0)))
 (package-initialize) ;; Needed for Emacs < 27.
-;; (add-to-list 'package-pinned-packages '(cider . "melpa-stable") t)
-
-
 
 
 (custom-set-variables
@@ -47,9 +47,9 @@
      ("#992700" . 70)
      ("#a00559" . 85)
      ("#073642" . 100)))
- ;;'(highlight-thing-all-visible-buffers-p t)
- ;;'(highlight-thing-delay-seconds 0.125)
- ;;'(highlight-thing-exclude-thing-under-point t)
+ '(highlight-thing-all-visible-buffers-p t)
+ '(highlight-thing-delay-seconds 0.125)
+ '(highlight-thing-exclude-thing-under-point t)
  '(hl-bg-colors
    '("#866300" "#992700" "#a7020a" "#a00559" "#243e9b" "#0061a8" "#007d76" "#5b7300"))
  '(hl-fg-colors
@@ -64,7 +64,7 @@
  '(org-export-with-sub-superscripts nil)
  '(org-startup-truncated nil)
  '(package-selected-packages
-   '(systemd yaml-mode solarized-theme rust-mode hl-todo rainbow-delimiters doom-themes beacon cider company counsel magit projectile cargo lxd-tramp counsel-tramp docker docker-compose-mode wgrep counsel-projectile clj-refactor dockerfile-mode htmlize symon 0blayout magit-todos jdee smartparens elgrep python-mode php-mode web-mode cider-decompile js2-mode highlight-parentheses))
+   '(highlight-thing systemd yaml-mode solarized-theme rust-mode hl-todo rainbow-delimiters doom-themes beacon cider company counsel magit projectile cargo lxd-tramp counsel-tramp docker docker-compose-mode wgrep counsel-projectile clj-refactor dockerfile-mode htmlize symon 0blayout magit-todos jdee smartparens elgrep python-mode php-mode web-mode cider-decompile js2-mode highlight-parentheses))
  '(pos-tip-background-color "#073642")
  '(pos-tip-foreground-color "#93a1a1")
  '(smartrep-mode-line-active-bg (solarized-color-blend "#859900" "#073642" 0.2))
@@ -128,7 +128,7 @@
 (show-paren-mode 1) ;; Highlight matching parens.
 (require 'rainbow-delimiters)
 (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
-;;(add-hook 'prog-mode-hook 'highlight-thing-mode)
+(add-hook 'prog-mode-hook 'highlight-thing-mode)
 (add-hook 'prog-mode-hook 'flyspell-prog-mode)
 
 (set-face-attribute 'rainbow-delimiters-unmatched-face nil
@@ -251,7 +251,7 @@
 (setq cider-known-endpoints
       '(("bec" "127.0.0.1" "9999")))
 
-;; (add-hook 'cider-repl-mode-hook 'highlight-thing-mode)
+(add-hook 'cider-repl-mode-hook 'highlight-thing-mode)
 
 ;; REPL pretty printing. NOTE: Don't fiddle with this bullshit; it'll break and you'll waste half your day. Use debugging wrappers that call zprint/puget directly instead!
 (add-hook 'cider-repl-mode-hook
