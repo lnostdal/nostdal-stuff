@@ -70,6 +70,7 @@
  '(smartrep-mode-line-active-bg (solarized-color-blend "#859900" "#073642" 0.2))
  '(term-default-bg-color "#002b36")
  '(term-default-fg-color "#839496")
+ '(truncate-lines t)
  '(vc-annotate-background-mode nil)
  '(visible-bell t)
  '(web-mode-code-indent-offset 2)
