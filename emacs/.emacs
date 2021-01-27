@@ -8,6 +8,7 @@
       package-archive-priorities '(("melpa-stable" . 10)
                                    ("gnu" . 5)
                                    ("melpa" . 0)))
+(add-to-list 'package-pinned-packages '(cider . "melpa") t)
 (package-initialize) ;; Needed for Emacs < 27.
 
 
