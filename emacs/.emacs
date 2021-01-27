@@ -58,7 +58,9 @@
  '(hl-paren-colors '("#2aa198" "#b58900" "#268bd2" "#6c71c4" "#859900"))
  '(inhibit-startup-screen t)
  '(lsp-ui-doc-border "#93a1a1")
+ '(magit-diff-arguments '("--stat" "-M" "-C" "--diff-algorithm=histogram"))
  '(magit-diff-refine-ignore-whitespace t)
+ '(magit-diff-section-arguments '("-M" "-C" "--diff-algorithm=histogram"))
  '(make-backup-files nil)
  '(nrepl-message-colors
    '("#dc322f" "#cb4b16" "#b58900" "#5b7300" "#b3c34d" "#0061a8" "#2aa198" "#d33682" "#6c71c4"))
