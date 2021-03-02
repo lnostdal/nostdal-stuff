@@ -17,7 +17,11 @@
 ;;; Generated autoloads from ivy.el
 
 (autoload 'ivy-resume "ivy" "\
-Resume the last completion session." t nil)
+Resume the last completion session, or SESSION if non-nil.
+With a prefix arg, try to restore a recorded completion session,
+if one exists.
+
+\(fn &optional SESSION)" t nil)
 
 (autoload 'ivy-read "ivy" "\
 Read a string in the minibuffer, with completion.
@@ -78,8 +82,8 @@ list of candidates, and returns the list of matching candidates.
 DYNAMIC-COLLECTION is a boolean specifying whether the list of
 candidates is updated after each input by calling COLLECTION.
 
-EXTRA-PROPS can be used to store collection-specific
-session-specific data.
+EXTRA-PROPS is a plist that can be used to store
+collection-specific session-specific data.
 
 CALLER is a symbol to uniquely identify the caller to `ivy-read'.
 It is used, along with COLLECTION, to determine which
@@ -96,7 +100,7 @@ This interface conforms to `completing-read' and can be used for
 PROMPT is a string that normally ends in a colon and a space.
 COLLECTION is either a list of strings, an alist, an obarray, or a hash table.
 PREDICATE limits completion to a subset of COLLECTION.
-REQUIRE-MATCH is a boolean value.  See `completing-read'.
+REQUIRE-MATCH is a boolean value or a symbol.  See `completing-read'.
 INITIAL-INPUT is a string inserted into the minibuffer initially.
 HISTORY is a list of previously selected inputs.
 DEF is the default value.
@@ -141,13 +145,6 @@ Switch to another buffer in another window." t nil)
 
 ;;;***
 
-;;;### (autoloads nil "ivy-hydra" "ivy-hydra.el" (0 0 0 0))
-;;; Generated autoloads from ivy-hydra.el
-
-(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "ivy-hydra" '("hydra-ivy" "ivy-")))
-
-;;;***
-
 ;;;### (autoloads nil "ivy-overlay" "ivy-overlay.el" (0 0 0 0))
 ;;; Generated autoloads from ivy-overlay.el
 
@@ -155,7 +152,8 @@ Switch to another buffer in another window." t nil)
 
 ;;;***
 
-;;;### (autoloads nil nil ("ivy-pkg.el") (0 0 0 0))
+;;;### (autoloads nil nil ("elpa.el" "ivy-faces.el" "ivy-pkg.el")
+;;;;;;  (0 0 0 0))
 
 ;;;***
 
