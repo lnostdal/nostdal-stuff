@@ -251,9 +251,6 @@
 (require 'clojure-mode)
 (require 'cider-mode)
 (setq cider-repl-display-help-banner nil)
-(setq cider-infer-remote-nrepl-ports t)
-(setq cider-known-endpoints
-      '(("bec" "127.0.0.1" "9999")))
 
 (add-hook 'cider-repl-mode-hook 'highlight-thing-mode)
 
