@@ -4,10 +4,10 @@
 
 ;; Author: Oleh Krehel <ohwoeowho@gmail.com>
 ;; URL: https://github.com/abo-abo/swiper
-;; Package-Version: 0.13.2
-;; Package-Commit: 1deef7672b25e2cb89dfe5cc6e8865bc6f2bcd4e
-;; Version: 0.13.2
-;; Package-Requires: ((emacs "24.5") (ivy "0.13.2"))
+;; Package-Version: 0.13.4
+;; Package-Commit: 8cf3f1821cbd1c266296bbd5e59582ae6b8b90a6
+;; Version: 0.13.4
+;; Package-Requires: ((emacs "24.5") (ivy "0.13.4"))
 ;; Keywords: matching
 
 ;; This file is part of GNU Emacs.

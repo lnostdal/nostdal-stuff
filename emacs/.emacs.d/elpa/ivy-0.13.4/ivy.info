@@ -1,6 +1,6 @@
 This is ivy.info, produced by makeinfo version 6.5 from ivy.texi.
 
-Ivy manual, version 0.13.2
+Ivy manual, version 0.13.4
 
    Ivy is an interactive interface for completion in Emacs.  Emacs uses
 completion mechanism in a variety of contexts: code, menus, commands,
