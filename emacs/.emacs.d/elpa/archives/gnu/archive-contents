@@ -1608,8 +1608,10 @@
 	      (:maintainer "Michael Heerdegen" . "michael_heerdegen@web.de")
 	      (:url . "https://github.com/michael-heerdegen/on-screen.el"))])
  (org .
-      [(9 4 4)
-       nil "Outline-based notes management and organizer" tar
+      [(9 4 5)
+       ((emacs
+	 (24 3)))
+       "Outline-based notes management and organizer" tar
        ((:url . "https://orgmode.org")
 	(:maintainer "Bastien Guerry" . "bzg@gnu.org")
 	(:authors
@@ -2367,7 +2369,7 @@
 	  ("Oleh Krehel" . "ohwoeowho@gmail.com"))
 	 (:keywords "convenience"))])
  (tramp .
-	[(2 5 0 2)
+	[(2 5 0 3)
 	 ((emacs
 	   (25 1)))
 	 "Transparent Remote Access, Multiple Protocol" tar
@@ -2504,7 +2506,7 @@
 	   ("Justin Burkett" . "justin@burkett.cc"))
 	  (:keywords "diff"))])
  (verilog-mode .
-	       [(2021 2 2 263931197)
+	       [(2021 3 30 243771231)
 		nil "major mode for editing verilog source in Emacs" tar
 		((:url . "https://www.veripool.org")
 		 (:maintainer "Michael McNamara" . "mac@verilog.com")
