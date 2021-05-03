@@ -1,10 +1,11 @@
 ;;; ghub.el --- minuscule client libraries for Git forge APIs  -*- lexical-binding: t -*-
 
-;; Copyright (C) 2016-2020  Jonas Bernoulli
+;; Copyright (C) 2016-2021  Jonas Bernoulli
 
 ;; Author: Jonas Bernoulli <jonas@bernoul.li>
 ;; Homepage: https://github.com/magit/ghub
 ;; Keywords: tools
+;; SPDX-License-Identifier: GPL-3.0-or-later
 
 ;; This file is not part of GNU Emacs.
 
@@ -651,10 +652,10 @@ and https://debbugs.gnu.org/cgi/bugreport.cgi?bug=34341.")
   (and payload
        (progn
          (unless (stringp payload)
-           ;; Unfortunately `json-encode-list' may modify the input.
+           ;; Unfortunately `json-encode' may modify the input.
            ;; See https://debbugs.gnu.org/cgi/bugreport.cgi?bug=40693.
            ;; and https://github.com/magit/forge/issues/267
-           (setq payload (json-encode-list (copy-tree payload))))
+           (setq payload (json-encode (copy-tree payload))))
          (encode-coding-string payload 'utf-8))))
 
 (defun ghub--url-encode-params (params)
