@@ -1,29 +1,31 @@
 ;;; hl-todo.el --- highlight TODO and similar keywords  -*- lexical-binding: t -*-
 
-;; Copyright (C) 2013-2020  Jonas Bernoulli
+;; Copyright (C) 2013-2021  Jonas Bernoulli
 
 ;; Author: Jonas Bernoulli <jonas@bernoul.li>
 ;; Homepage: https://github.com/tarsius/hl-todo
 ;; Keywords: convenience
-;; Package-Version: 3.1.2
-;; Package-Commit: 3bba4591c54951d2abab113ec5e58a6319808ca9
+;; Package-Version: 3.3.0
+;; Package-Commit: 57378bd4511887a815725a7850e1ff2c6e9fda16
 
 ;; Package-Requires: ((emacs "25"))
 
-;; This file is not part of GNU Emacs.
+;; SPDX-License-Identifier: GPL-3.0-or-later
 
 ;; This file is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
 ;; the Free Software Foundation; either version 3, or (at your option)
 ;; any later version.
-
+;;
 ;; This file is distributed in the hope that it will be useful,
 ;; but WITHOUT ANY WARRANTY; without even the implied warranty of
 ;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 ;; GNU General Public License for more details.
-
+;;
 ;; For a full copy of the GNU General Public License
 ;; see <http://www.gnu.org/licenses/>.
+
+;; This file is not part of GNU Emacs.
 
 ;;; Commentary:
 
@@ -174,6 +176,12 @@ including alphanumeric characters, cannot be used here."
   :group 'hl-todo
   :type 'string)
 
+(defcustom hl-todo-require-punctuation nil
+  "Whether to require punctuation after keywords."
+  :package-version '(hl-todo . "3.3.0")
+  :group 'hl-todo
+  :type 'boolean)
+
 (defvar-local hl-todo--regexp nil)
 (defvar-local hl-todo--keywords nil)
 
@@ -192,23 +200,27 @@ including alphanumeric characters, cannot be used here."
                 "\\(" (mapconcat #'car hl-todo-keyword-faces "\\|") "\\)"
                 "\\>"
                 (and (not (equal hl-todo-highlight-punctuation ""))
-                     (concat "[" hl-todo-highlight-punctuation "]*"))
+                     (concat "[" hl-todo-highlight-punctuation "]"
+                             (if hl-todo-require-punctuation "+" "*")))
                 "\\)")))
 
 (defun hl-todo--setup ()
   (hl-todo--setup-regexp)
   (setq hl-todo--keywords
         `(((lambda (bound) (hl-todo--search nil bound))
-           (1 (hl-todo--get-face) t t))))
+           (1 (hl-todo--get-face) prepend t))))
   (font-lock-add-keywords nil hl-todo--keywords t))
 
 (defvar hl-todo--syntax-table (copy-syntax-table text-mode-syntax-table))
+
+(defvar syntax-ppss-table) ; Silence Emacs 25's byte-compiler.
 
 (defun hl-todo--search (&optional regexp bound backward)
   (unless regexp
     (setq regexp hl-todo--regexp))
   (cl-block nil
-    (while (let ((case-fold-search nil))
+    (while (let ((case-fold-search nil)
+                 (syntax-ppss-table (syntax-table)))
              (with-syntax-table hl-todo--syntax-table
                (funcall (if backward #'re-search-backward #'re-search-forward)
                         regexp bound t)))
@@ -253,7 +265,7 @@ including alphanumeric characters, cannot be used here."
       (goto-char (point-min))
       (while (hl-todo--search)
         (save-excursion
-	  (font-lock-fontify-region (match-beginning 0) (match-end 0) nil))))))
+          (font-lock-fontify-region (match-beginning 0) (match-end 0) nil))))))
 
 ;;;###autoload
 (define-globalized-minor-mode global-hl-todo-mode
@@ -261,7 +273,8 @@ including alphanumeric characters, cannot be used here."
 
 (defun hl-todo--turn-on-mode-if-desired ()
   (when (and (apply #'derived-mode-p hl-todo-include-modes)
-             (not (apply #'derived-mode-p hl-todo-exclude-modes)))
+             (not (apply #'derived-mode-p hl-todo-exclude-modes))
+             (not (bound-and-true-p enriched-mode)))
     (hl-todo-mode 1)))
 
 ;;;###autoload
