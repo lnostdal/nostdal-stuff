@@ -6,16 +6,18 @@
                          (or (file-name-directory #$) (car load-path))))
 
 
-;;;### (autoloads nil "modus-operandi-theme" "modus-operandi-theme.el"
+;;;### (autoloads "actual autoloads are elsewhere" "modus-operandi-theme"
+;;;;;;  "../../../../../../.emacs.d/elpa/modus-themes-1.3.0/modus-operandi-theme.el"
 ;;;;;;  (0 0 0 0))
-;;; Generated autoloads from modus-operandi-theme.el
+;;; Generated autoloads from ../../../../../../.emacs.d/elpa/modus-themes-1.3.0/modus-operandi-theme.el
 
 (if (fboundp 'register-definition-prefixes) (register-definition-prefixes "modus-operandi-theme" '("modus-operandi")))
 
 ;;;***
 
-;;;### (autoloads nil "modus-themes" "modus-themes.el" (0 0 0 0))
-;;; Generated autoloads from modus-themes.el
+;;;### (autoloads nil "modus-themes" "../../../../../../.emacs.d/elpa/modus-themes-1.3.0/modus-themes.el"
+;;;;;;  "e1a3e0f447164b10ebd40febf75a2f43")
+;;; Generated autoloads from ../../../../../../.emacs.d/elpa/modus-themes-1.3.0/modus-themes.el
 
 (autoload 'modus-themes-contrast "modus-themes" "\
 Measure WCAG contrast ratio between C1 and C2.
@@ -65,20 +67,33 @@ by virtue of calling either of `modus-themes-load-operandi' and
 `modus-themes-load-vivendi' functions." t nil)
 
 (when load-file-name (let ((dir (file-name-directory load-file-name))) (unless (equal dir (expand-file-name "themes/" data-directory)) (add-to-list 'custom-theme-load-path dir))))
+
+;;;### (autoloads "actual autoloads are elsewhere" "modus-themes"
+;;;;;;  "../../../../../../.emacs.d/elpa/modus-themes-1.3.0/modus-themes.el"
+;;;;;;  (0 0 0 0))
+;;; Generated autoloads from ../../../../../../.emacs.d/elpa/modus-themes-1.3.0/modus-themes.el
 
 (if (fboundp 'register-definition-prefixes) (register-definition-prefixes "modus-themes" '("modus-themes-")))
 
 ;;;***
+
+;;;***
 
-;;;### (autoloads nil "modus-vivendi-theme" "modus-vivendi-theme.el"
+;;;### (autoloads "actual autoloads are elsewhere" "modus-vivendi-theme"
+;;;;;;  "../../../../../../.emacs.d/elpa/modus-themes-1.3.0/modus-vivendi-theme.el"
 ;;;;;;  (0 0 0 0))
-;;; Generated autoloads from modus-vivendi-theme.el
+;;; Generated autoloads from ../../../../../../.emacs.d/elpa/modus-themes-1.3.0/modus-vivendi-theme.el
 
 (if (fboundp 'register-definition-prefixes) (register-definition-prefixes "modus-vivendi-theme" '("modus-vivendi")))
 
 ;;;***
 
-;;;### (autoloads nil nil ("modus-themes-pkg.el") (0 0 0 0))
+;;;### (autoloads nil nil ("../../../../../../.emacs.d/elpa/modus-themes-1.3.0/modus-operandi-theme.el"
+;;;;;;  "../../../../../../.emacs.d/elpa/modus-themes-1.3.0/modus-themes-autoloads.el"
+;;;;;;  "../../../../../../.emacs.d/elpa/modus-themes-1.3.0/modus-themes-pkg.el"
+;;;;;;  "../../../../../../.emacs.d/elpa/modus-themes-1.3.0/modus-themes.el"
+;;;;;;  "../../../../../../.emacs.d/elpa/modus-themes-1.3.0/modus-vivendi-theme.el")
+;;;;;;  (0 0 0 0))
 
 ;;;***
 

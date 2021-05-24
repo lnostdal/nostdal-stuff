@@ -22,9 +22,9 @@
  '(auto-revert-verbose nil)
  '(cider-jump-to-pop-to-buffer-actions '((display-buffer-same-window)))
  '(compilation-message-face 'default)
- '(custom-enabled-themes '(modus-vivendi))
+ '(custom-enabled-themes '(modus-operandi))
  '(custom-safe-themes
-   '("d9864caf2fc6cd9bc5bed941c526a4690bf6c27f0d8c1ca28ff7e05806b57204" "0bcd68ed12fe8a59dfadf8e6eaeb57c390b2937babdf5479c2f5bc90d6c1685b" default))
+   '("0598c6a29e13e7112cfbc2f523e31927ab7dce56ebb2016b567e1eff6dc1fd4f" "d91ef4e714f05fff2070da7ca452980999f5361209e679ee988e3c432df24347" "d9864caf2fc6cd9bc5bed941c526a4690bf6c27f0d8c1ca28ff7e05806b57204" "0bcd68ed12fe8a59dfadf8e6eaeb57c390b2937babdf5479c2f5bc90d6c1685b" default))
  '(epg-gpg-program "/usr/bin/gpg2")
  '(global-auto-revert-mode t)
  '(haskell-process-auto-import-loaded-modules t)
@@ -41,7 +41,7 @@
  '(org-export-with-sub-superscripts nil)
  '(org-startup-truncated nil)
  '(package-selected-packages
-   '(modus-themes nginx-mode highlight-thing systemd yaml-mode solarized-theme rust-mode hl-todo rainbow-delimiters doom-themes beacon cider company counsel magit projectile cargo lxd-tramp counsel-tramp docker docker-compose-mode wgrep counsel-projectile clj-refactor dockerfile-mode htmlize symon 0blayout magit-todos jdee smartparens elgrep python-mode php-mode web-mode cider-decompile js2-mode highlight-parentheses))
+   '(modus-themes nginx-mode highlight-thing systemd yaml-mode solarized-theme rust-mode hl-todo rainbow-delimiters beacon cider company counsel magit projectile cargo lxd-tramp counsel-tramp docker docker-compose-mode wgrep counsel-projectile clj-refactor dockerfile-mode htmlize symon 0blayout magit-todos jdee smartparens elgrep python-mode php-mode web-mode cider-decompile js2-mode highlight-parentheses))
  '(truncate-lines t)
  '(vc-annotate-background nil)
  '(vc-annotate-background-mode nil)
