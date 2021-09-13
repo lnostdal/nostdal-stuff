@@ -162,13 +162,14 @@ Signal an error if it is not supported."
   (unless (cider-nrepl-op-supported-p op)
     (user-error "`%s' requires the nREPL op \"%s\" (provided by cider-nrepl)" this-command op)))
 
-(defun cider-nrepl-send-request (request callback &optional connection)
+(defun cider-nrepl-send-request (request callback &optional connection tooling)
   "Send REQUEST and register response handler CALLBACK.
 REQUEST is a pair list of the form (\"op\" \"operation\" \"par1-name\"
                                     \"par1\" ... ).
 If CONNECTION is provided dispatch to that connection instead of
-the current connection.  Return the id of the sent message."
-  (nrepl-send-request request callback (or connection (cider-current-repl 'any 'ensure))))
+the current connection.  Return the id of the sent message.
+If TOOLING is truthy then the tooling session is used."
+  (nrepl-send-request request callback (or connection (cider-current-repl 'any 'ensure)) tooling))
 
 (defun cider-nrepl-send-sync-request (request &optional connection abort-on-input)
   "Send REQUEST to the nREPL server synchronously using CONNECTION.
@@ -636,7 +637,7 @@ CONTEXT represents a completion context for compliment."
                     (cider-nrepl-send-sync-request (cider-current-repl)))))
     (if (member "lookup-error" (nrepl-dict-get var-info "status"))
         nil
-      var-info)))
+      (nrepl-dict-get var-info "info"))))
 
 (defun cider-sync-request:eldoc (symbol &optional class member)
   "Send \"eldoc\" op with parameters SYMBOL or CLASS and MEMBER."
