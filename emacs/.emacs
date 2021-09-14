@@ -142,7 +142,8 @@
 ;;; Keyboard shortcuts: general  [ s = windows key, M = Alt ]
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(global-set-key "\370" (quote counsel-M-x))
+(global-set-key "\370" 'counsel-M-x)
+(global-set-key (kbd "M-x") 'counsel-M-x)
 (global-set-key "\C-s" 'swiper) (global-set-key "\C-r" 'swiper) ;; Better than standard isearch.
 
 (global-set-key (kbd "<C-delete>") 'comment-or-uncomment-region)
@@ -158,11 +159,13 @@
 (global-set-key (kbd "<M-next>") 'next-buffer)
 (global-set-key (kbd "<M-prior>") 'previous-buffer)
 
-(global-set-key "§" 'other-window) ;; Shift-|  ..this seems to work better or more consistently in terminal mode.
+(global-set-key "§" 'other-window) ;; Shift-| or "section sign" symbol. This seems to work better or more consistently in terminal mode. Currently (sep 2021) seems broken in some terminals?
+;; (global-set-key (kbd "<backtab>") 'other-window) ;; Magit already uses this..
+(global-set-key (kbd "M-|") 'other-window) ;; Directly above Tab on Norwegian layouts.
 
 ;; Movement.
-(global-set-key (kbd "ESC <up>") 'backward-paragraph)
-(global-set-key (kbd "ESC <down>") 'forward-paragraph)
+(global-set-key (kbd "<C-up>") 'backward-paragraph)
+(global-set-key (kbd "<C-down>") 'forward-paragraph)
 
 ;; File handling.
 (global-set-key (kbd "<f1>") 'counsel-find-file)
