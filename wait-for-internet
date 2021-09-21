@@ -1,0 +1,5 @@
+#!/bin/bash
+
+while ! ping -c 1 -W 10 google.com 1> /dev/null; do
+    sleep 1
+done
