@@ -55,10 +55,10 @@ COMMIT
 -A public-in -p tcp -m multiport --dports 80,443 -m comment --comment "HTTP (for Let's Encrypt) and HTTPS | HTTP/2" -j ACCEPT
 -A public-in -p udp -m multiport --dports 443,51820 -m comment --comment "HTTP/3 and WireGuard" -j ACCEPT
 
--4 -A wg-in -p tcp -m multiport --dports 80,443 -m comment --comment "HTTP | HTTPS | HTTP/2 from anywhere to us." -j ACCEPT
--4 -A wg-in -p udp --dport 443 -m comment --comment "HTTP/3 from anywhere to us." -j ACCEPT
+-4 -A wg-in -p tcp -m multiport --dports 80,443 -m comment --comment "HTTP, HTTPS | HTTP/2" -j ACCEPT
+-4 -A wg-in -p udp --dport 443 -m comment --comment "HTTP/3" -j ACCEPT
 
-# Custom stuff for this particular server
+# Custom stuff for this particular peer
 # ---------------------------------------------------------------------------------------------------------------------------------
 
 
