@@ -29,39 +29,49 @@ COMMIT
 :wg-fwd - [0:0]
 :public-in - [0:0]
 
--6 -A INPUT -i wg+ -m comment --comment "Disable IPv6 within WG VPNs" -j REJECT
--6 -A FORWARD -i wg+ -m comment --comment "Disable IPv6 within WG VPNs" -j REJECT
--6 -A OUTPUT -o wg+ -m comment --comment "Disable IPv6 within WG VPNs" -j REJECT
+# NOTE: Do this when applying: sudo systemctl restart netfilter-persistent.service && echo "Applied; now waiting 30 seconds until revert!" && sleep 30 && sudo iptables -F
+# NOTE: Jumping from INPUT to DROP or REJECT shouldn't be done anywhere except here. I've tried to put rules that are sensitive to latency early.
 
+-A INPUT -i lo -j ACCEPT
 -A INPUT -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
 -A INPUT ! -i wg+ -j public-in
 -4 -A INPUT -i wg+ -j wg-in
--4 -I INPUT -p icmp -j ACCEPT
--6 -I INPUT -p ipv6-icmp -j ACCEPT
+# Failsafe: SSH access on *all* interfaces ( TODO: I tried rate limiting this via the `recent` module, but `--reap` didn't seem to work so seems risky. )
+-A INPUT -p tcp --dport 22 -j ACCEPT
+-4 -A INPUT -p icmp -j ACCEPT
+-6 -A INPUT -p ipv6-icmp -j ACCEPT
+-4 -A INPUT -i wg+ -m limit --limit 5/min -j LOG --log-prefix "iptables INPUT: " --log-level 1
+-4 -A INPUT -i wg+ -j REJECT
 -A INPUT -m limit --limit 5/min -j LOG --log-prefix "iptables INPUT: " --log-level 7
 -A INPUT -j DROP
 
 -A FORWARD -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
 -4 -A FORWARD -i wg+ -o wg+ -j wg-fwd
+-4 -A FORWARD -i wg+ -m limit --limit 5/min -j LOG --log-prefix "iptables FORWARD: " --log-level 1
+-4 -A FORWARD -i wg+ -j REJECT
 -A FORWARD -m limit --limit 5/min -j LOG --log-prefix "iptables FORWARD: " --log-level 7
 -A FORWARD -j DROP
 
--4 -A wg-in -p tcp -m multiport --dports 80,443 -m comment --comment "HTTP, HTTPS | HTTP/2" -j ACCEPT
--4 -A wg-in -p udp --dport 443 -m comment --comment "HTTP/3" -j ACCEPT
--4 -A wg-in -m limit --limit 5/min -j LOG --log-prefix "iptables wg-in: " --log-level 1
--4 -A wg-in -j REJECT
-
-# -4 -A wg-fwd -j ACCEPT
--4 -A wg-fwd -m limit --limit 5/min -j LOG --log-prefix "iptables wg-fwd: " --log-level 1
--4 -A wg-fwd -j REJECT
-
--A public-in -p tcp -m multiport --dports 80,443 -m comment --comment "HTTP, HTTPS | HTTP/2" -j ACCEPT
+-A public-in -p tcp -m multiport --dports 80,443 -m comment --comment "HTTP (for Let's Encrypt) and HTTPS | HTTP/2" -j ACCEPT
 -A public-in -p udp -m multiport --dports 443,51820 -m comment --comment "HTTP/3 and WireGuard" -j ACCEPT
 
-# Failsafe: SSH access on *all* interfaces ( TODO: I tried rate limiting this via the `recent` module, but `--reap` didn't seem to work so seems risky. )
--I INPUT -p tcp --dport 22 -j ACCEPT
+-4 -A wg-in -p tcp -m multiport --dports 80,443 -m comment --comment "HTTP | HTTPS | HTTP/2 from anywhere to us." -j ACCEPT
+-4 -A wg-in -p udp --dport 443 -m comment --comment "HTTP/3 from anywhere to us." -j ACCEPT
 
--I INPUT -i lo -j ACCEPT
+# Custom stuff for this particular server
+# ---------------------------------------------------------------------------------------------------------------------------------
+
+
+# ---------------------------------------------------------------------------------------------------------------------------------
+
+-4 -A public-in -p udp -d 224.0.0.251 --dport 5353 -m comment --comment "mDNS on local subnetwork" -j ACCEPT
+-6 -A public-in -p udp -d ff02::fb --dport 5353 -m comment --comment "mDNS on local subnetwork" -j ACCEPT
+
+-4 -A wg-fwd -p icmp -m comment --comment "Don't hide things within a VPN; just restrict" -j ACCEPT
+
+-6 -I INPUT -i wg+ -m comment --comment "Disable IPv6 within WG VPNs" -j REJECT
+-6 -I FORWARD -i wg+ -m comment --comment "Disable IPv6 within WG VPNs" -j REJECT
+-6 -I OUTPUT -o wg+ -m comment --comment "Disable IPv6 within WG VPNs" -j REJECT
 
 COMMIT
 # ..COMMIT needs a newline.
