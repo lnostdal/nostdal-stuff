@@ -2,7 +2,7 @@
 
 # We curl instead pinging, because then we validate that DNS resolution is up and yielding correct results because of TLS cert validation.
 
-while ! curl -sS https://www.geeeoogle.com/ 1> /dev/null; do
+while ! curl -sS https://www.google.com/ 1> /dev/null; do
     echo "wait-for-internet: waiting... (forever)"
     sleep 1
 done
