@@ -1,11 +1,11 @@
 ;;; parseclj.el --- Clojure/EDN parser              -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2017-2018  Arne Brasseur
+;; Copyright (C) 2017-2021  Arne Brasseur
 
 ;; Author: Arne Brasseur <arne@arnebrasseur.net>
 ;; Keywords: lisp clojure edn parser
-;; Package-Requires: ((emacs "25") (a "0.1.0alpha4"))
-;; Version: 0.1.0
+;; Package-Requires: ((emacs "25"))
+;; Version: 1.0.2
 
 ;; This file is not part of GNU Emacs.
 
@@ -30,8 +30,61 @@
 
 ;;; Code:
 
+(require 'map)
+(require 'seq)
+
+(defun parseclj-alist (&rest kvs)
+  "Create an association list from the given keys and values KVS.
+Arguments are simply provided in sequence, rather than as lists or cons cells.
+For example: (parseclj-alist :foo 123 :bar 456)"
+  ;; Emacs 27:
+  ;; (map-into kvs 'alist)
+  (mapcar (lambda (kv) (cons (car kv) (cadr kv))) (seq-partition kvs 2)))
+
 (require 'parseclj-parser)
 (require 'parseclj-ast)
+
+(defun parseclj-hash-table (&rest kvs)
+  "Create a hash table from the given keys and values KVS.
+Arguments are simply provided in sequence, rather than as lists
+or cons cells. As \"test\" for the hash table, equal is used. The
+hash table is created without extra storage space, so with a size
+equal to amount of key-value pairs, since it is assumed to be
+treated as immutable.
+For example: (parseclj-hash-table :foo 123 :bar 456)"
+  ;; Emacs 27:
+  ;; (map-into kvs 'hash-table)
+  (let* ((kv-pairs (seq-partition kvs 2))
+         (hash-map (make-hash-table :test 'equal :size (length kv-pairs))))
+    (seq-do (lambda (pair)
+              (puthash (car pair) (cadr pair) hash-map))
+            kv-pairs)
+    hash-map))
+
+(defun parseclj-alist-assoc (coll k v)
+  "Associate a key K with a value V in the association list COLL
+
+Returns a new alist (does not mutate its argument). If an entry
+with the same key is present it will be replaced, otherwise the
+new kv-pair is added to the head of the list."
+  (if (map-contains-key coll k)
+      (mapcar (lambda (entry)
+                (if (equal (car entry) k)
+                    (cons k v)
+                  entry))
+              coll)
+    (cons (cons k v) coll)))
+
+(defun parseclj-alist-update (coll key fn &rest args)
+  "In collection COLL, at location KEY, apply FN with extra args ARGS.
+'Updates' a value in an associative collection COLL, where KEY is
+a key and FN is a function that will take the old value and any
+supplied args and return the new value, and returns a new
+structure. If the key does not exist, nil is passed as the old
+value."
+  (parseclj-alist-assoc coll
+                        key
+                        (apply #'funcall fn (map-elt coll key) args)))
 
 (defun parseclj-parse-clojure (&rest string-and-options)
   "Parse Clojure source to AST.
@@ -56,8 +109,8 @@ key-value pairs to specify parsing options.
     (let* ((value-p (lambda (e)
                       (and (parseclj-ast-node-p e)
                            (not (member (parseclj-ast-node-type e) '(:whitespace :comment :discard))))))
-           (options (apply 'a-list :value-p value-p string-and-options))
-           (lexical? (a-get options :lexical-preservation)))
+           (options (apply 'parseclj-alist :value-p value-p string-and-options))
+           (lexical? (map-elt options :lexical-preservation)))
       (parseclj-parser (if lexical?
                            #'parseclj-ast--reduce-leaf-with-lexical-preservation
                          #'parseclj-ast--reduce-leaf)
@@ -73,7 +126,7 @@ Given an abstract syntax tree AST (as returned by
 `parseclj-parse-clojure'), turn it back into source code, and
 insert it into the current buffer."
   (if (parseclj-ast-leaf-node-p ast)
-      (insert (a-get ast :form))
+      (insert (map-elt ast :form))
     (if (eql (parseclj-ast-node-type ast) :tag)
         (parseclj-ast--unparse-tag ast)
       (parseclj-ast--unparse-collection ast))))
