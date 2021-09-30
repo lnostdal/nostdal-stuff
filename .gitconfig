@@ -1,6 +1,10 @@
-[user]
-name = Lars Rune Nøstdal
-email = larsnostdal@gmail.com
+# Instead of doing this, use ~/.gitconfig.local
+# [user]
+# name = Lars Rune Nøstdal
+# email = larsnostdal@gmail.com
+
+[init]
+defaultBranch = master # Taxation = slavery; I bet the SJWs don't like to hear that.
 
 [color]
 diff = auto
