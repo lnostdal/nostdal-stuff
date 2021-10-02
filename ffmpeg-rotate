@@ -1,0 +1,5 @@
+#!/bin/bash
+
+# Useful when rotating 4k video from phones in prep for hevc_vaapi which only likes 4k when oriented right.
+
+ffmpeg -i "$2" -map_metadata 0 -metadata:s:v rotate="$1" -codec copy "$3"

@@ -1,0 +1,9 @@
+#!/bin/bash
+
+# This looks very good and performs great; adding -hwaccel_output_format vaapi didn't work tho.
+#
+# arg1 = input file
+# arg2 = 0 - 51 (quality)
+# arg3 = output file
+
+ffmpeg  -hwaccel vaapi -vaapi_device /dev/dri/renderD128 -i "$1" -vf 'format=nv12|vaapi,hwupload' -movflags faststart -c:a copy -c:v h264_vaapi -b:v 0 -qp:v "$2" "$3"
