@@ -31,3 +31,6 @@ denyCurrentBranch = updateInstead
 
 [diff]
 algorithm = histogram
+
+[include]
+path = ~/.gitconfig.local
