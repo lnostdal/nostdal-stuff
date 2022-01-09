@@ -11,7 +11,7 @@
 ;;         Steve Purcell <steve@sanityinc.com>
 ;; Maintainer: Bozhidar Batsov <bozhidar@batsov.dev>
 ;; URL: http://www.github.com/clojure-emacs/cider
-;; Version: 1.2.0
+;; Version: 1.3.0-snapshot
 ;; Package-Requires: ((emacs "26") (clojure-mode "5.12") (parseedn "1.0.6") (queue "0.2") (spinner "1.7") (seq "2.22") (sesman "0.3.2"))
 ;; Keywords: languages, clojure, cider
 
@@ -92,7 +92,7 @@
 (require 'sesman)
 (require 'package)
 
-(defconst cider-version "1.2.0"
+(defconst cider-version "1.3.0-snapshot"
   "The current version of CIDER.")
 
 (defconst cider-codename "Nice"
@@ -158,9 +158,9 @@ default to \"powershell\"."
 (defcustom cider-clojure-cli-aliases
   nil
   "A list of aliases to include when using the clojure cli.
-Should be of the form `foo:bar`.  Any leading \"-A\" or \"-M\" will be
-stripped as these are concatenated into the \"-M[your-deps]:cider/nrepl\"
-form."
+Alias names should be of the form `:foo:bar`.
+Leading \"-A\" \"-M\" \"-T\" or \"-X\" are stripped from aliases
+then concatenated into the \"-M[your-aliases]:cider/nrepl\" form."
   :type 'string
   :safe #'stringp
   :package-version '(cider . "1.1"))
@@ -428,7 +428,7 @@ Should be newer than the required version for optimal results."
   :package-version '(cider . "1.2.0")
   :safe #'stringp)
 
-(defcustom cider-enrich-classpath nil
+(defcustom cider-enrich-classpath t
   "Whether to use git.io/JiJVX for adding sources and javadocs to the classpath.
 
 This is done in a clean manner, without interfering with classloaders.
@@ -631,9 +631,9 @@ one used."
             deps-string
             main-opts
             (if cider-clojure-cli-aliases
-                ;; replace -A or -M in the jack-in-aliases to be concatenated
-                ;; with cider/nrepl to ensure cider/nrepl comes last
-                (format ":%s" (replace-regexp-in-string "^-\\(A\\\|M\\):" "" cider-clojure-cli-aliases))
+                ;; remove exec-opts flags -A -M -T or -X from cider-clojure-cli-aliases
+                ;; concatenated with :cider/nrepl to ensure :cider/nrepl comes last
+                (format "%s" (replace-regexp-in-string "^-\\(A\\|M\\|T\\|X\\)" "" cider-clojure-cli-aliases))
               ""))))
 
 (defun cider-shadow-cljs-jack-in-dependencies (global-opts params dependencies)
