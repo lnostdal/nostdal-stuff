@@ -1,6 +1,6 @@
-(define-package "parseclj" "1.0.6" "Clojure/EDN parser"
+(define-package "parseclj" "1.1.0" "Clojure/EDN parser"
   '((emacs "25"))
-  :commit "a8c4cf30fb68b66ae51541462a8b21753229a6e5" :authors
+  :commit "90595049634549e6d8872f719b13e9555897d17b" :authors
   '(("Arne Brasseur" . "arne@arnebrasseur.net"))
   :maintainer
   '("Arne Brasseur" . "arne@arnebrasseur.net")

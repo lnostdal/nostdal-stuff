@@ -42,6 +42,17 @@ applied with lower priority than the syntax highlighting."
   :group 'cider
   :package-version '(cider "0.9.1"))
 
+(defface cider-error-overlay-face
+  '((((class color) (background light))
+     :background "orange red"
+     :extend t)
+    (((class color) (background dark))
+     :background "firebrick"
+     :extend t))
+  "Like `cider-result-overlay-face', but for evaluation errors."
+  :group 'cider
+  :package-version '(cider "0.25.0"))
+
 (defcustom cider-result-use-clojure-font-lock t
   "If non-nil, interactive eval results are font-locked as Clojure code."
   :group 'cider
@@ -89,9 +100,11 @@ If 'at-point, display at the end of the respective sexp."
   "Duration, in seconds, of CIDER's eval-result overlays.
 If nil, overlays last indefinitely.
 If the symbol `command', they're erased after the next command.
+If the symbol `change', they last until the next change to the buffer.
 Also see `cider-use-overlays'."
   :type '(choice (integer :tag "Duration in seconds")
                  (const :tag "Until next command" command)
+                 (const :tag "Until next buffer change" change)
                  (const :tag "Last indefinitely" nil))
   :group 'cider
   :package-version '(cider . "0.10.0"))
@@ -116,10 +129,14 @@ PROPS is a plist of properties and values to add to the overlay."
     (push #'cider--delete-overlay (overlay-get o 'modification-hooks))
     o))
 
-(defun cider--remove-result-overlay ()
+(defun cider--remove-result-overlay (&rest _)
   "Remove result overlay from current buffer.
-This function also removes itself from `post-command-hook'."
-  (remove-hook 'post-command-hook #'cider--remove-result-overlay 'local)
+This function also removes itself from `post-command-hook' and
+`after-change-functions'."
+  (let ((hook (pcase cider-eval-result-duration
+                (`command 'post-command-hook)
+                (`change 'after-change-functions))))
+    (remove-hook hook #'cider--remove-result-overlay 'local))
   (remove-overlays nil nil 'category 'result))
 
 (defun cider--remove-result-overlay-after-command ()
@@ -210,7 +227,9 @@ overlay."
                       (pcase cider-result-overlay-position
                         ('at-eol (line-end-position))
                         ('at-point (point)))))
-               (display-string (format format value))
+               ;; Specify `default' face, otherwise unformatted text will
+               ;; inherit the face of the following text.
+               (display-string (format (propertize format 'face 'default) value))
                (o nil))
           (remove-overlays beg end 'category type)
           (funcall (if cider-overlays-use-font-lock
@@ -247,7 +266,11 @@ overlay."
                  (add-hook 'post-command-hook
                            #'cider--remove-result-overlay-after-command
                            nil 'local)
-               (cider--remove-result-overlay-after-command))))
+               (cider--remove-result-overlay-after-command)))
+            (`change
+             (add-hook 'after-change-functions
+                       #'cider--remove-result-overlay
+                       nil 'local)))
           (when-let* ((win (get-buffer-window buffer)))
             ;; Left edge is visible.
             (when (and (<= (window-start win) (point) (window-end win))
@@ -260,9 +283,11 @@ overlay."
 
 
 ;;; Displaying eval result
-(defun cider--display-interactive-eval-result (value &optional point)
+(defun cider--display-interactive-eval-result (value &optional point overlay-face)
   "Display the result VALUE of an interactive eval operation.
 VALUE is syntax-highlighted and displayed in the echo area.
+OVERLAY-FACE is the face applied to the overlay, which defaults to
+`cider-result-overlay-face' if nil.
 If POINT and `cider-use-overlays' are non-nil, it is also displayed in an
 overlay at the end of the line containing POINT.
 Note that, while POINT can be a number, it's preferable to be a marker, as
@@ -274,7 +299,8 @@ focused."
          (used-overlay (when (and point cider-use-overlays)
                          (cider--make-result-overlay font-value
                            :where point
-                           :duration cider-eval-result-duration))))
+                           :duration cider-eval-result-duration
+                           :prepend-face (or overlay-face 'cider-result-overlay-face)))))
     (message
      "%s"
      (propertize (format "%s%s" cider-eval-result-prefix font-value)

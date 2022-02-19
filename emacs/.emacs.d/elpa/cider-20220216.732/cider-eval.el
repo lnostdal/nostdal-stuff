@@ -727,7 +727,11 @@ when `cider-auto-inspect-after-eval' is non-nil."
                                  (lambda (_buffer out)
                                    (cider-emit-interactive-eval-output out))
                                  (lambda (_buffer err)
-                                   (cider-emit-interactive-eval-err-output err)
+                                   (unless cider-show-error-buffer
+                                     ;; Display errors as temporary overlays
+                                     (let ((cider-result-use-clojure-font-lock nil))
+                                       (cider--display-interactive-eval-result
+                                        err end 'cider-error-overlay-face)))
                                    (cider-handle-compilation-errors err eval-buffer))
                                  (when (and cider-auto-inspect-after-eval
                                             (boundp 'cider-inspector-buffer)
@@ -815,7 +819,8 @@ COMMENT-POSTFIX is the text to output after the last line."
      (lambda (_buffer value)
        (setq res (concat res value)))
      nil
-     nil
+     (lambda (_buffer err)
+       (setq res (concat res err)))
      (lambda (buffer)
        (with-current-buffer buffer
          (save-excursion
@@ -897,7 +902,11 @@ arguments and only proceed with evaluation if it returns nil."
         (start (car-safe bounds))
         (end   (car-safe (cdr-safe bounds))))
     (when (and start end)
-      (remove-overlays start end 'cider-temporary t))
+      ;; NOTE: don't use `remove-overlays' as it splits and leaves behind
+      ;; partial overlays, leading to duplicate eval results in some situations.
+      (dolist (ov (overlays-in start end))
+        (when (eq (overlay-get ov 'cider-temporary) t)
+          (delete-overlay ov))))
     (unless (and cider-interactive-eval-override
                  (functionp cider-interactive-eval-override)
                  (funcall cider-interactive-eval-override form callback bounds))
@@ -1205,7 +1214,7 @@ buffer.  It constructs an expression to eval in the following manner:
     (cider-interactive-eval code
                             (when output-to-current-buffer
                               (cider-eval-print-handler))
-                            nil
+                            (list beg-of-defun (point))
                             (cider--nrepl-pr-request-map))))
 
 (defun cider--matching-delimiter (delimiter)
@@ -1236,7 +1245,7 @@ buffer.  It constructs an expression to eval in the following manner:
     (cider-interactive-eval code
                             (when output-to-current-buffer
                               (cider-eval-print-handler))
-                            nil
+                            (list beg-of-sexp (point))
                             (cider--nrepl-pr-request-map))))
 
 (defun cider-pprint-eval-defun-at-point (&optional output-to-current-buffer)
