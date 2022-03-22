@@ -43,11 +43,11 @@ customization options for the ‘modus-operandi’ and ‘modus-vivendi’
 themes, and provides every other piece of information pertinent to them.
 
    The documentation furnished herein corresponds to stable version
-2.1.0, released on 2022-02-17.  Any reference to a newer feature which
+2.2.0, released on 2022-02-23.  Any reference to a newer feature which
 does not yet form part of the latest tagged commit, is explicitly marked
 as such.
 
-   Current development target is 2.2.0-dev.
+   Current development target is 2.3.0-dev.
 
 * Menu:
 
@@ -101,7 +101,7 @@ Customization Options
 * Command prompts::              Choose among plain, subtle, or intense prompts
 * Mode line::                    Choose among several styles, with or without borders
 * Tab style::                    Toggle accented background for tabs
-* Completion UIs::               Choose among standard, moderate, or opinionated looks
+* Completion UIs::               Choose among several styles for completion UIs
 * Mail citations::               Choose among colorful, desaturated, monochrome citations
 * Fringes::                      Choose among invisible, subtle, or intense fringe styles
 * Language checkers::            Control the style of language checkers/linters
@@ -137,6 +137,7 @@ Advanced customization
 * Load theme depending on time of day::
 * Backdrop for pdf-tools::
 * Decrease mode line height::
+* Toggle themes without reloading them::
 * A theme-agnostic hook for theme loading::
 * Diffs with only the foreground::
 * Ediff without diff color-coding::
@@ -405,9 +406,9 @@ activate a theme with either of the following expressions:
    Changes to the available customization options must always be
 evaluated before loading a theme (*note Customization Options::).  An
 exception to this norm is when using the various Custom interfaces or
-with commands like ‘M-x customize-set-variable’, which automatically
-reload the theme by default (*note Option for inhibiting theme reload:
-Custom reload theme.).  This is how a basic setup could look like:
+with commands like ‘M-x customize-set-variable’, which can automatically
+reload the theme (*note Option for inhibiting theme reload: Custom
+reload theme.).  This is how a basic setup could look like:
 
      (require 'modus-themes)
 
@@ -517,8 +518,8 @@ so it might appear to the unsuspecting user that the themes are somehow
 broken whenever they try to assign a new value to a customization option
 or some face.
 
-   This “reset” that ‘load-theme’ conducts does, however, come at the
-cost of being somewhat slower than ‘enable-theme’.  Users who have a
+   This “reset” that ‘load-theme’ brings about does, however, come at
+the cost of being somewhat slower than ‘enable-theme’.  Users who have a
 stable setup and who seldom update their variables during a given Emacs
 session, are better off using something like this:
 
@@ -527,6 +528,8 @@ session, are better off using something like this:
      (load-theme 'modus-vivendi t t)
 
      (enable-theme 'modus-operandi) ;; OR (enable-theme 'modus-vivendi)
+
+   *note Toggle themes without reloading them::.
 
    *note Sample configuration with and without use-package::.
 
@@ -616,7 +619,22 @@ of this manual.
            ;; symbols: `background', `bold', `gray', `intense', `italic'
            modus-themes-prompts '(intense bold)
 
-           modus-themes-completions 'moderate ; {nil,'moderate,'opinionated,'super-opinionated}
+           ;; The `modus-themes-completions' is an alist that reads three
+           ;; keys: `matches', `selection', `popup'.  Each accepts a nil
+           ;; value (or empty list) or a list of properties that can include
+           ;; any of the following (for WEIGHT read further below):
+           ;;
+           ;; `key' - `background', `intense', `underline', `italic', WEIGHT
+           ;; `selection' - `accented', `intense', `underline', `italic', WEIGHT
+           ;; `popup' - same as `selected'
+           ;; `t' - applies to any key not explicitly referenced (check docs)
+           ;;
+           ;; WEIGHT is a symbol such as `semibold', `light', or anything
+           ;; covered in `modus-themes-weights'.  Bold is used in the absence
+           ;; of an explicit WEIGHT.
+           modus-themes-completions '((matches . (extrabold))
+                                      (selection . (semibold accented))
+                                      (popup . (accented intense)))
 
            modus-themes-mail-citations nil ; {nil,'intense,'faint,'monochrome}
 
@@ -655,7 +673,7 @@ of this manual.
 * Command prompts::              Choose among plain, subtle, or intense prompts
 * Mode line::                    Choose among several styles, with or without borders
 * Tab style::                    Toggle accented background for tabs
-* Completion UIs::               Choose among standard, moderate, or opinionated looks
+* Completion UIs::               Choose among several styles for completion UIs
 * Mail citations::               Choose among colorful, desaturated, monochrome citations
 * Fringes::                      Choose among invisible, subtle, or intense fringe styles
 * Language checkers::            Control the style of language checkers/linters
@@ -1204,46 +1222,88 @@ File: modus-themes.info,  Node: Completion UIs,  Next: Mail citations,  Prev: Ta
 
 Brief: Set the overall style of completion framework interfaces.
 
-   Symbol: ‘modus-themes-completions’ (‘choice’ type)
+   Symbol: ‘modus-themes-completions’ (‘alist’ type properties)
 
-   Possible values:
+   This affects Company, Corfu, Flx, Helm, Icomplete/Fido, Ido, Ivy,
+Mct, Orderless, Selectrum, Vertico.  The value is an alist that takes
+the form of a ‘(key . properties)’ combination.  Here is a sample,
+followed by a description of the particularities:
 
-  1. ‘nil’ (default)
-  2. ‘moderate’
-  3. ‘opinionated’
-  4. ‘super-opinionated’
+     (setq modus-themes-completions
+           '((matches . (extrabold background intense))
+             (selection . (semibold accented intense))
+             (popup . (accented))))
 
-   This is a special option that has different effects depending on the
-completion UI.  The interfaces can be grouped in two categories, based
-on their default aesthetics: (i) those that only or mostly use
-foreground colors for their interaction model, and (ii) those that
-combine background and foreground values for some of their metaphors.
-The former category encompasses Icomplete, Ido, Selectrum, Vertico, Mct,
-as well as pattern matching styles like Orderless and Flx.  The latter
-covers Helm and Ivy.
+   The ‘matches’ key refers to the highlighted characters that
+correspond to the user’s input.  By default (nil or an empty list), they
+have a bold weight and a colored foreground.  The list of properties may
+include any of the following symbols regardless of the order they may
+appear in:
 
-   A value of nil (the default) will simply respect the metaphors of
-each completion framework.
+   • ‘background’ to add a background color;
 
-   Option ‘moderate’ applies a combination of background and foreground
-that is fairly subtle.  For Icomplete and friends this constitutes a
-departure from their default aesthetics, however the difference is
-small.  While Helm and Ivy appear slightly different than their original
-looks, as they are toned down a bit.
+   • ‘intense’ to increase the overall coloration (also amplifies the
+     ‘background’, if present);
 
-   Option ‘opinionated’ uses color combinations that refashion the
-completion UI.  For the Icomplete camp this means that intense
-background and foreground combinations are used: in effect their looks
-approximate those of Helm and Ivy in their original style.  Whereas the
-other group of packages will revert to an even more nuanced aesthetic
-with some additional changes to the choice of hues.
+   • ‘underline’ to draw a line below the characters;
 
-   Option ‘super-opinionated’ is like the ‘opinionated’ though it has a
-more pronounced effect, especially on the color of the current
-line/candidate.
+   • ‘italic’ to use a slanted font (italic or oblique forms);
 
-   To appreciate the scope of this customization option, you should
-spend some time with every one of those presets.
+   • The symbol of a font weight attribute such as ‘light’, ‘semibold’,
+     et cetera.  Valid symbols are defined in the ‘modus-themes-weights’
+     variable.  The absence of a weight means that bold will be used.
+
+   The ‘selection’ key applies to the current line or currently matched
+candidate, depending on the specifics of the User Interface.  By default
+(nil or an empty list), it has a subtle gray background and a bold
+weight.  The list of properties it accepts is as follows (order is not
+significant):
+
+   • ‘accented’ to make the background colorful instead of gray;
+
+   • ‘intense’ to increase the overall coloration;
+
+   • ‘underline’ to draw a line below the characters;
+
+   • ‘italic’ to use a slanted font (italic or oblique forms);
+
+   • The symbol of a font weight attribute such as ‘light’, ‘semibold’,
+     et cetera.  Valid symbols are defined in the ‘modus-themes-weights’
+     variable.  The absence of a weight means that bold will be used.
+
+   The ‘popup’ key takes the same values as ‘selection’.
+
+   Apart from specfying each key separately, a fallback list is
+accepted.  This is only useful when the desired aesthetic is the same
+across all keys that are not explicitly referenced.  For example, this:
+
+     (setq modus-themes-completions
+           '((t . (extrabold intense))))
+
+   Is the same as:
+
+     (setq modus-themes-completions
+           '((matches . (extrabold intense))
+             (selection . (extrabold intense))
+             (popup . (extrabold intense))))
+
+   In the case of the fallback, any property that does not apply to the
+corresponding key is simply ignored (‘matches’ does not have ‘accented’,
+‘selection’ and ‘popup’ do not have ‘background’).
+
+   A concise expression of those associations can be written as follows,
+where the ‘car’ is always the key and the ‘cdr’ is the list of
+properties (whatever order they may appear in):
+
+     (setq modus-themes-completions
+           '((matches extrabold background intense)
+             (selection semibold accented intense)
+             (popup accented)))
+
+   *note Configure bold and italic faces::.
+
+   Also refer to the Orderless documentation for its intersection with
+Company (if you choose to use those in tandem).
 
 
 File: modus-themes.info,  Node: Mail citations,  Next: Fringes,  Prev: Completion UIs,  Up: Customization Options
@@ -2050,6 +2110,7 @@ such, they are labelled as “do-it-yourself” or “DIY”.
 * Load theme depending on time of day::
 * Backdrop for pdf-tools::
 * Decrease mode line height::
+* Toggle themes without reloading them::
 * A theme-agnostic hook for theme loading::
 * Diffs with only the foreground::
 * Ediff without diff color-coding::
@@ -2629,8 +2690,7 @@ both themes and expands to some more assosiations in the palette:
                    (bg-header . "#ede3e0")
                    (bg-tab-bar . "#dcd3d3")
                    (bg-tab-active . "#fdf6eb")
-                   (bg-tab-inactive . "#c8bab8")
-                   (fg-unfocused . "#55556f"))
+                   (bg-tab-inactive . "#c8bab8"))
                  modus-themes-vivendi-color-overrides
                  '((bg-main . "#100b17")
                    (bg-dim . "#161129")
@@ -2642,16 +2702,31 @@ both themes and expands to some more assosiations in the palette:
                    (bg-header . "#202037")
                    (bg-tab-bar . "#262b41")
                    (bg-tab-active . "#120f18")
-                   (bg-tab-inactive . "#3a3a5a")
-                   (fg-unfocused . "#9a9aab")))
+                   (bg-tab-inactive . "#3a3a5a")))
          (setq modus-themes-operandi-color-overrides nil
                modus-themes-vivendi-color-overrides nil)))
 
-   With this in place, one can invoke ‘M-x my-modus-themes-tinted’ and
+   A more neutral style for ‘modus-themes-operandi-color-overrides’ can
+look like this:
+
+     '((bg-main . "#f7f7f7")
+       (bg-dim . "#f2f2f2")
+       (bg-alt . "#e8e8e8")
+       (bg-hl-line . "#eaeaef")
+       (bg-active . "#e0e0e0")
+       (bg-inactive . "#e6e6e6")
+       (bg-region . "#b5b5b5")
+       (bg-header . "#e4e4e4")
+       (bg-tab-bar . "#d1d1d4")
+       (bg-tab-active . "#f5f5f5")
+       (bg-tab-inactive . "#c0c0c0"))
+
+   With those in place, one can use ‘M-x my-modus-themes-tinted’ and
 then load the Modus theme of their choice.  The new palette subset will
-come into effect: subtle ochre tints for Modus Operandi and night sky
-shades for Modus Vivendi.  Switching between the two themes, such as
-with ‘M-x modus-themes-toggle’ will also use the overrides.
+come into effect: subtle ochre tints (or shades of gray) for Modus
+Operandi and night sky blue shades for Modus Vivendi.  Switching between
+the two themes, such as with ‘M-x modus-themes-toggle’ will also use the
+overrides.
 
    Given that this is a user-level customisation, one is free to
 implement whatever color values they desire, even if the possible
@@ -3405,7 +3480,7 @@ while buffers with major-mode as ‘pdf-view-mode’ automatically switches
 to dark mode when ‘modus-themes-toggle’ is called.
 
 
-File: modus-themes.info,  Node: Decrease mode line height,  Next: A theme-agnostic hook for theme loading,  Prev: Backdrop for pdf-tools,  Up: Advanced customization
+File: modus-themes.info,  Node: Decrease mode line height,  Next: Toggle themes without reloading them,  Prev: Backdrop for pdf-tools,  Up: Advanced customization
 
 5.19 Decrease mode line height
 ==============================
@@ -3495,9 +3570,36 @@ needs to be specified as well:
      (add-hook 'modus-themes-after-load-theme-hook #'my-modus-themes-custom-faces)
 
 
-File: modus-themes.info,  Node: A theme-agnostic hook for theme loading,  Next: Diffs with only the foreground,  Prev: Decrease mode line height,  Up: Advanced customization
+File: modus-themes.info,  Node: Toggle themes without reloading them,  Next: A theme-agnostic hook for theme loading,  Prev: Decrease mode line height,  Up: Advanced customization
 
-5.20 A theme-agnostic hook for theme loading
+5.20 Toggle themes without reloading them
+=========================================
+
+Users who have a stable setup and who only ever need to toggle between
+the themes without triggering a full reload, are better off defining
+their own command which calls ‘enable-theme’ instead of ‘load-theme’:
+
+     (defun my-modus-themes-toggle ()
+       "Toggle between `modus-operandi' and `modus-vivendi' themes.
+     This uses `enable-theme' instead of the standard method of
+     `load-theme'.  The technicalities are covered in the Modus themes
+     manual."
+       (interactive)
+       (pcase (modus-themes--current-theme)
+         ('modus-operandi (progn (enable-theme 'modus-vivendi)
+                                 (disable-theme 'modus-operandi)))
+         ('modus-vivendi (progn (enable-theme 'modus-operandi)
+                                 (disable-theme 'modus-vivendi)))
+         (_ (error "No Modus theme is loaded; evaluate `modus-themes-load-themes' first"))))
+
+   *note Differences between loading and enabling::.
+
+   Recall that ‘modus-themes-toggle’ uses ‘load-theme’.
+
+
+File: modus-themes.info,  Node: A theme-agnostic hook for theme loading,  Next: Diffs with only the foreground,  Prev: Toggle themes without reloading them,  Up: Advanced customization
+
+5.21 A theme-agnostic hook for theme loading
 ============================================
 
 The themes are designed with the intent to be useful to Emacs users of
@@ -3547,7 +3649,7 @@ what the implications are of advising a function).
 
 File: modus-themes.info,  Node: Diffs with only the foreground,  Next: Ediff without diff color-coding,  Prev: A theme-agnostic hook for theme loading,  Up: Advanced customization
 
-5.21 Diffs with only the foreground
+5.22 Diffs with only the foreground
 ===================================
 
 Buffers that show differences between versions of a file or buffer, such
@@ -3601,7 +3703,7 @@ standard and aesthetic quality of the themes is not compromised.
 
 File: modus-themes.info,  Node: Ediff without diff color-coding,  Prev: Diffs with only the foreground,  Up: Advanced customization
 
-5.22 Ediff without diff color-coding
+5.23 Ediff without diff color-coding
 ====================================
 
 Ediff uses the same color-coding as ordinary diffs in ‘diff-mode’,
@@ -5236,11 +5338,11 @@ Ideas and user feedback
      Ponsinet, Gerry Agbobada, Gianluca Recchia, Guilherme Semente,
      Gustavo Barros, Hörmetjan Yiltiz, Ilja Kocken, Iris Garcia, Jeremy
      Friesen, Jerry Zhang, Johannes Grødem, John Haman, Joshua O’Connor,
-     Kevin Fleming, Kévin Le Gouguec, Kostadin Ninev, Len Trigg, Magne
-     Hov, Manuel Uberti, Mark Bestley, Mark Burton, Markus Beppler,
-     Mauro Aranda, Michael Goldenberg, Morgan Smith, Murilo Pereira,
-     Nicky van Foreest, Nicolas De Jaeghere, Paul Poloskov, Pengji
-     Zhang, Pete Kazmier, Peter Wu, Philip Kaludercic, Pierre
+     Kenta Usami, Kevin Fleming, Kévin Le Gouguec, Kostadin Ninev, Len
+     Trigg, Magne Hov, Manuel Uberti, Mark Bestley, Mark Burton, Markus
+     Beppler, Mauro Aranda, Michael Goldenberg, Morgan Smith, Murilo
+     Pereira, Nicky van Foreest, Nicolas De Jaeghere, Paul Poloskov,
+     Pengji Zhang, Pete Kazmier, Peter Wu, Philip Kaludercic, Pierre
      Téchoueyres, Roman Rudakov, Ryan Phillips, Rudolf Adamkovič, Sam
      Kleinman, Samuel Culpepper, Saša Janiška, Shreyas Ragavan, Simon
      Pugnet, Tassilo Horn, Thibaut Verron, Thomas Heartman, Togan
@@ -5954,6 +6056,8 @@ B.3 Concept index
 * Screenshots:                           How do the themes look like.
                                                                 (line 6)
 * Sources of the themes:                 Sources of the themes. (line 6)
+* Switch themes without load-theme:      Toggle themes without reloading them.
+                                                                (line 6)
 * Themes, not color schemes:             Are these color schemes?.
                                                                 (line 6)
 * use-package configuration:             Sample configuration with and without use-package.
@@ -5963,112 +6067,113 @@ B.3 Concept index
 
 Tag Table:
 Node: Top860
-Node: Overview7148
-Node: How do the themes look like9272
-Node: Learn about the latest changes9786
-Node: Installation10174
-Node: Install manually from source10655
-Node: Install from the archives11480
-Node: Install on GNU/Linux12257
-Node: Debian 11 Bullseye12705
-Node: GNU Guix13015
-Node: Enable and load13298
-Node: Sample configuration with and without use-package16245
-Node: Differences between loading and enabling18197
-Node: Customization Options20152
-Node: Custom reload theme27157
-Node: Deuteranopia style27947
-Node: Bold constructs29378
-Node: Italic constructs30212
-Node: Syntax styles30979
-Node: Mixed fonts33111
-Node: Link styles34375
-Node: Box buttons36849
-Node: Command prompts39517
-Node: Mode line41338
-Node: Tab style45831
-Node: Completion UIs46494
-Node: Mail citations48565
-Node: Fringes49711
-Node: Language checkers50451
-Node: Line highlighting52893
-Node: Line numbers54490
-Node: Markup55558
-Node: Matching parentheses57151
-Node: Active region58528
-Node: Diffs59941
-Node: Org mode blocks61592
-Node: Org agenda63982
-Node: Heading styles72425
-Node: UI typeface76849
-Node: Advanced customization77748
-Node: More accurate colors in terminal emulators79295
-Node: Visualize the active Modus theme's palette80540
-Node: Per-theme customization settings81540
-Node: Case-by-case face specs using the themes' palette82896
-Node: Face specs at scale using the themes' palette87444
-Node: Remap face with local value92245
-Node: Cycle through arbitrary colors94670
-Node: Override colors101098
-Node: Override color saturation105963
-Node: Override colors through blending111642
-Node: Font configurations for Org and others114499
-Ref: Font configurations for Org and others-Footnote-1117315
-Node: Configure bold and italic faces117502
-Node: Custom Org todo keyword and priority faces121650
-Node: Custom Org emphasis faces125323
-Node: Update Org block delimiter fontification130124
-Node: Measure color contrast132041
-Node: Load theme depending on time of day134764
-Node: Backdrop for pdf-tools135757
-Node: Decrease mode line height138609
-Node: A theme-agnostic hook for theme loading142734
-Node: Diffs with only the foreground145125
-Node: Ediff without diff color-coding148239
-Node: Face coverage150334
-Node: Supported packages150786
-Node: Indirectly covered packages157302
-Node: Notes on individual packages158322
-Node: Note on avy hints159386
-Node: Note on calendarel weekday and weekend colors160554
-Node: Note on underlines in compilation buffers161737
-Node: Note on inline Latex in Org buffers162584
-Node: Note on dimmerel163194
-Node: Note on display-fill-column-indicator-mode164679
-Node: Note on highlight-parenthesesel166242
-Node: Note on mmm-modeel background colors172231
-Node: Note for prism174546
-Node: Note for god-mode177700
-Node: Note on company-mode overlay pop-up179304
-Ref: Note on company-mode overlay pop-up-Footnote-1179994
-Ref: Note on company-mode overlay pop-up-Footnote-2180061
-Node: Note on ERC escaped color sequences180116
-Ref: Note on ERC escaped color sequences-Footnote-1181544
-Node: Note on powerline or spaceline181654
-Node: Note on SHR colors182068
-Node: Note on SHR fonts182480
-Node: Note on Ement colors and fonts183113
-Node: Note on Helm grep184612
-Node: Note on vc-annotate-background-mode186089
-Node: Note on pdf-tools link hints186974
-Node: Frequently Asked Questions189406
-Node: Is the contrast ratio about adjacent colors?190037
-Node: What does it mean to avoid exaggerations?191544
-Node: Why are colors mostly variants of blue magenta cyan?193373
-Node: What is the best setup for legibility?197686
-Node: Are these color schemes?200331
-Node: Port the Modus themes to other platforms?204051
-Node: Contributing206835
-Node: Sources of the themes207232
-Node: Issues you can help with207868
-Node: Patches require copyright assignment to the FSF209068
-Node: Acknowledgements211363
-Node: Meta214359
-Node: GNU Free Documentation License216838
-Node: Indices242190
-Node: Function index242369
-Node: Variable index243892
-Node: Concept index246106
+Node: Overview7182
+Node: How do the themes look like9306
+Node: Learn about the latest changes9820
+Node: Installation10208
+Node: Install manually from source10689
+Node: Install from the archives11514
+Node: Install on GNU/Linux12291
+Node: Debian 11 Bullseye12739
+Node: GNU Guix13049
+Node: Enable and load13332
+Node: Sample configuration with and without use-package16272
+Node: Differences between loading and enabling18224
+Node: Customization Options20233
+Node: Custom reload theme28125
+Node: Deuteranopia style28915
+Node: Bold constructs30346
+Node: Italic constructs31180
+Node: Syntax styles31947
+Node: Mixed fonts34079
+Node: Link styles35343
+Node: Box buttons37817
+Node: Command prompts40485
+Node: Mode line42306
+Node: Tab style46799
+Node: Completion UIs47462
+Node: Mail citations51170
+Node: Fringes52316
+Node: Language checkers53056
+Node: Line highlighting55498
+Node: Line numbers57095
+Node: Markup58163
+Node: Matching parentheses59756
+Node: Active region61133
+Node: Diffs62546
+Node: Org mode blocks64197
+Node: Org agenda66587
+Node: Heading styles75030
+Node: UI typeface79454
+Node: Advanced customization80353
+Node: More accurate colors in terminal emulators81941
+Node: Visualize the active Modus theme's palette83186
+Node: Per-theme customization settings84186
+Node: Case-by-case face specs using the themes' palette85542
+Node: Face specs at scale using the themes' palette90090
+Node: Remap face with local value94891
+Node: Cycle through arbitrary colors97316
+Node: Override colors103744
+Node: Override color saturation108982
+Node: Override colors through blending114661
+Node: Font configurations for Org and others117518
+Ref: Font configurations for Org and others-Footnote-1120334
+Node: Configure bold and italic faces120521
+Node: Custom Org todo keyword and priority faces124669
+Node: Custom Org emphasis faces128342
+Node: Update Org block delimiter fontification133143
+Node: Measure color contrast135060
+Node: Load theme depending on time of day137783
+Node: Backdrop for pdf-tools138776
+Node: Decrease mode line height141628
+Node: Toggle themes without reloading them145750
+Node: A theme-agnostic hook for theme loading147029
+Node: Diffs with only the foreground149431
+Node: Ediff without diff color-coding152545
+Node: Face coverage154640
+Node: Supported packages155092
+Node: Indirectly covered packages161608
+Node: Notes on individual packages162628
+Node: Note on avy hints163692
+Node: Note on calendarel weekday and weekend colors164860
+Node: Note on underlines in compilation buffers166043
+Node: Note on inline Latex in Org buffers166890
+Node: Note on dimmerel167500
+Node: Note on display-fill-column-indicator-mode168985
+Node: Note on highlight-parenthesesel170548
+Node: Note on mmm-modeel background colors176537
+Node: Note for prism178852
+Node: Note for god-mode182006
+Node: Note on company-mode overlay pop-up183610
+Ref: Note on company-mode overlay pop-up-Footnote-1184300
+Ref: Note on company-mode overlay pop-up-Footnote-2184367
+Node: Note on ERC escaped color sequences184422
+Ref: Note on ERC escaped color sequences-Footnote-1185850
+Node: Note on powerline or spaceline185960
+Node: Note on SHR colors186374
+Node: Note on SHR fonts186786
+Node: Note on Ement colors and fonts187419
+Node: Note on Helm grep188918
+Node: Note on vc-annotate-background-mode190395
+Node: Note on pdf-tools link hints191280
+Node: Frequently Asked Questions193712
+Node: Is the contrast ratio about adjacent colors?194343
+Node: What does it mean to avoid exaggerations?195850
+Node: Why are colors mostly variants of blue magenta cyan?197679
+Node: What is the best setup for legibility?201992
+Node: Are these color schemes?204637
+Node: Port the Modus themes to other platforms?208357
+Node: Contributing211141
+Node: Sources of the themes211538
+Node: Issues you can help with212174
+Node: Patches require copyright assignment to the FSF213374
+Node: Acknowledgements215669
+Node: Meta218678
+Node: GNU Free Documentation License221157
+Node: Indices246509
+Node: Function index246688
+Node: Variable index248211
+Node: Concept index250425
 
 End Tag Table
 

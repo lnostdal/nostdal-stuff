@@ -11,8 +11,8 @@
 ;;         Steve Purcell <steve@sanityinc.com>
 ;; Maintainer: Bozhidar Batsov <bozhidar@batsov.dev>
 ;; URL: http://www.github.com/clojure-emacs/cider
-;; Version: 1.3.0-snapshot
-;; Package-Requires: ((emacs "26") (clojure-mode "5.12") (parseedn "1.0.6") (queue "0.2") (spinner "1.7") (seq "2.22") (sesman "0.3.2"))
+;; Version: 1.3.0
+;; Package-Requires: ((emacs "26") (clojure-mode "5.14") (parseedn "1.0.6") (queue "0.2") (spinner "1.7") (seq "2.22") (sesman "0.3.2"))
 ;; Keywords: languages, clojure, cider
 
 ;; This program is free software: you can redistribute it and/or modify
@@ -92,10 +92,10 @@
 (require 'sesman)
 (require 'package)
 
-(defconst cider-version "1.3.0-snapshot"
+(defconst cider-version "1.3.0"
   "The current version of CIDER.")
 
-(defconst cider-codename "Nice"
+(defconst cider-codename "Ukraine"
   "Codename used to denote stable releases.")
 
 (defcustom cider-lein-command
@@ -415,7 +415,7 @@ the artifact.")
 (defconst cider-latest-clojure-version "1.10.1"
   "Latest supported version of Clojure.")
 
-(defconst cider-required-middleware-version "0.28.1"
+(defconst cider-required-middleware-version "0.28.3"
   "The CIDER nREPL version that's known to work properly with CIDER.")
 
 (defcustom cider-injected-middleware-version cider-required-middleware-version
@@ -425,7 +425,7 @@ Should be newer than the required version for optimal results."
   :package-version '(cider . "1.2.0")
   :safe #'stringp)
 
-(defcustom cider-enrich-classpath t
+(defcustom cider-enrich-classpath nil
   "Whether to use git.io/JiJVX for adding sources and javadocs to the classpath.
 
 This is done in a clean manner, without interfering with classloaders.
@@ -485,7 +485,7 @@ returned by this function does not include keyword arguments."
                              `(("cider/cider-nrepl" ,cider-injected-middleware-version)
                                ("mx.cider/enrich-classpath" "1.9.0")))
                    (append cider-jack-in-lein-plugins
-                             `(("cider/cider-nrepl" ,cider-injected-middleware-version))))))
+                           `(("cider/cider-nrepl" ,cider-injected-middleware-version))))))
     (thread-last plugins
       (seq-filter
        (lambda (spec)
@@ -608,17 +608,23 @@ removed, LEIN-PLUGINS, LEIN-MIDDLEWARES and finally PARAMS."
    " -- "
    params))
 
+(defun cider--dedupe-deps (deps)
+  "Removes the duplicates in DEPS."
+  (cl-delete-duplicates deps :test 'equal))
+
 (defun cider-clojure-cli-jack-in-dependencies (global-options _params dependencies)
   "Create Clojure tools.deps jack-in dependencies.
 Does so by concatenating DEPENDENCIES and GLOBAL-OPTIONS into a suitable
 `clojure` invocation.  The main is placed in an inline alias :cider/nrepl
 so that if your aliases contain any mains, the cider/nrepl one will be the
 one used."
-  (let* ((deps-string (string-join
-                       (seq-map (lambda (dep)
-                                  (format "%s {:mvn/version \"%s\"}" (car dep) (cadr dep)))
-                                (append (cider--jack-in-required-dependencies) dependencies))
-                       " "))
+  (let* ((all-deps (thread-last dependencies
+                     (append (cider--jack-in-required-dependencies))
+                     ;; Duplicates are never OK since they would result in
+                     ;; `java.lang.IllegalArgumentException: Duplicate key [...]`:
+                     (cider--dedupe-deps)
+                     (seq-map (lambda (dep)
+                                (format "%s {:mvn/version \"%s\"}" (car dep) (cadr dep))))))
          (middleware (mapconcat
                       (apply-partially #'format "%s")
                       (cider-jack-in-normalized-nrepl-middlewares)
@@ -626,7 +632,7 @@ one used."
          (main-opts (format "\"-m\" \"nrepl.cmdline\" \"--middleware\" \"[%s]\"" middleware)))
     (format "%s-Sdeps '{:deps {%s} :aliases {:cider/nrepl {:main-opts [%s]}}}' -M%s:cider/nrepl"
             (if global-options (format "%s " global-options) "")
-            deps-string
+            (string-join all-deps " ")
             main-opts
             (if cider-clojure-cli-aliases
                 ;; remove exec-opts flags -A -M -T or -X from cider-clojure-cli-aliases

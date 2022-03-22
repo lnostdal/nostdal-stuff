@@ -1,4 +1,4 @@
-;;; modus-themes-autoloads.el --- automatically extracted autoloads  -*- lexical-binding: t -*-
+;;; modus-themes-autoloads.el --- automatically extracted autoloads
 ;;
 ;;; Code:
 
@@ -10,7 +10,7 @@
 ;;;;;;  (0 0 0 0))
 ;;; Generated autoloads from modus-operandi-theme.el
 
-(register-definition-prefixes "modus-operandi-theme" '("modus-operandi"))
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "modus-operandi-theme" '("modus-operandi")))
 
 ;;;***
 
@@ -66,7 +66,7 @@ by virtue of calling either of `modus-themes-load-operandi' and
 
 (when load-file-name (let ((dir (file-name-directory load-file-name))) (unless (equal dir (expand-file-name "themes/" data-directory)) (add-to-list 'custom-theme-load-path dir))))
 
-(register-definition-prefixes "modus-themes" '("modus-themes-"))
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "modus-themes" '("modus-themes-")))
 
 ;;;***
 
@@ -74,7 +74,7 @@ by virtue of calling either of `modus-themes-load-operandi' and
 ;;;;;;  (0 0 0 0))
 ;;; Generated autoloads from modus-vivendi-theme.el
 
-(register-definition-prefixes "modus-vivendi-theme" '("modus-vivendi"))
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "modus-vivendi-theme" '("modus-vivendi")))
 
 ;;;***
 
