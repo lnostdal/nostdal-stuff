@@ -8,7 +8,7 @@
       package-archive-priorities '(("melpa-stable" . 10)
                                    ("gnu" . 5)
                                    ("melpa" . 0)))
-(add-to-list 'package-pinned-packages '(cider . "melpa") t)
+;; (add-to-list 'package-pinned-packages '(cider . "melpa") t)
 
 
 (custom-set-variables
@@ -23,7 +23,7 @@
  '(cider-jump-to-pop-to-buffer-actions '((display-buffer-same-window)))
  '(compilation-message-face 'default)
  '(custom-safe-themes
-   '("aa72e5b41780bfff2ff55d0cc6fcd4b42153386088a4025fed606c1099c2d9b8" "74a50f18c8c88eac44dc73d7a4c0bbe1f3e72ff5971aac38fcf354ddad0d4733" "5d6cc3e22172f051d68c0c95d79f3dff0e800f2d107f6f6b9220ed5380285c50" "2420401709d448e5999b76005aece99fa3d27e17a6d2312b40636655f0efbc6f" "2f93ebb862a9d50fee9c1b3302d858e2d2c0bba9d4e1be9bb3b08b7373f1710c" "0568a5426239e65aab5e7c48fa1abde81130a87ddf7f942613bf5e13bf79686b" "d6da24347c813d1635a217d396cf1e3be26484fd4d05be153f3bd2b293d2a0b5" "076ee9f2c64746aac7994b697eb7dbde23ac22988d41ef31b714fc6478fee224" "2b502f6e3bf0cba42fe7bf83a000f2d358a7020a7780a8682fcfed0c9dbffb5f" "0598c6a29e13e7112cfbc2f523e31927ab7dce56ebb2016b567e1eff6dc1fd4f" "d91ef4e714f05fff2070da7ca452980999f5361209e679ee988e3c432df24347" "d9864caf2fc6cd9bc5bed941c526a4690bf6c27f0d8c1ca28ff7e05806b57204" "0bcd68ed12fe8a59dfadf8e6eaeb57c390b2937babdf5479c2f5bc90d6c1685b" default))
+   '("c414f69a02b719fb9867b41915cb49c853489930be280ce81385ff7b327b4bf6" "7d062fbc4a6b42e3db5c8ad011c8182de69c0521df3f4577f893d9941a7af5e2" "aa72e5b41780bfff2ff55d0cc6fcd4b42153386088a4025fed606c1099c2d9b8" "74a50f18c8c88eac44dc73d7a4c0bbe1f3e72ff5971aac38fcf354ddad0d4733" "5d6cc3e22172f051d68c0c95d79f3dff0e800f2d107f6f6b9220ed5380285c50" "2420401709d448e5999b76005aece99fa3d27e17a6d2312b40636655f0efbc6f" "2f93ebb862a9d50fee9c1b3302d858e2d2c0bba9d4e1be9bb3b08b7373f1710c" "0568a5426239e65aab5e7c48fa1abde81130a87ddf7f942613bf5e13bf79686b" "d6da24347c813d1635a217d396cf1e3be26484fd4d05be153f3bd2b293d2a0b5" "076ee9f2c64746aac7994b697eb7dbde23ac22988d41ef31b714fc6478fee224" "2b502f6e3bf0cba42fe7bf83a000f2d358a7020a7780a8682fcfed0c9dbffb5f" "0598c6a29e13e7112cfbc2f523e31927ab7dce56ebb2016b567e1eff6dc1fd4f" "d91ef4e714f05fff2070da7ca452980999f5361209e679ee988e3c432df24347" "d9864caf2fc6cd9bc5bed941c526a4690bf6c27f0d8c1ca28ff7e05806b57204" "0bcd68ed12fe8a59dfadf8e6eaeb57c390b2937babdf5479c2f5bc90d6c1685b" default))
  '(epg-gpg-program "/usr/bin/gpg2")
  '(global-auto-revert-mode t)
  '(haskell-process-auto-import-loaded-modules t)
@@ -40,7 +40,7 @@
  '(org-export-with-sub-superscripts nil)
  '(org-startup-truncated nil)
  '(package-selected-packages
-   '(markdown-mode ssh-config-mode modus-themes nginx-mode highlight-thing systemd yaml-mode solarized-theme rust-mode hl-todo rainbow-delimiters beacon cider company counsel magit projectile cargo lxd-tramp counsel-tramp docker docker-compose-mode wgrep counsel-projectile clj-refactor dockerfile-mode htmlize symon 0blayout magit-todos jdee smartparens elgrep python-mode php-mode web-mode cider-decompile js2-mode highlight-parentheses))
+   '(magit-org-todos markdown-mode ssh-config-mode modus-themes nginx-mode highlight-thing systemd yaml-mode solarized-theme rust-mode hl-todo rainbow-delimiters beacon cider company counsel magit projectile cargo lxd-tramp counsel-tramp docker docker-compose-mode wgrep counsel-projectile clj-refactor dockerfile-mode htmlize symon 0blayout magit-todos jdee smartparens elgrep python-mode php-mode web-mode cider-decompile js2-mode highlight-parentheses))
  '(truncate-lines t)
  '(vc-annotate-background nil)
  '(vc-annotate-background-mode nil)
@@ -225,9 +225,9 @@
 
 ;; REPL pretty printing. NOTE: Don't fiddle with this bullshit; it'll break and you'll waste half your day. Use debugging wrappers that call zprint/puget directly instead!
 (add-hook 'cider-repl-mode-hook
-          '(lambda ()
-             (setq fill-column 130)
-             (setq scroll-conservatively 101))) ;; Without this, the REPL looks like and behaves like crap.
+          #'(lambda ()
+              (setq fill-column 130)
+              (setq scroll-conservatively 101))) ;; Without this, the REPL looks like and behaves like crap.
 ;;(setq cider-print-fn nil) ;; Let nrepl.middleware.print/*print-fn* decide! NOTE: Doesn't actually work!
 ;;(setq cider-print-fn 'puget) ;; 'fipp, 'puget, 'pprint or 'zprint
 ;; For clojure.pprint:
@@ -303,28 +303,30 @@
 
 (define-key clojure-mode-map (kbd "<s-backspace") 'cider-undef) ;; This doesn't seem to work??
 
-(put 'amap 'clojure-indent-function 1)
-(put 'areduce 'clojure-indent-function 1)
-(put 'assoc 'clojure-indent-function 1)
-(put 'update 'clojure-indent-function 1)
-;;(put 'update-in 'clojure-indent-function 1)
+;; (put 'amap 'clojure-indent-function 1)
+;; (put 'areduce 'clojure-indent-function 1)
+;; (put 'assoc 'clojure-indent-function 1)
+;; (put 'update 'clojure-indent-function 1)
+;; (put 'update-in 'clojure-indent-function 1)
 (put 'with 'clojure-indent-function 1)
 (put 'with1 'clojure-indent-function 1)
 (put 'do1 'clojure-indent-function 1)
-(put 'jqAppend 'clojure-indent-function 1)
-(put 'whc 'clojure-indent-function 1)
-(put 'mk-Link 'clojure-indent-function 1)
-(put 'js-run 'clojure-indent-function 1)
-(put 'add-rest-initial 'clojure-indent-function 1)
-(put 'add-rest-head 'clojure-indent-function 1)
+;; (put 'jqAppend 'clojure-indent-function 1)
+;; (put 'whc 'clojure-indent-function 1)
+;; (put 'mk-Link 'clojure-indent-function 1)
+;; (put 'js-run 'clojure-indent-function 1)
+;; (put 'add-rest-initial 'clojure-indent-function 1)
+;; (put 'add-rest-head 'clojure-indent-function 1)
 (put 'jiter 'clojure-indent-function 1)
 (put 'vec-iter 'clojure-indent-function 1)
 (put 'doiter 'clojure-indent-function 1)
 (put 'seque 'clojure-indent-function 1)
 (put 'when-cdebug 'clojure-indent-function 1)
+;; re-frame stuff.
 (put 'reg-event-db 'clojure-indent-function 1)
 (put 'reg-event-fx 'clojure-indent-function 1)
 (put 'reg-sub 'clojure-indent-function 1)
+(put 'reg-fx 'clojure-indent-function 1)
 
 
 

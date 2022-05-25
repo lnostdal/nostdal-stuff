@@ -1,0 +1,2 @@
+;;; Generated package description from magit-org-todos.el  -*- no-byte-compile: t -*-
+(define-package "magit-org-todos" "0.1.2" "Add local todo items to the magit status buffer" '((magit "2.0.0") (emacs "24")) :commit "0bfa36bbc50e62de0a3406031cb93e2f57dcdc55" :authors '(("Daniel Ma")) :maintainer '("Daniel Ma") :keywords '("org-mode" "magit" "tools") :url "http://github.com/danielma/magit-org-todos")
