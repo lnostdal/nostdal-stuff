@@ -4,4 +4,4 @@ if [ $# -lt 2 ]; then
     exit 1
 fi
 
-rsync --checksum --human-readable --progress --copy-links --recursive --perms --owner --group --compress --compress-level=9 --partial --inplace "$1" "$2"
+rsync --checksum --human-readable --progress --copy-links --recursive --perms --owner --group --compress --compress-choice=zstd --compress-level=15 --partial --inplace "$1" "$2"
