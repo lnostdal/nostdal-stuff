@@ -40,7 +40,7 @@
  '(org-export-with-sub-superscripts nil)
  '(org-startup-truncated nil)
  '(package-selected-packages
-   '(0x0 magit-org-todos markdown-mode ssh-config-mode modus-themes nginx-mode highlight-thing systemd yaml-mode solarized-theme rust-mode hl-todo rainbow-delimiters beacon cider company counsel magit projectile cargo lxd-tramp counsel-tramp docker docker-compose-mode wgrep counsel-projectile clj-refactor dockerfile-mode htmlize symon 0blayout magit-todos jdee smartparens elgrep python-mode php-mode web-mode cider-decompile js2-mode highlight-parentheses))
+   '(ztree 0x0 magit-org-todos markdown-mode ssh-config-mode modus-themes nginx-mode highlight-thing systemd yaml-mode solarized-theme rust-mode hl-todo rainbow-delimiters beacon cider company counsel magit projectile cargo lxd-tramp counsel-tramp docker docker-compose-mode wgrep counsel-projectile clj-refactor dockerfile-mode htmlize symon 0blayout magit-todos jdee smartparens elgrep python-mode php-mode web-mode cider-decompile js2-mode highlight-parentheses))
  '(truncate-lines t)
  '(vc-annotate-background nil)
  '(vc-annotate-background-mode nil)

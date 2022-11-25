@@ -5,8 +5,7 @@
 
 ;;; Code:
 
-(add-to-list 'load-path (directory-file-name
-                         (or (file-name-directory #$) (car load-path))))
+(add-to-list 'load-path (or (and load-file-name (file-name-directory load-file-name)) (car load-path)))
 
 
 
@@ -194,6 +193,19 @@ With a prefix arg INVALIDATE-CACHE invalidates the cache first.
 (fn &optional INVALIDATE-CACHE)" t)
 (autoload 'projectile-toggle-project-read-only "projectile" "\
 Toggle project read only." t)
+(autoload 'projectile-add-dir-local-variable "projectile" "\
+Run `add-dir-local-variable' with .dir-locals.el in root of project.
+
+Parameters MODE VARIABLE VALUE are passed directly to `add-dir-local-variable'.
+
+(fn MODE VARIABLE VALUE)")
+(autoload 'projectile-delete-dir-local-variable "projectile" "\
+Run `delete-dir-local-variable' with .dir-locals.el in root of project.
+
+Parameters MODE VARIABLE VALUE are passed directly to
+`delete-dir-local-variable'.
+
+(fn MODE VARIABLE)")
 (autoload 'projectile-find-dir "projectile" "\
 Jump to a project's directory using completion.
 
@@ -529,7 +541,7 @@ Otherwise behave as if called interactively.
 
 (fn &optional ARG)" t)
 (define-obsolete-function-alias 'projectile-global-mode 'projectile-mode "1.0")
-(register-definition-prefixes "projectile" '("??" "compilation-find-file-projectile-find-compilation-buffer" "def-projectile-commander-method" "delete-file-projectile-remove-from-cache" "projectile-"))
+(register-definition-prefixes "projectile" '("??" "compilation-find-file-projectile-find-compilation-buffer" "def-projectile-commander-method" "delete-file-projectile-remove-from-cache" "project"))
 
 ;;; End of scraped data
 
