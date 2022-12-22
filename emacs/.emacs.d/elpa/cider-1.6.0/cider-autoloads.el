@@ -5,8 +5,7 @@
 
 ;;; Code:
 
-(add-to-list 'load-path (directory-file-name
-                         (or (file-name-directory #$) (car load-path))))
+(add-to-list 'load-path (or (and load-file-name (file-name-directory load-file-name)) (car load-path)))
 
 
 
@@ -613,7 +612,7 @@ Displays the function dependencies for  NS and SYMBOL using completing read.
 
 ;;; Generated autoloads from nrepl-client.el
 
-(register-definition-prefixes "nrepl-client" '("cider-enlighten-mode" "emacs-bug-46284/when-27.1-windows-nt" "nrepl-"))
+(register-definition-prefixes "nrepl-client" '("cider-" "emacs-bug-46284/when-27.1-windows-nt" "nrepl-"))
 
 
 ;;; Generated autoloads from nrepl-dict.el
