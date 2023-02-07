@@ -34,6 +34,7 @@ C1 and C2 are color values written in hexadecimal RGB.
 (autoload 'modus-themes-select "modus-themes" "\
 Load a Modus THEME using minibuffer completion.
 Run `modus-themes-after-load-theme-hook' after loading the theme.
+Disable other themes per `modus-themes-disable-other-themes'.
 
 (fn THEME)" t)
 (autoload 'modus-themes-toggle "modus-themes" "\
@@ -42,7 +43,8 @@ If `modus-themes-to-toggle' does not specify two Modus themes,
 prompt with completion for a theme among our collection (this is
 practically the same as the `modus-themes-select' command).
 
-Run `modus-themes-after-load-theme-hook' after loading the theme." t)
+Run `modus-themes-after-load-theme-hook' after loading the theme.
+Disable other themes per `modus-themes-disable-other-themes'." t)
 (autoload 'modus-themes-theme "modus-themes" "\
 Bind NAME's color PALETTE around face specs and variables.
 Face specifications are passed to `custom-theme-set-faces'.
