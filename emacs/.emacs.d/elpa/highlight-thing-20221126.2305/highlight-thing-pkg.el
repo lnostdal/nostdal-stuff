@@ -1,2 +1,0 @@
-;;; Generated package description from highlight-thing.el  -*- no-byte-compile: t -*-
-(define-package "highlight-thing" "20221126.2305" "Minimalistic minor mode to highlight current thing under point." 'nil :commit "b9bb6e49fc20d2e1f688c2645f6f6653208145de" :authors '(("Felix Geller" . "fgeller@gmail.com")) :maintainer '("Felix Geller" . "fgeller@gmail.com") :keywords '("highlight" "thing" "symbol") :url "https://github.com/fgeller/highlight-thing.el")
