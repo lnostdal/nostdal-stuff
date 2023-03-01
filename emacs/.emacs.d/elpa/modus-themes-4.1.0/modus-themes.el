@@ -6,7 +6,7 @@
 ;; Maintainer: Modus-Themes Development <~protesilaos/modus-themes@lists.sr.ht>
 ;; URL: https://git.sr.ht/~protesilaos/modus-themes
 ;; Mailing-List: https://lists.sr.ht/~protesilaos/modus-themes
-;; Version: 4.0.1
+;; Version: 4.1.0
 ;; Package-Requires: ((emacs "27.1"))
 ;; Keywords: faces, theme, accessibility
 
@@ -1076,7 +1076,8 @@ C1 and C2 are color values written in hexadecimal RGB."
 
 (defun modus-themes--current-theme ()
   "Return first enabled Modus theme."
-  (car (modus-themes--list-enabled-themes)))
+  (car (or (modus-themes--list-enabled-themes)
+           (modus-themes--list-known-themes))))
 
 (defun modus-themes--palette-symbol (theme &optional overrides)
   "Return THEME palette as a symbol.
@@ -1639,7 +1640,7 @@ FG and BG are the main colors."
     `(button ((,c :background ,bg-link :foreground ,fg-link :underline ,underline-link)))
     `(link ((,c :inherit button)))
     `(link-visited ((,c :background ,bg-link-visited :foreground ,fg-link-visited :underline ,underline-link-visited)))
-    `(tooltip ((,c :background ,bg-active)))
+    `(tooltip ((,c :background ,bg-active :foreground ,fg-main)))
 ;;;;; agda2-mode
     `(agda2-highlight-bound-variable-face ((,c :inherit font-lock-variable-name-face)))
     `(agda2-highlight-catchall-clause-face ((,c :background ,bg-inactive)))
@@ -1980,6 +1981,9 @@ FG and BG are the main colors."
     `(custom-group-tag ((,c :inherit bold :foreground ,builtin)))
     `(custom-group-tag-1 ((,c :inherit bold :foreground ,constant)))
     `(custom-variable-tag ((,c :inherit bold :foreground ,variable)))
+;;;;; dashboard
+    `(dashboard-heading ((,c :foreground ,name)))
+    `(dashboard-items-face (( ))) ; use the underlying style of all-the-icons
 ;;;;; deadgrep
     `(deadgrep-filename-face ((,c :inherit bold :foreground ,name)))
     `(deadgrep-match-face ((,c :inherit match)))
@@ -2123,18 +2127,18 @@ FG and BG are the main colors."
     `(doom-modeline-urgent ((,c :inherit bold-italic :foreground ,modeline-err)))
     `(doom-modeline-warning ((,c :inherit warning)))
 ;;;;; ediff
-    `(ediff-current-diff-A ((,c :inherit diff-removed)))
+    `(ediff-current-diff-A ((,c :background ,bg-removed :foreground ,fg-removed)))
     `(ediff-current-diff-Ancestor ((,c :background ,bg-region))) ; TODO 2022-11-29: Needs review
-    `(ediff-current-diff-B ((,c :inherit diff-added)))
-    `(ediff-current-diff-C ((,c :inherit diff-changed)))
+    `(ediff-current-diff-B ((,c :background ,bg-added :foreground ,fg-added)))
+    `(ediff-current-diff-C ((,c :background ,bg-changed :foreground ,fg-changed)))
     `(ediff-even-diff-A ((,c :background ,bg-diff-context)))
     `(ediff-even-diff-Ancestor ((,c :background ,bg-diff-context)))
     `(ediff-even-diff-B ((,c :background ,bg-diff-context)))
     `(ediff-even-diff-C ((,c :background ,bg-diff-context)))
-    `(ediff-fine-diff-A ((,c :inherit diff-refine-removed)))
+    `(ediff-fine-diff-A ((,c :background ,bg-removed-refine :foreground ,fg-removed)))
     `(ediff-fine-diff-Ancestor ((,c :inherit modus-themes-subtle-cyan)))
-    `(ediff-fine-diff-B ((,c :inherit diff-refine-added)))
-    `(ediff-fine-diff-C ((,c :inherit diff-refine-changed)))
+    `(ediff-fine-diff-B ((,c :background ,bg-added-refine :foreground ,fg-added)))
+    `(ediff-fine-diff-C ((,c :background ,bg-changed-refine :foreground ,fg-changed)))
     `(ediff-odd-diff-A ((,c :inherit ediff-even-diff-A)))
     `(ediff-odd-diff-Ancestor ((,c :inherit ediff-even-diff-Ancestor)))
     `(ediff-odd-diff-B ((,c :inherit ediff-even-diff-B)))
