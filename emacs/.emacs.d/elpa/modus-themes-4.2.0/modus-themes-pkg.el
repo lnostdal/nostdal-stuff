@@ -1,0 +1,14 @@
+(define-package "modus-themes" "4.2.0" "Elegant, highly legible and customizable themes"
+  '((emacs "27.1"))
+  :commit "b4ef90bb950b820a3bf316d7b212320a5b2f84d7" :authors
+  '(("Protesilaos Stavrou" . "info@protesilaos.com"))
+  :maintainers
+  '(("Modus-Themes Development" . "~protesilaos/modus-themes@lists.sr.ht"))
+  :maintainer
+  '("Modus-Themes Development" . "~protesilaos/modus-themes@lists.sr.ht")
+  :keywords
+  '("faces" "theme" "accessibility")
+  :url "https://git.sr.ht/~protesilaos/modus-themes")
+;; Local Variables:
+;; no-byte-compile: t
+;; End:
