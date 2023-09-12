@@ -4,8 +4,6 @@
 
 ;; Author: Zachary Romero <zkry@posteo.org>
 ;; Version: 0.5.1
-;; Package-Version: 0.5.2
-;; Package-Commit: a19fbf948a945571300e5a20ff1dbfa6ecfa0d16
 ;; Homepage: https://github.com/zkry/yaml.el
 ;; Package-Requires: ((emacs "25.1"))
 ;; Keywords: tools
@@ -246,7 +244,7 @@ This flag is intended for development purposes.")
          text-body)))
 
 (defun yaml--process-folded-text (text)
-  "Remvoe the header line for a folded match and return TEXT body formatted."
+  "Remove the header line for a folded match and return TEXT body formatted."
   (let* ((text (yaml--process-literal-text text))
          (done))
     (while (not done)
@@ -2767,6 +2765,9 @@ Rules for this function are defined by the yaml-spec JSON file."
   "Encode OBJECT to a YAML string."
   (with-temp-buffer
     (yaml--encode-object object 0)
+    (goto-char (point-min))
+    (while (looking-at-p "\n")
+      (delete-char 1))
     (buffer-string)))
 
 (defun yaml--encode-object (object indent &optional auto-indent)
