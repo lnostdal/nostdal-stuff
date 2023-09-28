@@ -1,6 +1,6 @@
-(define-package "yaml" "0.5.3" "YAML parser for Elisp"
+(define-package "yaml" "0.5.4" "YAML parser for Elisp"
   '((emacs "25.1"))
-  :commit "7c4b2ec9a551c0d2ce0094b030f2ab596f3c32ee" :authors
+  :commit "fe08b8f5307af1e7b876ece64b7303213f04b63c" :authors
   '(("Zachary Romero" . "zkry@posteo.org"))
   :maintainers
   '(("Zachary Romero" . "zkry@posteo.org"))

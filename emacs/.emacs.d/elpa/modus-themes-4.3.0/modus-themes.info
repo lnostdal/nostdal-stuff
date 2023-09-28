@@ -43,11 +43,11 @@ customization options for the Modus themes, and provides every other
 piece of information pertinent to them.
 
    The documentation furnished herein corresponds to stable version
-4.2.0, released on 2023-05-30.  Any reference to a newer feature which
+4.3.0, released on 2023-09-19.  Any reference to a newer feature which
 does not yet form part of the latest tagged commit, is explicitly marked
 as such.
 
-   Current development target is 4.3.0-dev.
+   Current development target is 4.4.0-dev.
 
    • Package name (GNU ELPA): ‘modus-themes’
    • Official manual: <https://protesilaos.com/emacs/modus-themes>
@@ -766,11 +766,11 @@ through the Custom UI.
    All theme user options take effect when a theme is loaded.  Any
 subsequent changes require the theme to be reloaded.
 
-   When this variable has a non-nil value, any change made via the
+   When this variable has a non-‘nil’ value, any change made via the
 Custom UI or related functions such as ‘customize-set-variable’ and
 ‘setopt’ (Emacs 29), will trigger a reload automatically.
 
-   With a nil value, changes to user options have no further
+   With a ‘nil’ value, changes to user options have no further
 consequences: the user must manually reload the theme (*note Enable and
 load::).
 
@@ -789,20 +789,20 @@ Brief: Disable all other themes when loading a Modus theme.
   1. ‘nil’
   2. ‘t’ (default)
 
-   When the value is non-nil, the commands ‘modus-themes-toggle’ and
+   When the value is non-‘nil’, the commands ‘modus-themes-toggle’ and
 ‘modus-themes-select’, as well as the ‘modus-themes-load-theme’
 function, will disable all other themes while loading the specified
 Modus theme.  This is done to ensure that Emacs does not blend two or
 more themes: such blends lead to awkward results that undermine the work
 of the designer.
 
-   When the value is nil, the aforementioned commands and function will
-only disable other themes within the Modus collection.
+   When the value is ‘nil’, the aforementioned commands and function
+will only disable other themes within the Modus collection.
 
    This option is provided because Emacs themes are not necessarily
 limited to colors/faces: they can consist of an arbitrary set of
 customizations.  Users who use such customization bundles must set this
-variable to a nil value.
+variable to a ‘nil’ value.
 
 
 File: modus-themes.info,  Node: Bold constructs,  Next: Italic constructs,  Prev: Disable other themes,  Up: Customization options
@@ -963,10 +963,10 @@ Here is a sample, followed by a description of the particularities:
              (selection . (semibold italic))))
 
    The ‘matches’ key refers to the highlighted characters that
-correspond to the user’s input.  When its properties are nil or an empty
-list, matching characters in the user interface will have a bold weight
-and a colored foreground.  The list of properties may include any of the
-following symbols regardless of the order they may appear in:
+correspond to the user’s input.  When its properties are ‘nil’ or an
+empty list, matching characters in the user interface will have a bold
+weight and a colored foreground.  The list of properties may include any
+of the following symbols regardless of the order they may appear in:
 
    • ‘underline’ to draw a line below the characters;
 
@@ -979,8 +979,8 @@ following symbols regardless of the order they may appear in:
 
    The ‘selection’ key applies to the current line or currently matched
 candidate, depending on the specifics of the user interface.  When its
-properties are nil or an empty list, it has a subtle gray background, a
-bold weight, and the base foreground value for the text.  The list of
+properties are ‘nil’ or an empty list, it has a subtle gray background,
+a bold weight, and the base foreground value for the text.  The list of
 properties it accepts is as follows (order is not significant):
 
    • ‘underline’ to draw a line below the characters;
@@ -1023,10 +1023,10 @@ Brief: Set the overall style of Org code blocks, quotes, and the like.
   2. ‘gray-background’
   3. ‘tinted-background’
 
-   Nil (the default) means that the block has no background of its own:
-it uses the one that applies to the rest of the buffer.  In this case,
-the delimiter lines have a gray color for their text, making them look
-exactly like all other Org properties.
+   Option ‘nil’ (the default) means that the block has no background of
+its own: it uses the one that applies to the rest of the buffer.  In
+this case, the delimiter lines have a gray color for their text, making
+them look exactly like all other Org properties.
 
    Option ‘gray-background’ applies a subtle gray background to the
 block’s contents.  It also affects the begin and end lines of the block
@@ -1046,8 +1046,8 @@ to take effect, the Org buffer needs to be restarted with
 
    Code blocks use their major mode’s fontification (syntax
 highlighting) only when the variable ‘org-src-fontify-natively’ is
-non-nil.  While quote/verse blocks require setting
-‘org-fontify-quote-and-verse-blocks’ to a non-nil value.
+non-‘nil’.  While quote/verse blocks require setting
+‘org-fontify-quote-and-verse-blocks’ to a non-‘nil’ value.
 
    *note Update Org block delimiter fontification::.
 
@@ -2873,8 +2873,8 @@ palette.
 mapping), this function recurs until it finds the underlying color
 value.
 
-   With an optional ‘OVERRIDES’ argument as a non-nil value, it accounts
-for palette overrides.  Else it reads only the default palette.
+   With an optional ‘OVERRIDES’ argument as a non-‘nil’ value, it
+accounts for palette overrides.  Else it reads only the default palette.
 
    *note Option for palette overrides: Palette overrides.
 
@@ -3017,7 +3017,7 @@ the above:
      (add-hook 'modus-themes-after-load-theme-hook #'my-modus-themes-custom-faces)
 
    The reason we no longer provide this option is because it depends on
-a non-nil value for ‘x-underline-at-descent-line’.  That variable
+a non-‘nil’ value for ‘x-underline-at-descent-line’.  That variable
 affects ALL underlines, including those of links.  The effect is
 intrusive and looks awkard in prose.
 
@@ -3274,18 +3274,18 @@ have something like this:
              (sequence "WRITE(w)" "|" "WROTE(W)")))
 
    You could then use a variant of the following to inherit from a face
-that uses the styles you want and also to preserve the properties
+that uses the styles you want and also to preserve the attributes
 applied by the ‘org-todo’ face (in case there is a difference between
 the two):
 
      (setq org-todo-keyword-faces
-           '(("MEET" . '(bold org-todo))
-             ("STUDY" . '(warning org-todo))
-             ("WRITE" . '(shadow org-todo))))
+           '(("MEET" . (:inherit (bold org-todo)))
+             ("STUDY" . (:inherit (warning org-todo)))
+             ("WRITE" . (:inherit (shadow org-todo)))))
 
    This will refashion the keywords you specify, while letting the other
-items in ‘org-todo-keywords’ use their original styles (which are
-defined in the ‘org-todo’ and ‘org-done’ faces).
+items in ‘org-todo-keywords’ use their original styles, which are
+defined in the ‘org-todo’ and ‘org-done’ faces.
 
    If you want back the defaults, try specifying just the ‘org-todo’
 face:
@@ -3295,23 +3295,26 @@ face:
              ("STUDY" . org-todo)
              ("WRITE" . org-todo)))
 
-   When you inherit from multiple faces, you need to quote the list as
+   Or set ‘org-todo-keyword-faces’ to ‘nil’.
+
+   When you inherit from multiple faces, you need to do it the way it is
 shown further above.  The order is significant: the first entry is
-applied on top of the second, overriding any properties that are
-explicitly set for both of them: any property that is not specified is
+applied on top of the second, overriding any attributes that are
+explicitly set for both of them: any attribute that is not specified is
 not overridden, so, for example, if ‘org-todo’ has a background and a
 foreground, while ‘font-lock-type-face’ only has a foreground, the
 merged face will include the background of the former and the foreground
-of the latter.  If you do not want to blend multiple faces, you do not
-need a quoted list.  A pattern of ‘keyword . face’ will suffice.
+of the latter.  If you do not want to blend multiple faces, you only
+specify one by name without parentheses or an ‘:inherit’ keyword.  A
+pattern of ‘keyword . face’ will suffice.
 
    Both approaches can be used simultaneously, as illustrated in this
 configuration of the priority cookies:
 
      (setq org-priority-faces
-           '((?A . '(bold org-priority))
+           '((?A . (:inherit (bold org-priority)))
              (?B . org-priority)
-             (?C . '(shadow org-priority))))
+             (?C . (:inherit (shadow org-priority)))))
 
    To find all the faces that are loaded in your current Emacs session,
 use ‘M-x list-faces-display’.  Try ‘M-x describe-variable’ as well and
@@ -3729,10 +3732,14 @@ File: modus-themes.info,  Node: Use more spacious margins or padding in Emacs fr
 5.22 Use more spacious margins or padding in Emacs frames
 =========================================================
 
-By default, Emacs frames try to maximize the number of characters that
-fit in the current visible portion of the buffer.  Users may prefer to
-have some extra padding instead.  This can make Emacs frames look more
-pleasant, but also make it easier to identify the currently active
+[ UPDATE 2023-06-25: Instead of following these instructions, you can
+simply install my ‘spacious-padding’ package from GNU ELPA.  It
+implements the padding and provides relevant user options.  ]
+
+   By default, Emacs frames try to maximize the number of characters
+that fit in the current visible portion of the buffer.  Users may prefer
+to have some extra padding instead.  This can make Emacs frames look
+more pleasant, but also make it easier to identify the currently active
 window.
 
    The way to implement such padding is two-fold:
@@ -3935,6 +3942,7 @@ have lots of extensions, so the “full support” may not be 100% true…
    • avy
    • bbdb
    • binder
+   • breadcrumb [Part of 4.4.0-dev]
    • bongo
    • boon
    • bookmark
@@ -3953,11 +3961,11 @@ have lots of extensions, so the “full support” may not be 100% true…
    • completions
    • consult
    • corfu
+   • corfu-candidate-overlay [Part of 4.4.0-dev]
    • corfu-quick
    • counsel*
    • cperl-mode
    • crontab-mode
-   • css-mode
    • csv-mode
    • ctrlf
    • custom (what you get with ‘M-x customize’)
@@ -3994,6 +4002,7 @@ have lots of extensions, so the “full support” may not be 100% true…
    • epa
    • erc
    • ert
+   • erts-mode [Part of 4.4.0-dev.]
    • eshell
    • eshell-fringe-status
    • evil* (evil-mode)
@@ -4041,6 +4050,7 @@ have lots of extensions, so the “full support” may not be 100% true…
    • isearch, occur, etc.
    • ivy*
    • ivy-posframe
+   • japanese-holidays
    • jira (org-jira)
    • jit-spell
    • jinx
@@ -4065,6 +4075,10 @@ have lots of extensions, so the “full support” may not be 100% true…
    • mpdel
    • mu4e
    • multiple-cursors
+   • nerd-icons [Part of 4.4.0-dev.]
+   • nerd-icons-completion [Part of 4.4.0-dev.]
+   • nerd-icons-dired [Part of 4.4.0-dev.]
+   • nerd-icons-ibuffer [Part of 4.4.0-dev.]
    • neotree
    • notmuch
    • num3-mode
@@ -4128,7 +4142,6 @@ have lots of extensions, so the “full support” may not be 100% true…
    • suggest
    • switch-window
    • swiper
-   • sx
    • symbol-overlay
    • syslog-mode
    • tab-bar-mode
@@ -4189,6 +4202,7 @@ supported by the themes.
    • bufler
    • counsel-notmuch
    • counsel-org-capture-string
+   • css-mode
    • dashboard (emacs-dashboard)
    • define-word
    • denote
@@ -4817,7 +4831,7 @@ File: modus-themes.info,  Node: Note on SHR fonts,  Next: Note on Ement colors a
 By default, packages that build on top of the Simple HTML Remember
 (‘shr’) use proportionately spaced fonts.  This is controlled by the
 user option ‘shr-use-fonts’, which is set to non-‘nil’ by default.  To
-use the standard font instead, set that variable to nil.
+use the standard font instead, set that variable to ‘nil’.
 
    *note Font configurations for Org and others::.
 
@@ -4947,10 +4961,10 @@ consider including (or equivalent) this in their setup:
            goto-address-mail-face 'link
            goto-address-mail-mouse-face 'highlight)
 
-   My personal preference is to set ‘goto-address-mail-face’ to nil, as
-it otherwise adds too much visual noise to the buffer (email addresses
-stand out more, due to the use of the uncommon ‘@’ character but also
-because they are often enclosed in angled brackets).
+   My personal preference is to set ‘goto-address-mail-face’ to ‘nil’,
+as it otherwise adds too much visual noise to the buffer (email
+addresses stand out more, due to the use of the uncommon ‘@’ character
+but also because they are often enclosed in angled brackets).
 
 
 File: modus-themes.info,  Node: Frequently Asked Questions,  Next: Contributing,  Prev: Notes on individual packages,  Up: Top
@@ -5449,9 +5463,9 @@ Contributions to code or documentation
      Markus Beppler, Matthew Stevenson, Mauro Aranda, Nacho Barrientos,
      Nicolas De Jaeghere, Paul David, Philip Kaludercic, Pierre
      Téchoueyres, Rudolf Adamkovič, Sergey Nichiporchik, Shreyas
-     Ragavan, Stefan Kangas, Stephen Gildea, Steve Downey, Tomasz
-     Hołubowicz, Utkarsh Singh, Vincent Murphy, Xinglu Chen, Yuanchen
-     Xie, okamsn.
+     Ragavan, Stefan Kangas, Stephen Berman, Stephen Gildea, Steve
+     Downey, Tomasz Hołubowicz, Utkarsh Singh, Vincent Murphy, Xinglu
+     Chen, Yuanchen Xie, fluentpwn, okamsn.
 
 Ideas and user feedback
      Aaron Jensen, Adam Porter, Adam Spiers, Adrian Manea, Aleksei
@@ -5468,26 +5482,26 @@ Ideas and user feedback
      Garcia, Ivan Popovych, James Ferguson, Jeremy Friesen, Jerry Zhang,
      Johannes Grødem, John Haman, Jonas Collberg, Jorge Morais, Joshua
      O’Connor, Julio C.  Villasante, Kenta Usami, Kevin Fleming, Kévin
-     Le Gouguec, Kevin Kainan Li, Kostadin Ninev, Laith Bahodi, Len
-     Trigg, Lennart C.  Karssen, Luis Miguel Castañeda, Magne Hov,
-     Manuel Giraud, Manuel Uberti, Mark Bestley, Mark Burton, Mark
-     Simpson, Marko Kocic, Markus Beppler, Matt Armstrong, Matthias
+     Le Gouguec, Kevin Kainan Li, Kostadin Ninev, Laith Bahodi, Lasse
+     Lindner, Len Trigg, Lennart C.  Karssen, Luis Miguel Castañeda,
+     Magne Hov, Manuel Giraud, Manuel Uberti, Mark Bestley, Mark Burton,
+     Mark Simpson, Marko Kocic, Markus Beppler, Matt Armstrong, Matthias
      Fuchs, Mattias Engdegård, Mauro Aranda, Maxime Tréca, Michael
      Goldenberg, Morgan Smith, Morgan Willcock, Murilo Pereira, Nicky
-     van Foreest, Nicolas De Jaeghere, Nicolas Semrau, Oliver Epper,
-     Pablo Stafforini, Paul Poloskov, Pengji Zhang, Pete Kazmier, Peter
-     Wu, Philip Kaludercic, Pierre Téchoueyres, Przemysław Kryger,
-     Robert Hepple, Roman Rudakov, Russell Sim, Ryan Phillips, Rytis
-     Paškauskas, Rudolf Adamkovič, Sam Kleinman, Samuel Culpepper, Saša
-     Janiška, Shreyas Ragavan, Simon Pugnet, Steve Downey, Tassilo Horn,
-     Thanos Apollo, Thibaut Verron, Thomas Heartman, Togan Muftuoglu,
-     Tony Zorman, Trey Merkley, Tomasz Hołubowicz, Toon Claes, Uri
-     Sharf, Utkarsh Singh, Vincent Foley, Zoltan Kiraly.  As well as
-     users: Ben, CsBigDataHub1, Emacs Contrib, Eugene, Fourchaux,
-     Fredrik, Moesasji, Nick, Summer Emacs, TheBlob42, TitusMu, Trey,
-     bepolymathe, bit9tream, bangedorrunt, derek-upham, doolio,
-     fleimgruber, gitrj95, iSeeU, jixiuf, okamsn, pRot0ta1p,
-     soaringbird, tumashu, wakamenod.
+     van Foreest, Nicolas De Jaeghere, Nicolas Semrau, Olaf Meeuwissen,
+     Oliver Epper, Pablo Stafforini, Paul Poloskov, Pengji Zhang, Pete
+     Kazmier, Peter Wu, Philip Kaludercic, Pierre Téchoueyres,
+     Przemysław Kryger, Robert Hepple, Roman Rudakov, Russell Sim, Ryan
+     Phillips, Rytis Paškauskas, Rudolf Adamkovič, Sam Kleinman, Samuel
+     Culpepper, Saša Janiška, Shreyas Ragavan, Simon Pugnet, Steve
+     Downey, Tassilo Horn, Thanos Apollo, Thibaut Verron, Thomas
+     Heartman, Togan Muftuoglu, Tony Zorman, Trey Merkley, Tomasz
+     Hołubowicz, Toon Claes, Uri Sharf, Utkarsh Singh, Vincent Foley,
+     Zoltan Kiraly.  As well as users: Ben, CsBigDataHub1, Emacs
+     Contrib, Eugene, Fourchaux, Fredrik, Moesasji, Nick, Summer Emacs,
+     TheBlob42, TitusMu, Trey, bepolymathe, bit9tream, bangedorrunt,
+     derek-upham, doolio, fleimgruber, gitrj95, iSeeU, jixiuf, okamsn,
+     pRot0ta1p, soaringbird, tumashu, wakamenod.
 
 Packaging
      Basil L. Contovounesios, Eli Zaretskii, Glenn Morris, Mauro Aranda,
@@ -6152,109 +6166,109 @@ Node: Sample configuration with and without use-package20320
 Node: Differences between loading and enabling23231
 Node: Customization options25269
 Node: Custom reload theme29017
-Node: Disable other themes29925
-Node: Bold constructs31105
-Node: Italic constructs31942
-Node: Mixed fonts32713
-Node: Command prompts33709
-Node: Completion UIs35514
-Node: Org mode blocks38304
-Node: Heading styles40184
-Node: UI typeface44538
-Node: Palette overrides45469
-Node: Advanced customization49804
-Node: Palette override presets51467
-Node: Stylistic variants using palette overrides54259
-Node: Make the mode line borderless56171
-Node: Make the active mode line colorful57773
-Node: Make the tab bar more or less colorful59718
-Node: Make the fringe invisible or another color61949
-Node: Make links use subtle or no underlines63443
-Node: Make prompts more or less colorful64440
-Node: Make completion matches more or less colorful66104
-Node: Make comments yellow and strings green70004
-Node: Make code syntax use the old alt-syntax style71907
-Node: Make use of alternative styles for code syntax75188
-Node: Make matching parenthesis more or less intense78852
-Node: Make box buttons more or less gray80288
-Node: Make TODO and DONE more or less intense81594
-Node: Make headings more or less colorful83297
-Node: Make Org agenda more or less colorful85697
-Node: Make inline code in prose use alternative styles89157
-Node: Make mail citations and headers more or less colorful91698
-Node: Make the region preserve text colors plus other styles94393
-Node: Make mouse highlights more or less colorful96204
-Node: Make language underlines less colorful97511
-Node: Make line numbers use alternative styles98957
-Node: Make diffs use only a foreground100894
-Node: Make deuteranopia diffs red and blue instead of yellow and blue103664
-Node: Make the themes look like what the maintainer uses106086
-Node: More accurate colors in terminal emulators110784
-Node: Range of color with terminal emulators112076
-Node: Preview theme colors114790
-Node: Per-theme customization settings116635
-Node: Get a single color from the palette117981
-Node: Use theme colors in code with modus-themes-with-colors120223
-Node: Do not extend the region background122556
-Node: Add padding to mode line123354
-Node: Remap face with local value125912
-Node: Font configurations for Org and others128335
-Ref: Font configurations for Org and others-Footnote-1131244
-Node: Configure bold and italic faces131431
-Node: Custom Org todo keyword and priority faces135588
-Node: Custom Org emphasis faces139153
-Node: Update Org block delimiter fontification143976
-Node: Measure color contrast145893
-Node: Load theme depending on time of day148591
-Node: Backdrop for pdf-tools149601
-Node: Toggle themes without reloading them152500
-Node: A theme-agnostic hook for theme loading153776
-Node: Use more spacious margins or padding in Emacs frames156229
-Node: Custom hl-todo colors160115
-Node: Add support for solaire-mode161653
-Node: Face coverage164564
-Node: Supported packages165016
-Node: Indirectly covered packages170415
-Node: Notes on individual packages171768
-Node: Note on calendarel weekday and weekend colors172868
-Node: Note on git-gutter in Doom Emacs174016
-Node: Note on php-mode multiline comments176357
-Node: Note on underlines in compilation buffers177110
-Node: Note on inline Latex in Org buffers177947
-Node: Note on dimmerel178557
-Node: Note on display-fill-column-indicator-mode180042
-Node: Note on highlight-parenthesesel181441
-Node: Note on mmm-modeel background colors187419
-Node: Note for prism189719
-Node: Note on company-mode overlay pop-up192887
-Ref: Note on company-mode overlay pop-up-Footnote-1193617
-Ref: Note on company-mode overlay pop-up-Footnote-2193684
-Node: Note on ERC escaped color sequences193739
-Ref: Note on ERC escaped color sequences-Footnote-1195167
-Node: Note on powerline or spaceline195277
-Node: Note on SHR colors195691
-Node: Note on SHR fonts196115
-Node: Note on Ement colors and fonts196754
-Node: Note on pdf-tools link hints198264
-Node: Note on the Notmuch logo200724
-Node: Note on goto-address-mode faces201262
-Node: Frequently Asked Questions202374
-Node: Is the contrast ratio about adjacent colors?203005
-Node: What does it mean to avoid exaggerations?204512
-Node: Why are colors mostly variants of blue magenta cyan?206362
-Node: What is the best setup for legibility?210668
-Node: Are these color schemes?213313
-Node: Port the Modus themes to other platforms?216995
-Node: Contributing219839
-Node: Sources of the themes220236
-Node: Issues you can help with221130
-Node: Patches require copyright assignment to the FSF222521
-Node: Acknowledgements224741
-Node: GNU Free Documentation License228818
-Node: Indices254182
-Node: Function index254361
-Node: Variable index255544
-Node: Concept index258000
+Node: Disable other themes29937
+Node: Bold constructs31135
+Node: Italic constructs31972
+Node: Mixed fonts32743
+Node: Command prompts33739
+Node: Completion UIs35544
+Node: Org mode blocks38346
+Node: Heading styles40251
+Node: UI typeface44605
+Node: Palette overrides45536
+Node: Advanced customization49871
+Node: Palette override presets51534
+Node: Stylistic variants using palette overrides54326
+Node: Make the mode line borderless56238
+Node: Make the active mode line colorful57840
+Node: Make the tab bar more or less colorful59785
+Node: Make the fringe invisible or another color62016
+Node: Make links use subtle or no underlines63510
+Node: Make prompts more or less colorful64507
+Node: Make completion matches more or less colorful66171
+Node: Make comments yellow and strings green70071
+Node: Make code syntax use the old alt-syntax style71974
+Node: Make use of alternative styles for code syntax75255
+Node: Make matching parenthesis more or less intense78919
+Node: Make box buttons more or less gray80355
+Node: Make TODO and DONE more or less intense81661
+Node: Make headings more or less colorful83364
+Node: Make Org agenda more or less colorful85764
+Node: Make inline code in prose use alternative styles89224
+Node: Make mail citations and headers more or less colorful91765
+Node: Make the region preserve text colors plus other styles94460
+Node: Make mouse highlights more or less colorful96271
+Node: Make language underlines less colorful97578
+Node: Make line numbers use alternative styles99024
+Node: Make diffs use only a foreground100961
+Node: Make deuteranopia diffs red and blue instead of yellow and blue103731
+Node: Make the themes look like what the maintainer uses106153
+Node: More accurate colors in terminal emulators110851
+Node: Range of color with terminal emulators112143
+Node: Preview theme colors114857
+Node: Per-theme customization settings116702
+Node: Get a single color from the palette118048
+Node: Use theme colors in code with modus-themes-with-colors120296
+Node: Do not extend the region background122629
+Node: Add padding to mode line123427
+Node: Remap face with local value125991
+Node: Font configurations for Org and others128414
+Ref: Font configurations for Org and others-Footnote-1131323
+Node: Configure bold and italic faces131510
+Node: Custom Org todo keyword and priority faces135667
+Node: Custom Org emphasis faces139386
+Node: Update Org block delimiter fontification144209
+Node: Measure color contrast146126
+Node: Load theme depending on time of day148824
+Node: Backdrop for pdf-tools149834
+Node: Toggle themes without reloading them152733
+Node: A theme-agnostic hook for theme loading154009
+Node: Use more spacious margins or padding in Emacs frames156462
+Node: Custom hl-todo colors160552
+Node: Add support for solaire-mode162090
+Node: Face coverage165001
+Node: Supported packages165453
+Node: Indirectly covered packages171159
+Node: Notes on individual packages172528
+Node: Note on calendarel weekday and weekend colors173628
+Node: Note on git-gutter in Doom Emacs174776
+Node: Note on php-mode multiline comments177117
+Node: Note on underlines in compilation buffers177870
+Node: Note on inline Latex in Org buffers178707
+Node: Note on dimmerel179317
+Node: Note on display-fill-column-indicator-mode180802
+Node: Note on highlight-parenthesesel182201
+Node: Note on mmm-modeel background colors188179
+Node: Note for prism190479
+Node: Note on company-mode overlay pop-up193647
+Ref: Note on company-mode overlay pop-up-Footnote-1194377
+Ref: Note on company-mode overlay pop-up-Footnote-2194444
+Node: Note on ERC escaped color sequences194499
+Ref: Note on ERC escaped color sequences-Footnote-1195927
+Node: Note on powerline or spaceline196037
+Node: Note on SHR colors196451
+Node: Note on SHR fonts196875
+Node: Note on Ement colors and fonts197520
+Node: Note on pdf-tools link hints199030
+Node: Note on the Notmuch logo201490
+Node: Note on goto-address-mode faces202028
+Node: Frequently Asked Questions203146
+Node: Is the contrast ratio about adjacent colors?203777
+Node: What does it mean to avoid exaggerations?205284
+Node: Why are colors mostly variants of blue magenta cyan?207134
+Node: What is the best setup for legibility?211440
+Node: Are these color schemes?214085
+Node: Port the Modus themes to other platforms?217767
+Node: Contributing220611
+Node: Sources of the themes221008
+Node: Issues you can help with221902
+Node: Patches require copyright assignment to the FSF223293
+Node: Acknowledgements225513
+Node: GNU Free Documentation License229649
+Node: Indices255013
+Node: Function index255192
+Node: Variable index256375
+Node: Concept index258831
 
 End Tag Table
 
