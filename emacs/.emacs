@@ -96,7 +96,7 @@
  '(word-wrap t))
 
 
-(load-theme 'solarized-selenized-white)
+(load-theme 'solarized-selenized-dark)
 
 
 ;;; General appearance
