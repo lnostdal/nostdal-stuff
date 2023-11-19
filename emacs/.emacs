@@ -23,7 +23,8 @@
  '(cider-jump-to-pop-to-buffer-actions '((display-buffer-same-window)))
  '(compilation-message-face 'default)
  '(custom-safe-themes
-   '("4b026ac68a1aa4d1a91879b64f54c2490b4ecad8b64de5b1865bca0addd053d9"
+   '("4c56af497ddf0e30f65a7232a8ee21b3d62a8c332c6b268c81e9ea99b11da0d3"
+     "4b026ac68a1aa4d1a91879b64f54c2490b4ecad8b64de5b1865bca0addd053d9"
      "69f7e8101867cfac410e88140f8c51b4433b93680901bb0b52014144366a08c8"
      "21e3d55141186651571241c2ba3c665979d1e886f53b2e52411e9e96659132d4"
      "7887cf8b470098657395502e16809523b629249060d61607c2225d2ef2ad59f5"
