@@ -135,7 +135,7 @@
 (winner-mode 1)
 (global-set-key (kbd "<C-M-prior>") 'winner-undo)
 (global-set-key (kbd "<C-M-next>") 'winner-redo)
-(global-set-key (kbd "M-(") 'toggle-truncate-lines)
+(global-set-key (kbd "M-RET") 'toggle-truncate-lines)
 
 ;;(global-highlight-parentheses-mode) ;; Colorize nested parens.
 
@@ -206,8 +206,8 @@
 (global-set-key (kbd "<M-prior>") 'previous-buffer)
 
 (global-set-key "§" 'other-window) ;; Shift-| or "section sign" symbol. This seems to work better or more consistently in terminal mode. Currently (sep 2021) seems broken in some terminals?
-;; (global-set-key (kbd "<backtab>") 'other-window) ;; Magit already uses this..
 (global-set-key (kbd "M-|") 'other-window) ;; Directly above Tab on Norwegian layouts.
+;; (global-set-key (kbd "<backtab>") 'other-window) ;; Magit already uses this..
 
 ;; Movement.
 (global-set-key (kbd "<C-up>") 'backward-paragraph)
