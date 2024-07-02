@@ -1,0 +1,4 @@
+#!/bin/bash
+echo -ne "\033]0;$@\007"
+assh "$@" -t "tmux new -A -s $USER"
+echo -ne "\033]0;${USER}@${HOSTNAME}\007"

@@ -1,0 +1,2 @@
+#!/bin/bash
+AUTOSSH_GATETIME=0 autossh -M 0 -o "ServerAliveInterval 4" -o "ServerAliveCountMax 5" -o "ExitOnForwardFailure=yes" "$@"
