@@ -6,7 +6,7 @@
 ;; Homepage: https://github.com/magit/transient
 ;; Keywords: extensions
 
-;; Package-Version: 0.7.3
+;; Package-Version: 0.7.4
 ;; Package-Requires: ((emacs "26.1") (compat "30.0.0.0") (seq "2.24"))
 
 ;; SPDX-License-Identifier: GPL-3.0-or-later
@@ -48,7 +48,7 @@
 (unless (fboundp 'seq-keep)
   (display-warning 'transient (substitute-command-keys "\
 Transient requires `seq' >= 2.24,
-but due to bad defaults, Emacs' package manager, refuses to
+but due to bad defaults, Emacs's package manager, refuses to
 upgrade this and other built-in packages to higher releases
 from GNU Elpa, when a package specifies that this is needed.
 
@@ -1590,6 +1590,31 @@ This is bound while the suffixes are drawn in the transient buffer.")
     scroll-bar-toolkit-scroll))
 
 ;;; Identities
+
+(defun transient-active-prefix (&optional prefixes)
+  "Return the active transient object.
+
+Return nil if there is no active transient, if the transient buffer
+isn't shown, and while the active transient is suspended (e.g., while
+the minibuffer is in use).
+
+Unlike `transient-current-prefix', which is only ever non-nil in code
+that is run directly by a command that is invoked while a transient
+is current, this function is also suitable for use in asynchronous
+code, such as timers and callbacks (this function's main use-case).
+
+If optional PREFIXES is non-nil, it must be a list of prefix command
+symbols, in which case the active transient object is only returned
+if it matches one of the PREFIXES."
+  (and transient--showp
+       transient--prefix
+       (or (not prefixes)
+           (memq (oref transient--prefix command) prefixes))
+       (or (memq 'transient--pre-command pre-command-hook)
+           (and (memq t pre-command-hook)
+                (memq 'transient--pre-command
+                      (default-value 'pre-command-hook))))
+       transient--prefix))
 
 (defun transient-prefix-object ()
   "Return the current prefix as an object.
@@ -3964,9 +3989,9 @@ and its value is returned to the caller."
                         set " ")))))
 
 (cl-defmethod transient-format-description ((obj transient-group))
-  "Format the description by calling the next method.  If the result
-doesn't use the `face' property at all, then apply the face
-`transient-heading' to the complete string."
+  "Format the description by calling the next method.
+If the result doesn't use the `face' property at all, then apply the
+face `transient-heading' to the complete string."
   (and-let* ((desc (transient--get-description obj)))
     (cond ((oref obj inapt)
            (propertize desc 'face 'transient-inapt-suffix))
@@ -3975,10 +4000,10 @@ doesn't use the `face' property at all, then apply the face
           ((propertize desc 'face 'transient-heading)))))
 
 (cl-defmethod transient-format-description :around ((obj transient-suffix))
-  "Format the description by calling the next method.  If the result
-is nil, then use \"(BUG: no description)\" as the description.
-If the OBJ's `key' is currently unreachable, then apply the face
-`transient-unreachable' to the complete string."
+  "Format the description by calling the next method.
+If the result is nil, then use \"(BUG: no description)\" as the
+description.  If the OBJ's `key' is currently unreachable, then
+apply the face `transient-unreachable' to the complete string."
   (let ((desc (or (cl-call-next-method obj)
                   (and (slot-boundp transient--prefix 'suffix-description)
                        (funcall (oref transient--prefix suffix-description)
