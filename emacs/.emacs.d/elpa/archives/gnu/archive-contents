@@ -351,9 +351,9 @@
 	      ("John Wiegley" . "johnw@newartisans.com"))
 	     (:commit . "4932ed21d40f9e8ad48ad2a1f086fdf9b3847ac9"))])
  (blist .
-	[(0 3)
+	[(0 4)
 	 ((ilist
-	   (0 1))
+	   (0 4))
 	  (emacs
 	   (24)))
 	 "Display bookmarks in an ibuffer way" tar
@@ -362,7 +362,7 @@
 	  (:maintainer "Durand" . "durand@jsdurand.xyz")
 	  (:authors
 	   ("Durand" . "durand@jsdurand.xyz"))
-	  (:commit . "9e1054d3cb2b796704ebeb2575b29ad70f0bb21c"))])
+	  (:commit . "f5751add5626ad437459e484b66219952287c517"))])
  (bluetooth .
 	    [(0 3 1)
 	     ((emacs
@@ -860,7 +860,7 @@
 		 ("Theodor Thornhill" . "theo@thornhill.no"))
 		(:commit . "02c61c219b2c22491eff9b7315fed661fab423d4"))])
  (csv-mode .
-	   [(1 26)
+	   [(1 27)
 	    ((emacs
 	      (27 1))
 	     (cl-lib
@@ -871,7 +871,7 @@
 	     (:authors
 	      ("Francis J. Wright" . "F.J.Wright@qmul.ac.uk"))
 	     (:url . "https://elpa.gnu.org/packages/csv-mode.html")
-	     (:commit . "388bcb9a77118d7b7d9c42aa8b3f9fa2c892b930"))])
+	     (:commit . "a16e9d8b0952de1badf6da8e652b178a7f6c4498"))])
  (cursor-undo .
 	      [(1 1 4)
 	       nil "Undo Cursor Movement" tar
@@ -1275,7 +1275,7 @@
 	       ("Markus Triska" . "triska@metalevel.at"))
 	      (:commit . "cfcdf9e42821d246b7fbc84877aa4ecacc184a1c"))])
  (eev .
-      [(20240803)
+      [(20240811)
        ((emacs
 	 (25 1)))
        "Support for e-scripts (eepitch blocks, elisp hyperlinks, etc)" tar
@@ -1284,7 +1284,7 @@
 	(:maintainer "Eduardo Ochs" . "eduardoochs@gmail.com")
 	(:authors
 	 ("Eduardo Ochs" . "eduardoochs@gmail.com"))
-	(:commit . "2cac1d27a18ed6a77f43f19e87df662e344983b5"))])
+	(:commit . "39f6dfdd1d38e169469ff56ac93a0881a3fe1c8b"))])
  (ef-themes .
 	    [(1 7 0)
 	     ((emacs
@@ -1957,7 +1957,7 @@
 	     ("Sean Allred" . "code@seanallred.com"))
 	    (:commit . "b57b5ca5d2d0837e1fb4a4f30c051d5f3e643f0f"))])
  (greader .
-	  [(0 11 14)
+	  [(0 11 15)
 	   ((emacs
 	     (26 1))
 	    (seq
@@ -1970,7 +1970,7 @@
 	    (:maintainer "Michelangelo Rodriguez" . "michelangelo.rodriguez@gmail.com")
 	    (:authors
 	     ("Michelangelo Rodriguez" . "michelangelo.rodriguez@gmail.com"))
-	    (:commit . "8d04164727b6c14900a9345eacf24b8fd0b4c622"))])
+	    (:commit . "6664c20a6a6a32e3a6c31d13a160fb8c9c8e118c"))])
  (greenbar .
 	   [(1 1)
 	    nil "Mark comint output with \"greenbar\" background" tar
@@ -1981,13 +1981,13 @@
 	     (:url . "https://elpa.gnu.org/packages/greenbar.html")
 	     (:commit . "9526f29d073c533c3e54f0a7597eef1587ffb99e"))])
  (gtags-mode .
-	     [(1 8)
+	     [(1 8 1)
 	      ((emacs
 		(28)))
 	      "GNU Global integration with xref, project and imenu." tar
 	      ((:url . "https://github.com/Ergus/gtags-mode")
 	       (:keywords "xref" "project" "imenu" "gtags" "global")
-	       (:commit . "e29c7d7bc0081f252786a28fbe2a2eb048861c65"))])
+	       (:commit . "bdf5442efd8e8fae4610b0a73daca6ee81a5b0c4"))])
  (guess-language .
 		 [(0 0 1)
 		  ((cl-lib
@@ -2093,14 +2093,14 @@
 	    (:url . "https://elpa.gnu.org/packages/idlwave.html")
 	    (:commit . "e1fcd7244cb32df1e90b09729e53474e50a2e808"))])
  (ilist .
-	[(0 3)
+	[(0 4)
 	 nil "Display a list in an ibuffer way." tar
 	 ((:url . "https://gitlab.com/mmemmew/ilist")
 	  (:keywords "convenience")
 	  (:maintainer "Durand" . "mmemmew@gmail.com")
 	  (:authors
 	   ("Durand" . "mmemmew@gmail.com"))
-	  (:commit . "3f433899ce9ce6a3d6477ae7c9362c8c202f04fb"))])
+	  (:commit . "5a57e52122fe483fa9bd39049c13a25334e408da"))])
  (inspector .
 	    [(0 37)
 	     ((emacs
@@ -2366,6 +2366,17 @@
 	 ("Tino Calancha" . "tino.calancha@gmail.com"))
 	(:url . "https://elpa.gnu.org/packages/kmb.html")
 	(:commit . "4fee1c87e7e286d7ecd759fb74aa7a112bb51e3a"))])
+ (kubed .
+	[(0 3 1)
+	 ((emacs
+	   (29 1)))
+	 "Kubernetes, Emacs, done!" tar
+	 ((:url . "https://eshelyaron.com/kubed.html")
+	  (:keywords "tools" "kubernetes" "containers")
+	  (:maintainer "Eshel Yaron" . "~eshel/kubed-devel@lists.sr.ht")
+	  (:authors
+	   ("Eshel Yaron" . "me@eshelyaron.com"))
+	  (:commit . "914b7df07d686c9d51329a1365930f3ced4c6f1e"))])
  (landmark .
 	   [(1 0)
 	    nil "Neural-network robot that learns landmarks" tar
@@ -4028,16 +4039,16 @@
 		("Christian Johansson" . "christian@cvj.se"))
 	       (:commit . "95fb076c9b657c5f1bfad3ee5bf1f8691c50d428"))])
  (standard-themes .
-		  [(2 0 1)
+		  [(2 1 0)
 		   ((emacs
 		     (27 1)))
 		   "Like the default theme but more consistent" tar
-		   ((:url . "https://git.sr.ht/~protesilaos/standard-themes")
+		   ((:url . "https://github.com/protesilaos/standard-themes")
 		    (:keywords "faces" "theme" "accessibility")
-		    (:maintainer "Standard-Themes Development" . "~protesilaos/standard-themes@lists.sr.ht")
+		    (:maintainer "Protesilaos Stavrou" . "info@protesilaos.com")
 		    (:authors
 		     ("Protesilaos Stavrou" . "info@protesilaos.com"))
-		    (:commit . "4b9e5395d5faad8d831727bc37d2551d68888555"))])
+		    (:commit . "9a982c4fad9a6d1a68e211bd83342bdd47dd7979"))])
  (stream .
 	 [(2 3 0)
 	  ((emacs
@@ -4383,7 +4394,7 @@
 	       (:url . "https://elpa.gnu.org/packages/transcribe.html")
 	       (:commit . "89832e4cdc1e6d8262a4a2c9d1ff70f398b8faf0"))])
  (transient .
-	    [(0 7 3)
+	    [(0 7 4)
 	     ((emacs
 	       (26 1))
 	      (compat
@@ -4396,7 +4407,7 @@
 	      (:maintainer "Jonas Bernoulli" . "emacs.transient@jonas.bernoulli.dev")
 	      (:authors
 	       ("Jonas Bernoulli" . "emacs.transient@jonas.bernoulli.dev"))
-	      (:commit . "2a680c21e2be0b055e0e801d43c92792e5305acc"))])
+	      (:commit . "b2cb4e578f2362a0354c4a31a6bd89d6c4b63d63"))])
  (transient-cycles .
 		   [(1 0)
 		    ((emacs
