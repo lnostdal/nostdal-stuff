@@ -55,9 +55,11 @@
 (declare-function magit-process-buffer "magit-process" (&optional nodisplay))
 (declare-function magit-process-file "magit-process"
                   (process &optional infile buffer display &rest args))
+(declare-function magit-process-finish-section "magit-process"
+                  (section exit-code))
 (declare-function magit-process-git "magit-process" (destination &rest args))
 (declare-function magit-process-insert-section "magit-process"
-                  (pwd program args &optional errcode errlog))
+                  (pwd program args &optional errcode errlog face))
 (defvar magit-this-error)
 (defvar magit-process-error-message-regexps)
 
@@ -398,7 +400,8 @@ still subject to major changes.  Also see `magit-git-string-p'."
             (with-current-buffer (magit-process-buffer t)
               (magit-process-insert-section default-directory
                                             magit-git-executable args
-                                            status buf)))
+                                            status buf
+                                            'magit-section-secondary-heading)))
           (when-let ((status-buf (magit-get-mode-buffer 'magit-status-mode)))
             (let ((msg (magit--locate-error-message)))
               (with-current-buffer status-buf
@@ -462,13 +465,13 @@ a boolean, then raise an error."
             (signal 'magit-invalid-git-boolean (list output))))))))
 
 (defun magit-git-insert (&rest args)
-  "Execute Git with ARGS, inserting its output at point.
-If Git exits with a non-zero exit status, then show a message and
-add a section in the respective process buffer."
+  "Execute Git with ARGS, insert stdout at point and return exit code.
+If `magit-git-debug' in non-nil and the exit code is non-zero, then
+insert the run command and stderr into the process buffer."
   (apply #'magit--git-insert nil args))
 
 (defun magit--git-insert (return-error &rest args)
-  (setq args (magit-process-git-arguments args))
+  (setq args (flatten-tree args))
   (if (or return-error magit-git-debug)
       (let (log)
         (unwind-protect
@@ -476,7 +479,7 @@ add a section in the respective process buffer."
               (setq log (make-temp-file "magit-stderr"))
               (delete-file log)
               (setq exit (magit-process-git (list t log) args))
-              (when (> exit 0)
+              (when (or (> exit 0) (eq magit-git-debug 'all))
                 (when (file-exists-p log)
                   (with-temp-buffer
                     (insert-file-contents log)
@@ -485,16 +488,19 @@ add a section in the respective process buffer."
                           (if (functionp magit-git-debug)
                               (funcall magit-git-debug (buffer-string))
                             (magit--locate-error-message))))
-                  (unless return-error
+                  (when magit-git-debug
                     (let ((magit-git-debug nil))
                       (with-current-buffer (magit-process-buffer t)
-                        (magit-process-insert-section default-directory
-                                                      magit-git-executable
-                                                      args exit log)))))
-                (unless return-error
-                  (if errmsg
-                      (message "%s" errmsg)
-                    (message "Git returned with exit-code %s" exit))))
+                        (magit-process-finish-section
+                         (magit-process-insert-section
+                          default-directory magit-git-executable
+                          (magit-process-git-arguments args)
+                          exit log 'magit-section-secondary-heading)
+                         exit)))))
+                (cond ((not magit-git-debug))
+                      (errmsg (message "%s" errmsg))
+                      ((zerop exit))
+                      ((message "Git returned with exit-code %s" exit))))
               (or errmsg exit))
           (ignore-errors (delete-file log))))
     (magit-process-git (list t nil) args)))
@@ -1649,10 +1655,10 @@ The amount of time spent searching is limited by
                           (magit-git-lines
                            "for-each-ref" "refs/heads"
                            "--format=%(refname:short)\t%(upstream:short)"))))
-    (when-let ((old (assoc oldname branches)))
-      (unless (assoc newname branches)
-        (magit-call-git "branch" "-m" oldname newname)
-        (setcar old newname)))
+    (when-let ((old (assoc oldname branches))
+               ((not (assoc newname branches))))
+      (magit-call-git "branch" "-m" oldname newname)
+      (setcar old newname))
     (let ((new (if (magit-branch-p newname)
                    newname
                  (concat remote "/" newname))))
@@ -2439,10 +2445,11 @@ and this option only controls what face is used.")
                     (expand-file-name "index.magit." (magit-gitdir))))))
        (unwind-protect
            (magit-with-toplevel
-             (when-let ((tree ,tree))
-               (unless (magit-git-success "read-tree" ,arg tree
-                                          (concat "--index-output=" ,file))
-                 (error "Cannot read tree %s" tree)))
+             (when-let* ((tree ,tree)
+                         ((not (magit-git-success
+                                "read-tree" ,arg tree
+                                (concat "--index-output=" ,file)))))
+               (error "Cannot read tree %s" tree))
              (with-environment-variables (("GIT_INDEX_FILE" ,file))
                ,@body))
          (ignore-errors

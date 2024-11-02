@@ -8,8 +8,8 @@
 ;; Homepage: https://github.com/magit/magit
 ;; Keywords: tools
 
-;; Package-Version: 4.1.1
-;; Package-Revision: v4.1.1-0-g93e86ceca7bf
+;; Package-Version: 4.1.2
+;; Package-Revision: v4.1.2-0-g4992c3d1f64e
 ;; Package-Requires: (
 ;;     (emacs "26.1")
 ;;     (compat "30.0.0.0")
@@ -603,9 +603,9 @@ with SECTION, otherwise return a list of section types."
         (and-let* ((parent (oref section parent)))
           (magit-section-lineage parent raw))))
 
-(defvar magit-insert-section--current nil "For internal use only.")
-(defvar magit-insert-section--parent  nil "For internal use only.")
-(defvar magit-insert-section--oldroot nil "For internal use only.")
+(defvar-local magit-insert-section--current nil "For internal use only.")
+(defvar-local magit-insert-section--parent  nil "For internal use only.")
+(defvar-local magit-insert-section--oldroot nil "For internal use only.")
 
 ;;; Menu
 
@@ -632,17 +632,17 @@ with SECTION, otherwise return a list of section types."
         `(menu-item
           ,(if (oref section hidden) "Expand section" "Collapse section")
           magit-section-toggle))
-      (unless (oref section hidden)
-        (when-let ((children (oref section children)))
-          (when (seq-some #'magit-section-content-p children)
-            (when (seq-some (lambda (c) (oref c hidden)) children)
-              (keymap-set-after menu "<magit-section-show-children>"
-                `(menu-item "Expand children"
-                            magit-section-show-children)))
-            (when (seq-some (lambda (c) (not (oref c hidden))) children)
-              (keymap-set-after menu "<magit-section-hide-children>"
-                `(menu-item "Collapse children"
-                            magit-section-hide-children))))))
+      (when-let (((not (oref section hidden)))
+                 (children (oref section children)))
+        (when (seq-some #'magit-section-content-p children)
+          (when (seq-some (lambda (c) (oref c hidden)) children)
+            (keymap-set-after menu "<magit-section-show-children>"
+              `(menu-item "Expand children"
+                          magit-section-show-children)))
+          (when (seq-some (lambda (c) (not (oref c hidden))) children)
+            (keymap-set-after menu "<magit-section-hide-children>"
+              `(menu-item "Collapse children"
+                          magit-section-hide-children)))))
       (keymap-set-after menu "<separator-magit-1>" menu-bar-separator))
     (keymap-set-after menu "<magit-describe-section>"
       `(menu-item "Describe section" magit-describe-section))
@@ -1594,26 +1594,26 @@ is explicitly expanded."
 
 (defun magit-insert-headers (hook)
   (let* ((header-sections nil)
-         (magit-insert-section-hook
-          (cons (lambda ()
-                  (push magit-insert-section--current
-                        header-sections))
-                (ensure-list magit-insert-section-hook))))
-    (magit-run-section-hook hook)
-    (when header-sections
-      (insert "\n")
-      ;; Make the first header into the parent of the rest.
-      (when (cdr header-sections)
-        (cl-callf nreverse header-sections)
-        (let* ((1st-header (pop header-sections))
-               (header-parent (oref 1st-header parent)))
-          (oset header-parent children (list 1st-header))
-          (oset 1st-header children header-sections)
-          (oset 1st-header content (oref (car header-sections) start))
-          (oset 1st-header end (oref (car (last header-sections)) end))
-          (dolist (sub-header header-sections)
-            (oset sub-header parent 1st-header))
-          (magit-section-maybe-add-heading-map 1st-header))))))
+         (fn (lambda () (push magit-insert-section--current header-sections))))
+    (unwind-protect
+        (progn
+          (add-hook 'magit-insert-section-hook fn -90 t)
+          (magit-run-section-hook hook)
+          (when header-sections
+            (insert "\n")
+            ;; Make the first header into the parent of the rest.
+            (when (cdr header-sections)
+              (setq header-sections (nreverse header-sections))
+              (let* ((1st-header (pop header-sections))
+                     (header-parent (oref 1st-header parent)))
+                (oset header-parent children (list 1st-header))
+                (oset 1st-header children header-sections)
+                (oset 1st-header content (oref (car header-sections) start))
+                (oset 1st-header end (oref (car (last header-sections)) end))
+                (dolist (sub-header header-sections)
+                  (oset sub-header parent 1st-header))
+                (magit-section-maybe-add-heading-map 1st-header)))))
+      (remove-hook 'magit-insert-section-hook fn t))))
 
 (defun magit-section-maybe-add-heading-map (section)
   (when (magit-section-content-p section)
